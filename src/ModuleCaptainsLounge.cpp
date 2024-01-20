@@ -553,7 +553,7 @@ void ModuleCaptainsLounge::Draw()
 		int y = MODALPROMPT_START_Y;
 		for (vector<string>::iterator i = m_modalPromptStrings.begin(); i != m_modalPromptStrings.end(); ++i)
 		{
-			alfont_textout_centre(g_game->GetBackBuffer(),g_game->font32,(*i).c_str(),screen->w/2,y,TEXTCOL);
+			alfont_textout_centre(g_game->GetBackBuffer(),g_game->font32,(*i).c_str(),screen->w/2,y,TEXTCOL);ccc
 			y += TEXTHEIGHT_MODALPROMPT + 2;
 		}
 
