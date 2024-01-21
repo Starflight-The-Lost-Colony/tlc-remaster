@@ -8,7 +8,9 @@
 #include "QuestMgr.h"
 #include "AudioSystem.h"
 
-#define BANK_BACKGROUND_BMP              0        /* BMP  */
+//replaced with png file, no longer using this one
+//#define BANK_BACKGROUND_BMP              0        /* BMP  */
+
 #define BANK_BANNER_BMP                  1        /* BMP  */
 #define BANK_BUTTON_CONFIRM_HOVER_BMP    2        /* BMP  */
 #define BANK_BUTTON_CONFIRM_NORMAL_BMP   3        /* BMP  */
@@ -174,7 +176,9 @@ bool ModuleBank::Init()
 bool ModuleBank::init_images()
 {
 	
-	bmp_bank_background = (BITMAP*)bdata[BANK_BACKGROUND_BMP].dat;
+	//bmp_bank_background = (BITMAP*)bdata[BANK_BACKGROUND_BMP].dat;
+    bmp_bank_background = NULL;
+    bmp_bank_background =  (BITMAP*)load_bitmap("data/bank/bank_background.bmp",NULL);
 	if (bmp_bank_background == NULL) {
 		g_game->message("Bank: Error loading background");
 		return false;
@@ -674,6 +678,8 @@ void ModuleBank::pay_loan(){
 	}
 }
 
+#pragma region INPUT
+
 void ModuleBank::OnKeyReleased(int keyCode)
 {
 	if (keyCode == KEY_ESC){ 
@@ -812,12 +818,19 @@ void ModuleBank::OnMouseWheelDown(int x, int y){
 		m_help_window->OnMouseWheelDown(x,y);
 	}
 }
+
+#pragma endregion
+
 void ModuleBank::Close(){
 	TRACE("ModuleBank Closing\n");
 	Module::Close();
 
-
 	try {
+        if (bmp_bank_background != NULL)
+        {
+            delete bmp_bank_background;
+            bmp_bank_background=NULL;
+        }
 		if (m_help_window != NULL)
 		{
 		  delete m_help_window;

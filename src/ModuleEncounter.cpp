@@ -66,58 +66,6 @@ const int ENCOUNTER_ALIENATTACK_EVENT      = 8002;
 
 
 /*
- * Paste defs here from dat_encounter.h after running dat_encounter.bat to build the data file
- */
-//#define BIGASTEROID_BMP                  0        /* BMP  */
-//#define EXPLOSION_30_128_TGA             1        /* BMP  */
-//#define EXPLOSION_30_48_TGA              2        /* BMP  */
-//#define EXPLOSION_30_64_TGA              3        /* BMP  */
-//#define GUI_AUX_BMP                      4        /* BMP  */
-//#define GUI_MESSAGEWINDOW_BMP            5        /* BMP  */
-//#define GUI_SOCKET_BMP                   6        /* BMP  */
-//#define GUI_VIEWER_BMP                   7        /* BMP  */
-//#define GUI_VIEWER_RIGHT_BMP             8        /* BMP  */
-//#define IP_TILES_BMP                     9        /* BMP  */
-//#define LASER_BEAM_BMP                   10       /* BMP  */
-//#define PORTRAIT_BARZHON_BMP             11       /* BMP  */
-//#define PORTRAIT_COALITION_BMP           12       /* BMP  */
-//#define PORTRAIT_ELOWAN_BMP              13       /* BMP  */
-//#define PORTRAIT_MINEX_BMP               14       /* BMP  */
-//#define PORTRAIT_NYSSIAN_BMP             15       /* BMP  */
-//#define PORTRAIT_PIRATE_BMP              16       /* BMP  */
-//#define PORTRAIT_SPEMIN_BMP              17       /* BMP  */
-//#define PORTRAIT_TAFEL_BMP               18       /* BMP  */
-//#define PORTRAIT_THRYNN_BMP              19       /* BMP  */
-//#define POWERUP_ARMOR_TGA                20       /* BMP  */
-//#define POWERUP_HEALTH_TGA               21       /* BMP  */
-//#define POWERUP_MINERAL_TGA              22       /* BMP  */
-//#define POWERUP_SHIELD_TGA               23       /* BMP  */
-//#define RED_BOLT_BMP                     24       /* BMP  */
-//#define SCHEMATIC_BARZHON_BMP            25       /* BMP  */
-//#define SCHEMATIC_COALITION_BMP          26       /* BMP  */
-//#define SCHEMATIC_ELOWAN_BMP             27       /* BMP  */
-//#define SCHEMATIC_MINEX_BMP              28       /* BMP  */
-//#define SCHEMATIC_NYSSIAN_BMP            29       /* BMP  */
-//#define SCHEMATIC_PIRATE_BMP             30       /* BMP  */
-//#define SCHEMATIC_SPEMIN_BMP             31       /* BMP  */
-//#define SCHEMATIC_TAFEL_BMP              32       /* BMP  */
-//#define SCHEMATIC_THRYNN_BMP             33       /* BMP  */
-//#define SHIELD_TGA                       34       /* BMP  */
-//#define SHIP_BARZHON_BMP                 35       /* BMP  */
-//#define SHIP_COALITION_BMP               36       /* BMP  */
-//#define SHIP_ELOWAN_BMP                  37       /* BMP  */
-//#define SHIP_MINEX_BMP                   38       /* BMP  */
-//#define SHIP_NYSSIAN_BMP                 39       /* BMP  */
-//#define SHIP_PIRATE_BMP                  40       /* BMP  */
-//#define SHIP_SPEMIN_BMP                  41       /* BMP  */
-//#define SHIP_TAFEL_BMP                   42       /* BMP  */
-//#define SHIP_THRYNN_BMP                  43       /* BMP  */
-//#define SMLASTEROID_BMP                  44       /* BMP  */
-//#define WEAPON_PLASMA_32_TGA             45       /* BMP  */
-
-
-
-/*
  * This function tracks all printed messages, each containing a timestamp to prevent
  * messages from printing out repeatedly.
  * delay = 0 means always print.
@@ -383,28 +331,28 @@ bool ModuleEncounter::Init()
 	scroller->loadTileImage("data/encounter/IP_TILES.bmp");
     
     //load the message gui
-	img_messages = (BITMAP*)load_bitmap("data/encounter/GUI_MESSAGEWINDOW.bmp",NULL);
+	img_messages = (BITMAP*)load_bitmap("data/encounter/gui_messagewindow.png",NULL);
 	if (!img_messages) {
 		g_game->message("Encounter: error loading img_messages");
 		return false;
 	}
 
 	//load the socket gui
-	img_socket = (BITMAP*)load_bitmap("data/encounter/GUI_SOCKET.bmp",NULL);
+	img_socket = (BITMAP*)load_bitmap("data/encounter/gui_socket.png",NULL);
 	if (!img_socket) {
 		g_game->message("Encounter: error loading img_socket");
 		return false;
 	}
 
 	//load the aux gui
-	img_aux = (BITMAP*)load_bitmap("data/encounter/GUI_AUX.bmp",NULL);
+	img_aux = (BITMAP*)load_bitmap("data/encounter/gui_aux.png",NULL);
 	if (!img_aux) {
 		g_game->message("error loading img_aux");
 		return false;
 	}
 
 	//load the gui viewer screen
-	img_viewer = (BITMAP*)load_bitmap("data/encounter/GUI_VIEWER.bmp",NULL);
+	img_viewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer.png",NULL);
 	if (!img_viewer) {
 		g_game->message("error loading gui_viewer");
 		return false;
@@ -509,7 +457,7 @@ bool ModuleEncounter::Encounter_Init()
 	dialogCensor.insert( make_pair("[ALIEN]", alienName) );
 
 	//load the right gui viewer
-	img_rightviewer = (BITMAP*)load_bitmap("data/encounter/GUI_VIEWER_RIGHT.bmp",NULL);
+	img_rightviewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer_right.png",NULL);
 	if (!img_rightviewer) {
 		g_game->message("Encounter: error loading gui_viewer_right");
 		return false;

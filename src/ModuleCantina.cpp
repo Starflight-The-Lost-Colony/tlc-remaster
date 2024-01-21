@@ -19,14 +19,17 @@
 
 using namespace std;
 
-#define CANTINA_BACKGROUND_BMP           0        /* BMP  */
+//replaced with png file
+//#define CANTINA_BACKGROUND_BMP           0        /* BMP  */
+
 #define CANTINA_BTN_BMP                  1        /* BMP  */
 #define CANTINA_BTN_DIS_BMP              2        /* BMP  */
 #define CANTINA_BTN_HOV_BMP              3        /* BMP  */
 #define CANTINA_EXIT_BTN_NORM_BMP        4        /* BMP  */
 #define CANTINA_EXIT_BTN_OVER_BMP        5        /* BMP  */
-#define MILITARYOPS_BACKGROUND_BMP       6        /* BMP  */
-#define RESEARCHLAB_BACKGROUND_BMP       7        /* BMP  */
+
+//#define MILITARYOPS_BACKGROUND_BMP       6        /* BMP  */
+//#define RESEARCHLAB_BACKGROUND_BMP       7        /* BMP  */
 
 DATAFILE *candata;
 
@@ -69,6 +72,8 @@ ModuleCantina::~ModuleCantina(void)
 {
 	TRACE("ModuleCantina Dead\n");
 }
+
+#pragma region INPUT
 
 void ModuleCantina::OnKeyPress(int keyCode)	{ }
 void ModuleCantina::OnKeyPressed(int keyCode){}
@@ -114,9 +119,17 @@ void ModuleCantina::OnEvent(Event *event)
 	}
 }
 
+#pragma endregion
+
+
 void ModuleCantina::Close()
 {
 	try {
+        if (m_background != NULL)
+        {
+            delete m_background;
+            m_background=NULL;
+        }
 		if (m_exitBtn != NULL)
 		{
 			delete m_exitBtn;
@@ -183,7 +196,9 @@ bool ModuleCantina::Init()
 	switch (g_game->gameState->getProfession())
 	{
 		case PROFESSION_SCIENTIFIC:
-			m_background = (BITMAP*)candata[RESEARCHLAB_BACKGROUND_BMP].dat;			
+			//m_background = (BITMAP*)candata[RESEARCHLAB_BACKGROUND_BMP].dat;			
+            m_background=NULL;
+            m_background = (BITMAP*)load_bitmap("data/cantina/researchlab_background.bmp",NULL);
 			m_turninBtn->SetButtonText("Breakthrough!");
 			m_exitBtn->SetButtonText("Terminate");
 			label1 = "PROJECT TITLE";
@@ -194,7 +209,8 @@ bool ModuleCantina::Init()
 			textcolor = DODGERBLUE;
 			break;
 		case PROFESSION_MILITARY:
-			m_background = (BITMAP*)candata[MILITARYOPS_BACKGROUND_BMP].dat;			
+			//m_background = (BITMAP*)candata[MILITARYOPS_BACKGROUND_BMP].dat;			
+            m_background = (BITMAP*)load_bitmap("data/cantina/militaryops_background.bmp",NULL);
 			m_turninBtn->SetButtonText("Accomplished!");
 			m_exitBtn->SetButtonText("Dismissed");
 			label1 = "MISSION CODENAME";
@@ -205,7 +221,8 @@ bool ModuleCantina::Init()
 			textcolor = DKORANGE;
 			break;
 		default:
-			m_background = (BITMAP*)candata[CANTINA_BACKGROUND_BMP].dat;			
+			//m_background = (BITMAP*)candata[CANTINA_BACKGROUND_BMP].dat;			
+            m_background = (BITMAP*)load_bitmap("data/cantina/cantina_background.bmp",NULL);
 			m_turninBtn->SetButtonText("Pay Up!");
 			m_exitBtn->SetButtonText("Scram");
 			label1 = "JOB NAME";
