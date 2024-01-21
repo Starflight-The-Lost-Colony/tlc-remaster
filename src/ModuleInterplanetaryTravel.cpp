@@ -56,19 +56,23 @@ void ModuleInterPlanetaryTravel::OnKeyPress(int keyCode)
     //Note: fuel consumption in a star system should be negligible since its the impulse engine
     //whereas we're using the hyperspace engine outside the system
 	switch (keyCode) {
-		case KEY_RIGHT:
+        case KEY_RIGHT:
+        case KEY_D:
 			flag_nav = false;
 			ship->turnright();
 			break;
 		case KEY_LEFT:
+        case KEY_A:
 			flag_nav = false;
 			ship->turnleft();
 			break;
 		case KEY_DOWN:
+        case KEY_S:
 			flag_nav = false;
 			ship->applybraking();
 			break;
 		case KEY_UP:
+        case KEY_W:
 			flag_nav = flag_thrusting = true;
 			ship->applythrust();
 			g_game->gameState->m_ship.ConsumeFuel();
@@ -104,11 +108,15 @@ void ModuleInterPlanetaryTravel::OnKeyReleased(int keyCode)
 		case KEY_LEFT:
 		case KEY_RIGHT:
 		case KEY_DOWN:
+        case KEY_A:
+        case KEY_D:
+        case KEY_S:
 			flag_nav = false;
             ship->cruise();
 			break;
 
 		case KEY_UP:
+        case KEY_W:
 			flag_nav = flag_thrusting = false;
 			ship->applybraking();
 			ship->cruise();

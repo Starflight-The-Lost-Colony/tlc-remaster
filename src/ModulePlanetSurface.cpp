@@ -200,10 +200,22 @@ void ModulePlanetSurface::OnKeyPress(int keyCode)
 {
 	switch (keyCode)
 	{
-		case KEY_UP:			activeVessel->ForwardThrust(true);		break;
-		case KEY_DOWN:			activeVessel->ReverseThrust(true);		break;
-		case KEY_RIGHT:		activeVessel->TurnRight(true);			break;
-		case KEY_LEFT:		activeVessel->TurnLeft(true);			break;
+		case KEY_UP:		
+        case KEY_W:
+            activeVessel->ForwardThrust(true);		
+            break;
+		case KEY_DOWN:		
+        case KEY_S:
+            activeVessel->ReverseThrust(true);		
+            break;
+		case KEY_RIGHT:		
+        case KEY_D:
+            activeVessel->TurnRight(true);			
+            break;
+		case KEY_LEFT:		
+        case KEY_A:
+            activeVessel->TurnLeft(true);			
+            break;
 	}
 
 }
@@ -215,10 +227,22 @@ void ModulePlanetSurface::OnKeyReleased(int keyCode)
 {
 	switch (keyCode) {
 		//reset ship anim frame when key released
-		case KEY_LEFT:	activeVessel->TurnLeft(false); break;
-		case KEY_RIGHT:	activeVessel->TurnRight(false); break;
-		case KEY_UP:		activeVessel->ForwardThrust(false); break;
-		case KEY_DOWN:		activeVessel->ReverseThrust(false); break;
+		case KEY_LEFT:	
+        case KEY_A:
+            activeVessel->TurnLeft(false); 
+            break;
+		case KEY_RIGHT:	
+        case KEY_D:
+            activeVessel->TurnRight(false); 
+            break;
+		case KEY_UP:		
+        case KEY_W:
+            activeVessel->ForwardThrust(false); 
+            break;
+		case KEY_DOWN:		
+        case KEY_S:
+            activeVessel->ReverseThrust(false); 
+            break;
 		case KEY_ESC:
 			//std::string escape = g_game->getGlobalString("ESCAPEMODULE");
 			//g_game->modeMgr->LoadModule(escape);

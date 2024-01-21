@@ -688,7 +688,7 @@ void Game::Stop()
 
 
 /*
- * Initizlie Allegro graphics callable from settings screen to reset mode as needed.
+ * Initialize Allegro graphics callable from settings screen to reset mode as needed.
  */
 bool Game::Initialize_Graphics()
 {
@@ -1045,17 +1045,18 @@ void Game::RunGame()
 		gameState->stardate.Update(newTime, timeRateDivisor);
 	}
 
+	//calculate core framerate
+	coreCounter++;
+    int gt = globalTimer.getTimer();
+	if (gt > coreStartTime + 999)
+	{
+		coreStartTime = gt;
+		frameRate = coreCounter;
+		coreCounter = 0;
+	}
+        
 	if (!m_pause)
 	{
-		//calculate core framerate
-		coreCounter++;
-		if (globalTimer.getTimer() > coreStartTime + 999)
-		{
-			coreStartTime = globalTimer.getTimer();
-			frameRate = coreCounter;
-			coreCounter = 0;
-		}
-        
 		//call update on all modules
 		modeMgr->Update();
 
@@ -1107,9 +1108,20 @@ void Game::RunGame()
 	{
 		if (cursor != NULL)
 		{
-			cursor->setX(mouse_x);
-			cursor->setY(mouse_y);
-			cursor->draw(m_backbuffer);
+            int cw = cursor->getWidth(); 
+            int ch = cursor->getHeight(); 
+            int mx = mouse_x; 
+            if (mx < 0) mx = 0; 
+            if (mx > SCREEN_WIDTH - cw) mx = SCREEN_WIDTH - cw; 
+            int my = mouse_y; 
+            if (my < 0) my = 0; 
+            if (my > SCREEN_HEIGHT - ch) my = SCREEN_HEIGHT - ch; 
+			cursor->setX(mx); 
+			cursor->setY(my); 
+			cursor->draw(m_backbuffer); 
+            ostringstream oss(""); 
+            oss << mx << "," << my; 
+            g_game->Print12(m_backbuffer, mx,my+ch, oss.str().c_str()); 
 		}
 		else {
 			//load the custom mouse cursor

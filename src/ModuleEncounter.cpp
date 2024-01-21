@@ -155,18 +155,22 @@ void ModuleEncounter::OnKeyPress(int keyCode)
 		switch (keyCode)
 		{
 			case KEY_RIGHT:		
+            case KEY_D:
                 playerShip->turnright();	
                 break;
 
 			case KEY_LEFT:		
+            case KEY_A:
                 playerShip->turnleft();		
                 break;
 
 			case KEY_DOWN:		
+            case KEY_S:
                 playerShip->applybraking();	
 				break;
 
 			case KEY_UP:			
+            case KEY_W:
                 playerShip->applythrust();	
                 flag_thrusting = true;
                 break;
@@ -217,10 +221,14 @@ void ModuleEncounter::OnKeyReleased(int keyCode)
 		case KEY_LEFT:
 		case KEY_RIGHT:
 		case KEY_DOWN:
+        case KEY_A:
+        case KEY_D:
+        case KEY_S:
 			playerShip->cruise();
 			break;
 
 		case KEY_UP:
+        case KEY_W:
             flag_thrusting = false;
 			playerShip->applybraking();
 			playerShip->cruise();
