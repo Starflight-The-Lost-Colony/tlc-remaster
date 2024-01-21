@@ -114,7 +114,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\TestManager.cpp" />
     <ClCompile Include="env.cpp" />
     <ClCompile Include="..\..\ModuleAuxiliaryDisplay.cpp" />
     <ClCompile Include="..\..\ModuleBank.cpp" />
@@ -179,6 +178,62 @@
       <Project>{2fcf30b6-c79a-4a75-bc07-b30a5b271e78}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\bin\data\config.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_barzhon.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_coalition.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_common.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_elowan.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_minex.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_nyssian.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_pirate.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_spemin.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_tafel.lua" />
+    <None Include="..\..\..\bin\data\encounter\encounter_thrynn.lua" />
+    <None Include="..\..\..\bin\data\Functions.lua" />
+    <None Include="..\..\..\bin\data\globals.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\2.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\22.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\26.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\440.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\442.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\8.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\AfrywiogPrison.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\artifact.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\basicLifeForm.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\basicProjectile.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\DereonMine.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\Functions.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\InitializeOceanic.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\KelvynCo.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\MetnebFactory.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\MilitaryOutpost.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\mineral.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\PlanetSurfacePlayerShip.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\PlanetSurfacePlayerTV.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\PopAcidicPlanet.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\PopAsteriod.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\PopFrozenPlanet.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\PopMoltenPlanet.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\PopOceanicPlanet.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\PopRockyPlanet.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_2.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_22.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_26.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_440.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_442.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_8.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_AfrywiogPrison.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_DereonMine.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_KelvynCo.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_MetnebFactory.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\quest_MilitaryOutpost.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\ruin.lua" />
+    <None Include="..\..\..\bin\data\planetsurface\stunprojectile.lua" />
+    <None Include="..\..\..\bin\data\playership.lua" />
+    <None Include="..\..\..\bin\data\quests.lua" />
+    <None Include="..\..\..\bin\data\starmap\starmap.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

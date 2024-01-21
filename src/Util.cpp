@@ -148,7 +148,7 @@ void Util::CleanAndTrimString(std::string& s)
 std::string Util::ToUpper(std::string& str)
 {
 	std::string converted;
-	for(int i = 0; i < str.size(); ++i)
+	for(int i = 0; i < (int)str.size(); ++i)
 		converted += toupper(str[i]);
 	return converted;
 }
