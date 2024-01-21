@@ -14,6 +14,118 @@ ESCAPEMODULE = "TITLESCREEN"
 
 DEBUG_OUTPUT = true
 
+--acceleration increases velocity per FRAME
+--this adds up FAST (like 40x per sec) so don't go too high
+ENGINE1_ACCEL = 0.03	-- base
+ENGINE2_ACCEL = 0.06	-- +.03
+ENGINE3_ACCEL = 0.09	-- +.03
+ENGINE4_ACCEL = 0.12	-- +.03
+ENGINE5_ACCEL = 0.15	-- +.03
+ENGINE6_ACCEL = 0.18	-- +.03
+--ENGINE7_ACCEL = 0.25
+
+--at speeds over 5.0 it is too fast to see what's coming
+ENGINE1_TOPSPEED = 1.2 -- base
+ENGINE2_TOPSPEED = 1.6 -- + .4
+ENGINE3_TOPSPEED = 2.1 -- + .5
+ENGINE4_TOPSPEED = 2.7 -- + .6
+ENGINE5_TOPSPEED = 3.4 -- + .7
+ENGINE6_TOPSPEED = 4.2 -- + .8
+--ENGINE7_TOPSPEED = 5.8    
+
+-- affects ship maneuverability
+ENGINE1_TURNRATE = 1.2	-- base
+ENGINE2_TURNRATE = 1.4	-- +.2
+ENGINE3_TURNRATE = 1.7	-- +.3
+ENGINE4_TURNRATE = 2.1	-- +.4
+ENGINE5_TURNRATE = 2.6	-- +.5
+ENGINE6_TURNRATE = 3.2	-- +.6
+--ENGINE7_TURNRATE = 3.0	
+
+--these should be proportional to weapon damage per second (dps)
+--a shield should hold up for at least 3 seconds (see class 1 weaps)
+SHIELD1_STRENGTH = 140 	-- (at least 3 seconds of missile-1 hits)
+SHIELD2_STRENGTH = 240	-- +100	
+SHIELD3_STRENGTH = 350 	-- +110
+SHIELD4_STRENGTH = 470 	-- +120
+SHIELD5_STRENGTH = 600 	-- +130
+SHIELD6_STRENGTH = 740  -- +140
+--SHIELD7_STRENGTH = 740
+
+--these should be the same as shield strengths
+ARMOR1_STRENGTH = 140 	-- (at least 3 seconds of missile-1 hits)
+ARMOR2_STRENGTH = 240 	-- +100
+ARMOR3_STRENGTH = 350 	-- +110
+ARMOR4_STRENGTH = 470 	-- +120
+ARMOR5_STRENGTH = 600 	-- +130
+ARMOR6_STRENGTH = 740 	-- +140
+
+
+--weapon speed/range (milliseconds)
+LASER_DURATION   = 500	 -- range in ms
+LASER_SPEED      = 20	 -- firing rate (1000 / 20 = 50 ms)
+MISSILE_DURATION = 4000  -- range in ms
+MISSILE_SPEED    = 10 	 -- firing rate (1000 / 10 = 100 ms)
+
+-- alien weapon ranges
+ALIEN_MISSILE_RANGE = 3000
+ALIEN_LASER_RANGE   = 400
+ALIEN_SAFETY_DISTANCE = 400	--not used. "flee" code is commented out. 
+
+
+--laser fires at same rate always but higher classes do more damage 
+--laser 1 can do 40 pts of dmg per second with direct hits
+LASER1_FIRERATE = 100 --milliseconds
+LASER2_FIRERATE = 100 
+LASER3_FIRERATE = 100 
+LASER4_FIRERATE = 100 
+LASER5_FIRERATE = 100 
+LASER6_FIRERATE = 100 
+LASER7_FIRERATE = 100
+LASER8_FIRERATE = 100
+LASER9_FIRERATE = 100 
+LASER1_DAMAGE = 4  	-- base
+LASER2_DAMAGE = 8  	-- +4
+LASER3_DAMAGE = 14 	-- +6
+LASER4_DAMAGE = 22 	-- +8
+LASER5_DAMAGE = 32 	-- +10
+LASER6_DAMAGE = 44 	-- +12
+LASER7_DAMAGE = 56	-- Thrynn special case upgrade (science)
+LASER8_DAMAGE = 72	-- Thrynn special case upgrade (freelance)
+LASER9_DAMAGE = 86	-- Thrynn special case upgrade (military)
+
+--missile damage will always be much higher than lasers
+MISSILE1_FIRERATE = 700  -- (500 = 1/2 second)
+MISSILE2_FIRERATE = 700 
+MISSILE3_FIRERATE = 700 
+MISSILE4_FIRERATE = 700 
+MISSILE5_FIRERATE = 700 
+MISSILE6_FIRERATE = 700 
+MISSILE7_FIRERATE = 700 
+MISSILE8_FIRERATE = 700 
+MISSILE9_FIRERATE = 700 
+MISSILE1_DAMAGE = 40	-- base
+MISSILE2_DAMAGE = 60 	-- +20
+MISSILE3_DAMAGE = 90	-- +30
+MISSILE4_DAMAGE = 130	-- +40
+MISSILE5_DAMAGE = 180	-- +50
+MISSILE6_DAMAGE = 240	-- +60
+MISSILE7_DAMAGE = 280
+MISSILE8_DAMAGE = 330
+MISSILE9_DAMAGE = 380
+
+--when game starts, this should be next to Myrrdan star system
+PLAYER_HYPERSPACE_START_X = 15553
+PLAYER_HYPERSPACE_START_Y = 13244
+
+--when player enters star system (should probably be random)
+PLAYER_SYSTEM_START_X = 10370
+PLAYER_SYSTEM_START_Y = 8350
+
+--when player enters the starport
+PLAYER_STARPORT_START_X = 200
+PLAYER_STARPORT_START_Y = 430
+
 -- gui components
 GUI_MESSAGE_POS_X = 290
 GUI_MESSAGE_POS_Y = 544
@@ -84,110 +196,4 @@ PROF_MILITARY_SHIELD_MAX = 4
 PROF_MILITARY_LASER_MAX = 6
 PROF_MILITARY_MISSILE_MAX = 6
 PROF_MILITARY_PODS_MAX = 8 --2 points
-
--- ship component classes
-ENGINE1_ACCEL = 0.03
-ENGINE2_ACCEL = 0.05
-ENGINE3_ACCEL = 0.08
-ENGINE4_ACCEL = 0.10
-ENGINE5_ACCEL = 0.12
-ENGINE6_ACCEL = 0.15
---ENGINE7_ACCEL = 0.25
-ENGINE1_TOPSPEED = 1.2 -- base
-ENGINE2_TOPSPEED = 1.6 -- + .4
-ENGINE3_TOPSPEED = 2.2 -- + .6
-ENGINE4_TOPSPEED = 2.8 -- + .6
-ENGINE5_TOPSPEED = 3.4 -- + .6
-ENGINE6_TOPSPEED = 4.2 -- + .8
---ENGINE7_TOPSPEED = 5.8    
-ENGINE1_TURNRATE = 1.0
-ENGINE2_TURNRATE = 1.4
-ENGINE3_TURNRATE = 1.8
-ENGINE4_TURNRATE = 2.2
-ENGINE5_TURNRATE = 2.6
-ENGINE6_TURNRATE = 3.0
---ENGINE7_TURNRATE = 3.0	
-
---these should be proportional to weapon damage per second (dps)
---a shield should hold up for several seconds at least (see class 1 weaps)
-SHIELD1_STRENGTH = 140 --was 70 (3 seconds of missile-1 hits)
-SHIELD2_STRENGTH = 260 --was 100
-SHIELD3_STRENGTH = 380 --was 130
-SHIELD4_STRENGTH = 500 --was 150
-SHIELD5_STRENGTH = 620 --was 225
-SHIELD6_STRENGTH = 740 --was 350  (3 seconds of missile-6 hits)
---SHIELD7_STRENGTH = 740
-
---armor should hold up to several seconds of equivalent class weapon dps (see class 1 weaps). 
---maintain 120 increments till shipconfig is fixed.
-ARMOR1_STRENGTH = 120 --was 45	then 120 (3 seconds of laser-1 hits)
-ARMOR2_STRENGTH = 240 --was 60	then 240
-ARMOR3_STRENGTH = 360 --was 80	then 360
-ARMOR4_STRENGTH = 480 --was 100	then 480
---ARMOR5_STRENGTH = 600 --was 150 then 600
---ARMOR6_STRENGTH = 720 --was 250 then 720 (3 seconds of laser-6 hits)
-
---laser fires at same rate always but higher classes do more damage 
---laser 1 can do 40 pts of dmg per second with direct hits
-LASER1_FIRERATE = 70 --was 750 (100 = 1/10 second)
-LASER2_FIRERATE = 70 --was 550
-LASER3_FIRERATE = 70 --was 350
-LASER4_FIRERATE = 70 --was 250
-LASER5_FIRERATE = 70 --was 200
-LASER6_FIRERATE = 70 --was 150
-LASER7_FIRERATE = 70
-LASER8_FIRERATE = 70
-LASER9_FIRERATE = 70
-LASER1_DAMAGE = 4  --was 15 (40 dps)
-LASER2_DAMAGE = 8  --was 24 (80 dps)
-LASER3_DAMAGE = 12 --was 24 (120 dps)
-LASER4_DAMAGE = 16 --was 27 (160 dps)
-LASER5_DAMAGE = 20 --was 30 (200 dps)
-LASER6_DAMAGE = 48 --was 32 (480 dps)
-LASER7_DAMAGE = 56	-- Thrynn special case upgrade (science)
-LASER8_DAMAGE = 72	-- Thrynn special case upgrade (freelance)
-LASER9_DAMAGE = 86	-- Thrynn special case upgrade (military)
-
---missile damage will always be much higher than lasers
---missile 1 can do 80 pts of dmg per second with direct hits
-MISSILE1_FIRERATE = 500 --was 750  (500 = 1/2 second)
-MISSILE2_FIRERATE = 475 --was 950
-MISSILE3_FIRERATE = 450 --was 1150
-MISSILE4_FIRERATE = 425 --was 1350
-MISSILE5_FIRERATE = 400 --was 1550
-MISSILE6_FIRERATE = 375 --was 1750
-MISSILE7_FIRERATE = 375 --was 1750
-MISSILE8_FIRERATE = 375 --was 1750
-MISSILE9_FIRERATE = 375 --was 1750
-MISSILE1_DAMAGE = 40
-MISSILE2_DAMAGE = 60 
-MISSILE3_DAMAGE = 90
-MISSILE4_DAMAGE = 130
-MISSILE5_DAMAGE = 180
-MISSILE6_DAMAGE = 230
-MISSILE7_DAMAGE = 280
-MISSILE8_DAMAGE = 330
-MISSILE9_DAMAGE = 380
-
-LASER_DURATION = 400
-LASER_SPEED    = 20
-MISSILE_DURATION = 4000
-MISSILE_SPEED    = 10
-
-ALIEN_MISSILE_RANGE = 2000	--was 2000
-ALIEN_LASER_RANGE   = 400	--was 400
-ALIEN_SAFETY_DISTANCE = 400	--not used. "flee" code is commented out. 
-
---when game starts, this should be next to Myrrdan star system
-PLAYER_HYPERSPACE_START_X = 15553
-PLAYER_HYPERSPACE_START_Y = 13244
-
---when player enters star system (should probably be random)
-PLAYER_SYSTEM_START_X = 10370
-PLAYER_SYSTEM_START_Y = 8350
-
---when player enters the starport
-PLAYER_STARPORT_START_X = 200
-PLAYER_STARPORT_START_Y = 430
-
 
