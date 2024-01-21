@@ -8,8 +8,8 @@
 --turn_rate = 2.0
 
 -- constants used to apply braking
-stop_threshold = 0.05
-brake_value = 0.01
+stop_threshold = 0.25
+brake_value = 0.2
 
 -- velocity_x and velocity_y are set by caller
 
