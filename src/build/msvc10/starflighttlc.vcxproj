@@ -192,7 +192,9 @@
     <None Include="..\..\..\bin\data\encounter\encounter_tafel.lua" />
     <None Include="..\..\..\bin\data\encounter\encounter_thrynn.lua" />
     <None Include="..\..\..\bin\data\Functions.lua" />
+    <None Include="..\..\..\bin\data\galaxy.xml" />
     <None Include="..\..\..\bin\data\globals.lua" />
+    <None Include="..\..\..\bin\data\human.xml" />
     <None Include="..\..\..\bin\data\planetsurface\2.lua" />
     <None Include="..\..\..\bin\data\planetsurface\22.lua" />
     <None Include="..\..\..\bin\data\planetsurface\26.lua" />
@@ -232,8 +234,11 @@
     <None Include="..\..\..\bin\data\planetsurface\ruin.lua" />
     <None Include="..\..\..\bin\data\planetsurface\stunprojectile.lua" />
     <None Include="..\..\..\bin\data\playership.lua" />
+    <None Include="..\..\..\bin\data\QuestLog.xml" />
     <None Include="..\..\..\bin\data\quests.lua" />
+    <None Include="..\..\..\bin\data\ships.xml" />
     <None Include="..\..\..\bin\data\starmap\starmap.lua" />
+    <None Include="..\..\..\bin\data\strfltitems.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -29,6 +29,9 @@
     <Filter Include="Source Files\modules\ModulePlanetSurface">
       <UniqueIdentifier>{91b029cc-50b2-4af4-bcd8-3895e48fbfa6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="data files">
+      <UniqueIdentifier>{2567dd0d-38af-4f39-bc60-d0880c391f2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="env.cpp">
@@ -364,6 +367,21 @@
     </None>
     <None Include="..\..\..\bin\data\planetsurface\stunprojectile.lua">
       <Filter>Source Files\modules\ModulePlanetSurface</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\galaxy.xml">
+      <Filter>data files</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\human.xml">
+      <Filter>data files</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\QuestLog.xml">
+      <Filter>data files</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\ships.xml">
+      <Filter>data files</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\strfltitems.xml">
+      <Filter>data files</Filter>
     </None>
   </ItemGroup>
 </Project>
