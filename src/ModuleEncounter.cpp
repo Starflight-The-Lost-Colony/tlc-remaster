@@ -1764,24 +1764,20 @@ void ModuleEncounter::Draw()
 		static int gmy = (int)g_game->getGlobalNumber("GUI_MESSAGE_POS_Y");
 		static int gmw = (int)g_game->getGlobalNumber("GUI_MESSAGE_WIDTH");
 		static int gmh = (int)g_game->getGlobalNumber("GUI_MESSAGE_HEIGHT");
-		masked_blit(img_messages, g_game->GetBackBuffer(), 0, 0, gmx, gmy, gmw,  
-gmh);
+		masked_blit(img_messages, g_game->GetBackBuffer(), 0, 0, gmx, gmy, gmw, gmh);
 
 		//draw message and list boxes
-		(bFlagDialogue)? dialogue->Draw(g_game->GetBackBuffer()) :  
-text->Draw(g_game->GetBackBuffer());
+		(bFlagDialogue)? dialogue->Draw(g_game->GetBackBuffer()) : text->Draw(g_game->GetBackBuffer());
 
 		//draw socket gui
 		static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
 		static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
-		masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy,  
-img_socket->w, img_socket->h);
+		masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
 
 		// draw the aux gui
 		static int gax = (int)g_game->getGlobalNumber("GUI_AUX_POS_X");
 		static int gay = (int)g_game->getGlobalNumber("GUI_AUX_POS_Y");
-		masked_blit(img_aux, g_game->GetBackBuffer(), 0, 0, gax, gay,  
-img_aux->w, img_aux->h);
+		masked_blit(img_aux, g_game->GetBackBuffer(), 0, 0, gax, gay, img_aux->w, img_aux->h);
 	}
 
     if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true)

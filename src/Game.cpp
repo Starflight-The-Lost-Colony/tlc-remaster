@@ -1123,33 +1123,31 @@ void Game::RunGame()
 	}
 
 
-#ifdef DEBUGMODE
-        //display debug info on the upper-left corner of screen
-        if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true)
-        {
-            int GRAY = makecol(160,160,160);
-		    int y = 3;  int x = 3;
-		// x == 0 doesn't quite work on the Trade Depot Screen - made it a 3 - jjh
-		    g_game->PrintDefault(m_backbuffer,x,y,"Core: " + Util::ToString( frameRate ), GRAY);
-            y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Screen: " + Util::ToString((int)scale_width) + "," + Util::ToString((int)scale_height) + " (" + Util::ToString(screen_scaling) + "x)" , GRAY);
-		    y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Quest: " + Util::ToString( g_game->gameState->getActiveQuest() ) + " (" + Util::ToString( g_game->gameState->getQuestCompleted()) + ")" , GREEN);
-		    y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Stage: " + Util::ToString(g_game->gameState->getPlotStage()), GREEN);
-		    y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Date: " + Util::ToString( gameState->stardate.GetFullDateString() ) , GRAY);
-		    y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Prof: " + g_game->gameState->getProfessionString() , GRAY);
-		    y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Fuel: " + Util::ToString( g_game->gameState->getShip().getFuel() ) , GRAY);
-		    y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Cred: " + Util::ToString(g_game->gameState->getCredits()) , GRAY);
-		    y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Cargo: " + Util::ToString(g_game->gameState->m_ship.getOccupiedSpace()) + "/" + Util::ToString(g_game->gameState->m_ship.getTotalSpace()), GRAY);
-		    y+= 10;
-		    //Print out the aliens' attitude toward us:
-		 /*   PrintDefault(m_backbuffer,0,y,"Attitudes");
-		    for (int n=1; n<NUM_ALIEN_RACES; n++)
-		    {
-			    y+=10;
-			    PrintDefault(m_backbuffer,0,y, gameState->player->getAlienRaceName(n) + " : "
-				    + Util::ToString( gameState->alienAttitudes[n] ));
-		    }*/
-        }
-#endif
+    //display debug info on the upper-left corner of screen
+    if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true)
+    {
+        int GRAY = makecol(160,160,160);
+		int y = 3;  int x = 3;
+	// x == 0 doesn't quite work on the Trade Depot Screen - made it a 3 - jjh
+		g_game->PrintDefault(m_backbuffer,x,y,"Core: " + Util::ToString( frameRate ), GRAY);
+        y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Screen: " + Util::ToString((int)scale_width) + "," + Util::ToString((int)scale_height) + " (" + Util::ToString(screen_scaling) + "x)" , GRAY);
+		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Quest: " + Util::ToString( g_game->gameState->getActiveQuest() ) + " (" + Util::ToString( g_game->gameState->getQuestCompleted()) + ")" , GREEN);
+		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Stage: " + Util::ToString(g_game->gameState->getPlotStage()), GREEN);
+		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Date: " + Util::ToString( gameState->stardate.GetFullDateString() ) , GRAY);
+		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Prof: " + g_game->gameState->getProfessionString() , GRAY);
+		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Fuel: " + Util::ToString( g_game->gameState->getShip().getFuel() ) , GRAY);
+		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Cred: " + Util::ToString(g_game->gameState->getCredits()) , GRAY);
+		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Cargo: " + Util::ToString(g_game->gameState->m_ship.getOccupiedSpace()) + "/" + Util::ToString(g_game->gameState->m_ship.getTotalSpace()), GRAY);
+		y+= 10;
+		//Print out the aliens' attitude toward us:
+		/*   PrintDefault(m_backbuffer,0,y,"Attitudes");
+		for (int n=1; n<NUM_ALIEN_RACES; n++)
+		{
+			y+=10;
+			PrintDefault(m_backbuffer,0,y, gameState->player->getAlienRaceName(n) + " : "
+				+ Util::ToString( gameState->alienAttitudes[n] ));
+		}*/
+    }
 
 
 

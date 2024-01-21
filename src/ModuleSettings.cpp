@@ -319,8 +319,6 @@ bool ModuleSettings::SaveConfigurationFile()
     if (btn_fullscreen->GetButtonText() == "X")
         fullscreen="true";
 
-    
-
     std::ofstream configfile;
     configfile.open("data/config.lua", std::ofstream::out | std::ofstream::trunc);
     if (!configfile.is_open())
