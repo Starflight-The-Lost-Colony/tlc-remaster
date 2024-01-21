@@ -7,7 +7,7 @@
 
 #include "env.h"
 #include <allegro.h>
-#include <alleggl.h> //this is now only used to retrieve modes
+//#include <alleggl.h> //this is now only used to retrieve modes
 #include <alfont.h>
 #include <fmod.hpp>
 #include <memory.h>
@@ -468,7 +468,8 @@ bool ValidateScripts()
 			message = error.substr(pos+1);
 			error = "Filename: " + encounterScripts[n] + "\n\nLine #: " + linenum + "\n\nError: " + filename + "\n" + message;
 			TRACE( error.c_str() );
-			MessageBox(0, error.c_str(), "SCRIPT ERROR", 0);
+			//MessageBox(0, error.c_str(), "SCRIPT ERROR", 0);
+            TRACE("SCRIPT ERROR");
 			delete scr;
 			return false;
 		}
@@ -505,7 +506,8 @@ bool ValidateScripts()
 			message = error.substr(pos+1);
 			error = "Filename: " + planetScripts[n] + "\n\nLine #: " + linenum + "\n\nError: " + filename + "\n" + message;
 			TRACE( error.c_str() );
-			MessageBox(0, error.c_str(), "SCRIPT ERROR", 0);
+			//MessageBox(0, error.c_str(), "SCRIPT ERROR", 0);
+            TRACE("SCRIPT ERROR");
 			delete planetScript;
 			return false;
 		}
