@@ -633,7 +633,7 @@ void Game::Run()
 	}
 	//check that all the graphics for items are present
 	if (!ValidatePortraits())
-		fatalerror("Some graphics where missing, see allegro.log for details");
+		fatalerror("Some image files were missing--see allegro.log for details");
 
 	//initialize gamestate
 	gameState->Reset();
@@ -1020,12 +1020,12 @@ void Game::RunGame()
 	static std::ostringstream os;
 	static int timeStart = globalTimer.getTimer();
 	static int v;
-	static int fps_delay = 1000 / 60;
+	static float fps_delay = 1000.0f / 60.0f;
 	static int coreStartTime = 0;
 	static int coreCounter = 0;
 	//static double update_interval = 2.0;	//now in structure (private).
 
-	if (globalTimer.getTimer() < timeStart + fps_delay)
+	if (globalTimer.getTimer() < timeStart + (int)fps_delay)
 	{
 		//slow down core loop
 		rest(1);
@@ -1108,6 +1108,7 @@ void Game::RunGame()
 	{
 		if (cursor != NULL)
 		{
+            //keep the mouse cursor image on the screen
             int cw = cursor->getWidth(); 
             int ch = cursor->getHeight(); 
             int mx = mouse_x; 
@@ -1119,14 +1120,20 @@ void Game::RunGame()
 			cursor->setX(mx); 
 			cursor->setY(my); 
 			cursor->draw(m_backbuffer); 
-            ostringstream oss(""); 
-            oss << mx << "," << my; 
-            g_game->Print12(m_backbuffer, mx,my+ch, oss.str().c_str()); 
+            
+            //show mouse position
+            if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true) 
+            {
+                ostringstream oss(""); 
+                oss << mx << "," << my; 
+                g_game->Print12(m_backbuffer, mx,my+ch, oss.str().c_str()); 
+            }
 		}
 		else {
 			//load the custom mouse cursor
 			cursor = new Sprite();
-			if (!cursor->load("data/gui/cursor.tga")) {
+			if (!cursor->load("data/gui/cursor.tga")) 
+            {
 				g_game->message("Error loading mouse cursor");
 				g_game->shutdown();
 				return;
@@ -1142,14 +1149,14 @@ void Game::RunGame()
 		int y = 3;  int x = 3;
 	// x == 0 doesn't quite work on the Trade Depot Screen - made it a 3 - jjh
 		g_game->PrintDefault(m_backbuffer,x,y,"Core: " + Util::ToString( frameRate ), GRAY);
-        y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Screen: " + Util::ToString((int)scale_width) + "," + Util::ToString((int)scale_height) + " (" + Util::ToString(screen_scaling) + "x)" , GRAY);
-		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Quest: " + Util::ToString( g_game->gameState->getActiveQuest() ) + " (" + Util::ToString( g_game->gameState->getQuestCompleted()) + ")" , GREEN);
-		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Stage: " + Util::ToString(g_game->gameState->getPlotStage()), GREEN);
-		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Date: " + Util::ToString( gameState->stardate.GetFullDateString() ) , GRAY);
-		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Prof: " + g_game->gameState->getProfessionString() , GRAY);
-		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Fuel: " + Util::ToString( g_game->gameState->getShip().getFuel() ) , GRAY);
-		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Cred: " + Util::ToString(g_game->gameState->getCredits()) , GRAY);
-		y+=10; g_game->PrintDefault(m_backbuffer,x,y,"Cargo: " + Util::ToString(g_game->gameState->m_ship.getOccupiedSpace()) + "/" + Util::ToString(g_game->gameState->m_ship.getTotalSpace()), GRAY);
+        y+=10; g_game->Print12(m_backbuffer,x,y,"Screen: " + Util::ToString((int)scale_width) + "," + Util::ToString((int)scale_height) + " (" + Util::ToString(screen_scaling) + "x)" , GRAY);
+		y+=10; g_game->Print12(m_backbuffer,x,y,"Quest: " + Util::ToString( g_game->gameState->getActiveQuest() ) + " (" + Util::ToString( g_game->gameState->getQuestCompleted()) + ")" , GRAY);
+		y+=10; g_game->Print12(m_backbuffer,x,y,"Stage: " + Util::ToString(g_game->gameState->getPlotStage()), GRAY);
+		y+=10; g_game->Print12(m_backbuffer,x,y,"Date: " + Util::ToString( gameState->stardate.GetFullDateString() ) , GRAY);
+		y+=10; g_game->Print12(m_backbuffer,x,y,"Prof: " + g_game->gameState->getProfessionString() , GRAY);
+		y+=10; g_game->Print12(m_backbuffer,x,y,"Fuel: " + Util::ToString( g_game->gameState->getShip().getFuel() ) , GRAY);
+		y+=10; g_game->Print12(m_backbuffer,x,y,"Cred: " + Util::ToString(g_game->gameState->getCredits()) , GRAY);
+		y+=10; g_game->Print12(m_backbuffer,x,y,"Cargo: " + Util::ToString(g_game->gameState->m_ship.getOccupiedSpace()) + "/" + Util::ToString(g_game->gameState->m_ship.getTotalSpace()), GRAY);
 		y+= 10;
 		//Print out the aliens' attitude toward us:
 		/*   PrintDefault(m_backbuffer,0,y,"Attitudes");
