@@ -282,14 +282,14 @@ end
 function init_military_missions()
 
 --[[
-Military Mission #26: Also extremely simple, reward is 35 cubic meters of endurium.  COMPLETION_CHECK: Entered system 34: Breothigernd
+Military Mission #26: Also extremely simple, reward is 35 cubic meters of endurium.  COMPLETION_CHECK: Entered system 33: Nemed
 ]]--
 
 	addQuest( "Shakedown Cruise",
-		"Go to and enter the Breothigernd system (118, 47) and the return to starport.",
-		"Now if you feel that your ship is up to specs, take her out on a shakedown cruise to familiarize your crew with her full operations.  Fly directly to the Breothigernd system (118, 47) and return again.  Be sure that your propulsion systems has been upgraded sufficiently for extended hyperspace travel and that you have enough endurium crystals on board to convert into fuel for the trip.",
+		"Go to and enter the Nemed system (125, 96) and the return to starport.",
+		"Now if you feel that your ship is up to specs, take her out on a shakedown cruise to familiarize your crew with her full operations.  Fly directly to the Nemed system (125, 96) and return again.  Be sure that your propulsion systems has been upgraded sufficiently for extended hyperspace travel and that you have enough endurium crystals on board to convert into fuel for the trip.",
 		"Good job.  Ready for some real work?",
-		 10, 34, 0 ,
+		 10, 33, 0 ,
 		 2, 54, 20 )
 
 --[[
