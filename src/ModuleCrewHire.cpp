@@ -21,12 +21,15 @@
 
 using namespace std;
 
+//replaced with new image
+//#define PERSONEL_BACKGROUND_BMP          5        /* BMP  */
+
+
 #define GENERIC_EXIT_BTN_NORM_BMP        0        /* BMP  */
 #define GENERIC_EXIT_BTN_OVER_BMP        1        /* BMP  */
 #define ICONS_SMALL_GREEN_TGA            2        /* BMP  */
 #define ICONS_SMALL_RED_TGA              3        /* BMP  */
 #define ICONS_SMALL_TGA                  4        /* BMP  */
-#define PERSONEL_BACKGROUND_BMP          5        /* BMP  */
 #define PERSONEL_BTN2_BMP                6        /* BMP  */
 #define PERSONEL_BTN2_DIS_BMP            7        /* BMP  */
 #define PERSONEL_BTN2_HOV_BMP            8        /* BMP  */
@@ -599,6 +602,12 @@ void ModuleCrewHire::Close()
 	if (g_game->gameState->officerDoc == NULL) g_game->gameState->officerDoc = new Officer(OFFICER_NONE);
 	if (g_game->gameState->officerTac == NULL) g_game->gameState->officerTac = new Officer(OFFICER_NONE);
 
+    if (m_background!=NULL)
+    {
+        delete m_background;
+        m_background=NULL;
+    }
+
 	if (title != NULL)	delete title;
 	if (slogan != NULL)	delete slogan;
 	if (directions != NULL)	delete directions;
@@ -828,10 +837,12 @@ bool ModuleCrewHire::Init()
 
 
 	//load the background
-	m_background = (BITMAP*)chdata[PERSONEL_BACKGROUND_BMP].dat;
+    m_background=NULL;
+	//m_background = (BITMAP*)chdata[PERSONEL_BACKGROUND_BMP].dat;
+    m_background = (BITMAP*)load_bitmap("data/crewhire/personel_background.bmp",NULL);
 	if (!m_background) 
 	{
-		g_game->message("CrewHire: Error loading personel_background");
+		TRACE("CrewHire: Error loading personel_background");
 		return false;
 	}
 
@@ -929,55 +940,6 @@ bool ModuleCrewHire::Init()
 		g_game->message("CrewHire: Error loading personel_miniPositions");
 		return false;
 	}
-
-	//m_skillBars[0] = (BITMAP*)chdata[PERSONEL_SCIBAR_BMP].dat;
-	//if (!m_skillBars[0]) {
-	//	g_game->message("CrewHire: Error loading personel_sciBar");
-	//	return false;
-	//}
-	//
-	//m_skillBars[1] = (BITMAP*)chdata[PERSONEL_NAVBAR_BMP].dat;
-	//if (!m_skillBars[1]) {
-	//	g_game->message("CrewHire: Error loading personel_navBar");
-	//	return false;
-	//}
-
-	//m_skillBars[2] = (BITMAP*)chdata[PERSONEL_ENGBAR_BMP].dat;
-	//if (!m_skillBars[2]) {
-	//	g_game->message("CrewHire: Error loading personel_engBar");
-	//	return false;
-	//}
-
-	//m_skillBars[3] = (BITMAP*)chdata[PERSONEL_COMBAR_BMP].dat;
-	//if (!m_skillBars[3]) {
-	//	g_game->message("CrewHire: Error loading personel_comBar");
-	//	return false;
-	//}
-
-	//m_skillBars[4] = (BITMAP*)chdata[PERSONEL_MEDBAR_BMP].dat;
-	//if (!m_skillBars[4]) {
-	//	g_game->message("CrewHire: Error loading personel_medBar");
-	//	return false;
-	//}
-
-	//m_skillBars[5] = (BITMAP*)chdata[PERSONEL_TACBAR_BMP].dat;
-	//if (!m_skillBars[5]) {
-	//	g_game->message("CrewHire: Error loading personel_tacBar");
-	//	return false;
-	//}
-
-	//m_skillBars[6] = (BITMAP*)chdata[PERSONEL_LRBAR_BMP].dat;
-	//if (!m_skillBars[6]) {
-	//	g_game->message("CrewHire: Error loading personel_lrBar");
-	//	return false;
-	//}
-	//
-	//m_skillBars[7] = (BITMAP*)chdata[PERSONEL_DURBAR_BMP].dat;
-	//if (!m_skillBars[7]) {
-	//	g_game->message("CrewHire: Error loading personel_durBar");
-	//	return false;
-	//}
-
 
 	//tell questmgr that Personnel event has occurred
 	g_game->questMgr->raiseEvent(18);

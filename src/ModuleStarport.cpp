@@ -24,16 +24,15 @@
 #include "QuestMgr.h"
 using namespace std;
 
+//replaced with new image
+//#define STARPORT_BMP                     1        /* BMP  */
+
 #define STARPORT_AVATAR_BMP              0        /* BMP  */
-#define STARPORT_BMP                     1        /* BMP  */
 #define STARPORT_DOOR_BMP                2        /* BMP  */
 
 DATAFILE *spdata;
 
 
-//***********************************************
-// Constructor
-//***********************************************
 ModuleStarport::ModuleStarport(void)
 {
 	//load the starport background
@@ -50,9 +49,7 @@ ModuleStarport::ModuleStarport(void)
 	g_game->pauseMenu->setEnabled(true);
     flag_showWelcome = true;
 }
-//***********************************************
-// Destructor
-//***********************************************
+
 ModuleStarport::~ModuleStarport(void)
 {
 	try {
@@ -67,9 +64,6 @@ ModuleStarport::~ModuleStarport(void)
 	}
 }
 
-//***********************************************
-// Private Funtions
-//***********************************************
 bool ModuleStarport::testDoors()
 {
 	int px = playerx + g_game->gameState->player->posStarport.x + (avatar->getFrameWidth() / 2);
@@ -179,16 +173,25 @@ void ModuleStarport::movePlayerRight(int distanceInPixels)
 }
 
 
-//***********************************************
-// Public Functions
-//***********************************************
 void ModuleStarport::Close()
 {
 	try {
-		//destroy_bitmap(starport);
+        if (starport != NULL)
+        {
+            delete starport;
+            starport=NULL;
+        }
 
-		delete avatar;
-		delete door;
+        if (avatar!=NULL)
+        {
+		    delete avatar;
+            avatar=NULL;
+        }
+        if (door!=NULL)
+        {
+            delete door;
+            door=NULL;
+        }
 
 	}
 	catch(std::exception e) {
@@ -219,10 +222,12 @@ bool ModuleStarport::Init()
 	}
 
 	//load the starport background
-	starport = (BITMAP *)spdata[STARPORT_BMP].dat;
+	//starport = (BITMAP *)spdata[STARPORT_BMP].dat;
+    starport=NULL;
+    starport = (BITMAP*)load_bitmap("data/starport/starport.bmp",NULL);
 	if (!starport)
 	{
-		g_game->message("Starport: Error loading background");
+		TRACE("Starport: Error loading background");
 		return false;
 	}
 
@@ -289,6 +294,7 @@ bool ModuleStarport::Init()
 */
 	return true;
 }
+
 void ModuleStarport::OnEvent(Event *event)
 {
 	std::string escape;
@@ -311,6 +317,9 @@ void ModuleStarport::OnEvent(Event *event)
 			break;
 	}
 }
+
+#pragma region INPUT
+
 void ModuleStarport::OnKeyPress(int keyCode){ }
 
 void ModuleStarport::OnKeyPressed(int keyCode)
@@ -398,9 +407,11 @@ void ModuleStarport::OnMousePressed(int button, int x, int y)	{ Module::OnMouseP
 void ModuleStarport::OnMouseReleased(int button, int x, int y)	{ Module::OnMouseReleased(button, x, y); }
 void ModuleStarport::OnMouseWheelDown(int x, int y)				{ Module::OnMouseWheelDown(x, y); }
 void ModuleStarport::OnMouseWheelUp(int x, int y)				{ Module::OnMouseWheelUp(x, y); }
-void ModuleStarport::Update()
-{
-}
+
+#pragma endregion
+
+
+void ModuleStarport::Update(){}
 
 void ModuleStarport::drawDoors()
 {

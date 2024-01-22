@@ -29,9 +29,8 @@ using namespace std;
 #define DESC_H 190
 #define DESC_W NAME_W
 
-#define QUEST_VIEWER_BMP                 0        /* BMP  */
-
-DATAFILE *qldata;
+//#define QUEST_VIEWER_BMP                 0        /* BMP  */
+//DATAFILE *qldata;
 
 
 ModuleQuestLog::ModuleQuestLog() 
@@ -39,9 +38,7 @@ ModuleQuestLog::ModuleQuestLog()
 	log_active = false;
 }
 
-ModuleQuestLog::~ModuleQuestLog()
-{
-}
+ModuleQuestLog::~ModuleQuestLog(){}
 
 void ModuleQuestLog::OnKeyPressed(int keyCode){}
 void ModuleQuestLog::OnKeyPress( int keyCode ){}
@@ -70,8 +67,14 @@ void ModuleQuestLog::Close()
 {
 	try {
 		//close the datafile
-		unload_datafile(qldata);
-		qldata = NULL;
+		//unload_datafile(qldata);
+		//qldata = NULL;
+
+        if (window!=NULL)
+        {
+            delete window;
+            window=NULL;
+        }
 	}
 	catch(std::exception e) {
 		TRACE(e.what());
@@ -83,16 +86,13 @@ void ModuleQuestLog::Close()
 
 bool ModuleQuestLog::Init()
 {
-	TRACE("ModuleQuestLog Initialize\n");
-	
 	//load the datafile
-	qldata = load_datafile("data/questviewer/questviewer.dat");
-	if (!qldata) {
-		g_game->message("QuestLog: Error loading datafile");	
-		return false;
-	}
+	//qldata = load_datafile("data/questviewer/questviewer.dat");
+	//if (!qldata) {
+	//	g_game->message("QuestLog: Error loading datafile");	
+	//	return false;
+	//}
 	
-
 	viewer_offset_x = SCREEN_WIDTH;
 	viewer_offset_y = 90;
 
@@ -112,10 +112,13 @@ bool ModuleQuestLog::Init()
 
 
 	//load window GUI
-	window = (BITMAP*)qldata[QUEST_VIEWER_BMP].dat;
-	if (!window) {
-		g_game->message("Error loading quest log window");
-		return 0;
+	//window = (BITMAP*)qldata[QUEST_VIEWER_BMP].dat;
+    window=NULL;
+    window=(BITMAP*)load_bitmap("data/questviewer/quest_viewer.bmp",NULL);
+    if (!window) 
+    {
+		TRACE("Error loading quest viewer image");
+		return false;
 	}
 
 	return true;
@@ -123,8 +126,10 @@ bool ModuleQuestLog::Init()
 
 void ModuleQuestLog::Update()
 {
-	if(log_active){
-		if(g_game->gameState->getCurrentSelectedOfficer() != OFFICER_CAPTAIN){
+	if(log_active)
+    {
+		if(g_game->gameState->getCurrentSelectedOfficer() != OFFICER_CAPTAIN)
+        {
 			log_active = false;
 		}
 	}
@@ -166,7 +171,7 @@ void ModuleQuestLog::Draw()
 
 	if(log_active)
 	{
-		if(viewer_offset_x > 620) {
+		if(viewer_offset_x > 680) {
 			viewer_offset_x -= VIEWER_MOVE_RATE;
 		}
 	}else{

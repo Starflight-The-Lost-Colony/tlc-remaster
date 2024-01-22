@@ -84,9 +84,7 @@ ModuleCargoWindow::ModuleCargoWindow()
 	spaceStatus             = NULL;
 }
 
-ModuleCargoWindow::~ModuleCargoWindow()
-{
-}
+ModuleCargoWindow::~ModuleCargoWindow(){}
 
 bool ModuleCargoWindow::Init()
 {
@@ -397,6 +395,9 @@ void ModuleCargoWindow::Draw()
 	spaceStatus->SetY(relY2);
 }
 
+
+#pragma region INPUT
+
 void ModuleCargoWindow::OnKeyPress( int keyCode ){}
 void ModuleCargoWindow::OnKeyPressed(int keyCode){}
 void ModuleCargoWindow::OnKeyReleased(int keyCode){}
@@ -443,18 +444,14 @@ void ModuleCargoWindow::OnMouseReleased(int button, int x, int y)
 	m_jettisonButton->SetY(relY);
 }
 
-void ModuleCargoWindow::OnMouseWheelUp(int x, int y)
-{
-}
+void ModuleCargoWindow::OnMouseWheelUp(int x, int y){}
 
-void ModuleCargoWindow::OnMouseWheelDown(int x, int y)
-{
-}
+void ModuleCargoWindow::OnMouseWheelDown(int x, int y){}
+
+#pragma endregion
 
 void ModuleCargoWindow::Close()
 {
-	TRACE("*** ModuleCargoWindow: closing...\n");
-
 	//NOTE: this is needed to prevent some sort of race condition which will
 	// cause the game to crash when leaving PlanetSurface for PlanetOrbit when
 	// the CargoWindow is shown. I did not dig into it much yet but it probably
@@ -505,6 +502,4 @@ void ModuleCargoWindow::Close()
 		delete spaceStatus;
 		spaceStatus = NULL;
 	}
-
-	TRACE("*** ModuleCargoWindow: closed\n");
 }

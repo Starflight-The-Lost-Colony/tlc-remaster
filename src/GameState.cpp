@@ -142,6 +142,7 @@ bool Officer::SkillUp(Skill skill, int amount)
     return true;
 }
 
+
 Officer & Officer::operator =(const Officer &rhs)
 {
 	name = rhs.name;
@@ -151,17 +152,13 @@ Officer & Officer::operator =(const Officer &rhs)
 	return *this;
 }
 
-/*
- * THIS IS KNOWN AS A CODE COMMENT. IT EXPLAINS STUFF. IT HELPS OTHER PROGRAMMERS.
- */
+
 OfficerType Officer::GetOfficerType() const
 {
 	return officerType;
 }
 
-/*
- * THIS IS KNOWN AS A CODE COMMENT. IT EXPLAINS STUFF. IT HELPS OTHER PROGRAMMERS.
- */
+
 string Officer::GetTitle()
 {
 	string result = "";
@@ -173,7 +170,7 @@ string Officer::GetTitle()
 		break;
 
 	case OFFICER_SCIENCE:
-		result = "Sciences";
+		result = "Science";
 		break;
 
 	case OFFICER_NAVIGATION:
@@ -185,7 +182,7 @@ string Officer::GetTitle()
 		break;
 
 	case OFFICER_COMMUNICATION:
-		result = "Communications";
+		result = "Communication";
 		break;
 
 	case OFFICER_MEDICAL:
@@ -205,6 +202,7 @@ string Officer::GetTitle()
 	return result;
 }
 
+
 string Officer::GetTitle(OfficerType officerType)
 {
 	string result = "";
@@ -216,7 +214,7 @@ string Officer::GetTitle(OfficerType officerType)
 		break;
 
 	case OFFICER_SCIENCE:
-		result = "Sciences";
+		result = "Science";
 		break;
 
 	case OFFICER_NAVIGATION:
@@ -228,7 +226,7 @@ string Officer::GetTitle(OfficerType officerType)
 		break;
 
 	case OFFICER_COMMUNICATION:
-		result = "Communications";
+		result = "Communication";
 		break;
 
 	case OFFICER_MEDICAL:

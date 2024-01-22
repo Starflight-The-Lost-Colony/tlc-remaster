@@ -73,7 +73,9 @@ using namespace std;
 #define MODALPROMPT_BG_Y 157
 
 
-#define CAPTAINSLOUNGE_BACKGROUND_BMP    0        /* BMP  */
+//replaced with new image
+//#define CAPTAINSLOUNGE_BACKGROUND_BMP    0        /* BMP  */
+
 #define CAPTAINSLOUNGE_DEL_DISABLED_TGA  1        /* BMP  */
 #define CAPTAINSLOUNGE_DEL_MOUSEOVER_TGA 2        /* BMP  */
 #define CAPTAINSLOUNGE_DEL_TGA           3        /* BMP  */
@@ -122,9 +124,11 @@ bool ModuleCaptainsLounge::Init()
 
 
 	//load the background
-	m_background = (BITMAP*)cldata[CAPTAINSLOUNGE_BACKGROUND_BMP].dat;
+	//m_background = (BITMAP*)cldata[CAPTAINSLOUNGE_BACKGROUND_BMP].dat;
+    m_background=NULL;
+    m_background = (BITMAP*)load_bitmap("data/captainslounge/captainslounge_background.bmp",NULL);
 	if (m_background == NULL) {
-		g_game->message("Error loading captainslounge_background.bmp");
+		TRACE("Error loading captainslounge_background.bmp");
 		return false;
 	}
 
@@ -269,6 +273,11 @@ void ModuleCaptainsLounge::Close()
 
 
 	try {
+        if (m_background != NULL)
+        {
+            delete m_background;
+            m_background=NULL;
+        }
 		if (m_sndBtnClick != NULL)
 		{
 			m_sndBtnClick = NULL;

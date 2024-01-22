@@ -20,10 +20,13 @@
 #include "Util.h"
 using namespace std;
 
+//replaced with a new image
+//#define SHIPCONFIG_BMP                   3        /* BMP  */
+
+
 #define FREELANCE_TGA                    0        /* BMP  */
 #define MILITARY_TGA                     1        /* BMP  */
 #define SCIENCE_TGA                      2        /* BMP  */
-#define SHIPCONFIG_BMP                   3        /* BMP  */
 #define SHIPCONFIG_BTN_DEACTIVE_BMP      4        /* BMP  */
 #define SHIPCONFIG_BTN_NORM_BMP          5        /* BMP  */
 #define SHIPCONFIG_BTN_OVER_BMP          6        /* BMP  */
@@ -89,9 +92,12 @@ bool ModuleShipConfig::Init()
 	g_game->modeMgr->BroadcastEvent(&e);
 
 	//load background image
-	shipConfig = (BITMAP*)scdata[SHIPCONFIG_BMP].dat;
-	if (!shipConfig) {
-		g_game->message("ShipConfig: Error loading background");
+    shipConfig=NULL;
+	//shipConfig = (BITMAP*)scdata[SHIPCONFIG_BMP].dat;
+    shipConfig = (BITMAP*)load_bitmap("data/shipconfig/ShipConfig.bmp",NULL);
+	if (!shipConfig) 
+    {
+		TRACE("ShipConfig: Error loading background");
 		return false;
 	}
 
@@ -131,6 +137,10 @@ bool ModuleShipConfig::Init()
 }
 
 ModuleShipConfig::~ModuleShipConfig(void) {}
+
+
+#pragma region INPUT
+
 void ModuleShipConfig::OnKeyPress(int keyCode)		{ }
 void ModuleShipConfig::OnKeyPressed(int keyCode)
 {
@@ -197,6 +207,9 @@ void ModuleShipConfig::OnMouseReleased(int button, int x, int y)
 }
 void ModuleShipConfig::OnMouseWheelUp(int x, int y)					{ }
 void ModuleShipConfig::OnMouseWheelDown(int x, int y)				{ }
+
+#pragma endregion
+
 void ModuleShipConfig::OnEvent(Event *event)
 {
 	int evnum, maxclass = -1;
@@ -519,6 +532,12 @@ void ModuleShipConfig::Close()
 	TRACE("ShipConfig Destroy\n");
 
 	try {
+        if (shipConfig != NULL)
+        {
+            delete shipConfig;
+            shipConfig=NULL;
+        }
+
 		menuPath.clear();
 		//if(*buttons) delete [] *buttons;
 		for(int a = 0; a < NUMBER_OF_BUTTONS; ++a)

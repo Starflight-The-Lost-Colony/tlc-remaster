@@ -35,7 +35,7 @@ bool ModuleStartup::Init()
 
 
 	//load copyright screen
-	copyright = (BITMAP*)load_bitmap("data/startup/STARTUP_COPYRIGHTS.BMP",NULL);
+	copyright = (BITMAP*)load_bitmap("data/startup/startup_copyrights.bmp",NULL);
 	if (!copyright) {
 		g_game->message("Startup: Error loading startup_copyrights");
 		return false;
@@ -50,10 +50,26 @@ bool ModuleStartup::Init()
 void ModuleStartup::Close()
 {
 	try {
-		destroy_bitmap(fader);
-		destroy_bitmap(scratchpad);
-        destroy_bitmap(copyright);
-        destroy_bitmap(m_background);
+        if (fader!=NULL)
+        {
+		    destroy_bitmap(fader);
+            fader=NULL;
+        }
+        if (scratchpad!=NULL)
+        {
+            destroy_bitmap(scratchpad);
+            scratchpad=NULL;
+        }
+        if (copyright!=NULL)
+        {
+            destroy_bitmap(copyright);
+            copyright=NULL;
+        }
+        if (m_background!=NULL)
+        {
+            destroy_bitmap(m_background);
+            m_background=NULL;
+        }
 	}
 	catch(std::exception e) {
 		TRACE(e.what());

@@ -9,11 +9,14 @@
 using namespace std;
 
 
+//replaced with new images
+//#define CAPTAINCREATION_PROFESSIONBACKGROUND_BMP 14        /* BMP  */
+//#define CAPTAINCREATION_DETAILSBACKGROUND_BMP     4        /* BMP  */
+
 #define CAPTAINCREATION_BACK_BMP                  0        /* BMP  */
 #define CAPTAINCREATION_BACK_MOUSEOVER_BMP        1        /* BMP  */
 #define CAPTAINCREATION_CURSOR0_BMP               2        /* BMP  */
 #define CAPTAINCREATION_CURSOR1_BMP               3        /* BMP  */
-#define CAPTAINCREATION_DETAILSBACKGROUND_BMP     4        /* BMP  */
 #define CAPTAINCREATION_FINISH_BMP                5        /* BMP  */
 #define CAPTAINCREATION_FINISH_DISABLED_BMP       6        /* BMP  */
 #define CAPTAINCREATION_FINISH_MOUSEOVER_BMP      7        /* BMP  */
@@ -23,7 +26,6 @@ using namespace std;
 #define CAPTAINCREATION_MILITARY_MOUSEOVER_BMP   11        /* BMP  */
 #define CAPTAINCREATION_PLUS_BMP                 12        /* BMP  */
 #define CAPTAINCREATION_PLUS_MOUSEOVER_BMP       13        /* BMP  */
-#define CAPTAINCREATION_PROFESSIONBACKGROUND_BMP 14        /* BMP  */
 #define CAPTAINCREATION_RESET_BMP                15        /* BMP  */
 #define CAPTAINCREATION_RESET_MOUSEOVER_BMP      16        /* BMP  */
 #define CAPTAINCREATION_SCIENTIFIC_BMP           17        /* BMP  */
@@ -207,9 +209,14 @@ bool ModuleCaptainCreation::Init()
 		return false;
 	}
 
-	m_professionChoiceBackground = (BITMAP*)ccdata[CAPTAINCREATION_PROFESSIONBACKGROUND_BMP].dat;
+	//m_professionChoiceBackground = (BITMAP*)ccdata[CAPTAINCREATION_PROFESSIONBACKGROUND_BMP].dat;
+    m_professionChoiceBackground=NULL;
+    m_professionChoiceBackground = (BITMAP*)load_bitmap("data/captaincreation/captaincreation_professionbackground.bmp",NULL);
 	if (m_professionChoiceBackground == NULL)
+    {
+        TRACE("captaincreation: error loading profession background");
 		return false;
+    }
 
 	m_scientificBtn = (BITMAP*)ccdata[CAPTAINCREATION_SCIENTIFIC_BMP].dat;
 	if (m_scientificBtn == NULL)
@@ -254,10 +261,14 @@ bool ModuleCaptainCreation::Init()
 		return false;
 	m_profInfoMilitary->Refresh();
 
-
-	m_detailsBackground = (BITMAP*)ccdata[CAPTAINCREATION_DETAILSBACKGROUND_BMP].dat;
+	//m_detailsBackground = (BITMAP*)ccdata[CAPTAINCREATION_DETAILSBACKGROUND_BMP].dat;
+    m_detailsBackground=NULL;
+    m_detailsBackground = (BITMAP*)load_bitmap("data/captaincreation/captaincreation_detailsbackground.bmp",NULL);
 	if (m_detailsBackground == NULL)
+    {
+        TRACE("captaincreation: error loading details background");
 		return false;
+    }
 
 	m_resetBtn = (BITMAP*)ccdata[CAPTAINCREATION_RESET_BMP].dat;
 	if (m_resetBtn == NULL)
@@ -506,6 +517,16 @@ void ModuleCaptainCreation::Draw()
 void ModuleCaptainCreation::Close()
 {
 	try {
+        if (m_professionChoiceBackground!=NULL)
+        {
+            delete m_professionChoiceBackground;
+            m_professionChoiceBackground=NULL;
+        }
+        if (m_detailsBackground!=NULL)
+        {
+            delete m_detailsBackground;
+            m_detailsBackground=NULL;
+        }
 		if (m_profInfoScientific != NULL)
 		{
 			delete m_profInfoScientific;

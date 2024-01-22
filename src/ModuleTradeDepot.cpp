@@ -13,9 +13,13 @@
 #include <sstream>
 using namespace std;
 
+//replaced with new image
+//#define TRADEDEPOT_BACKGROUND_BMP        2        /* BMP  */
+
+
+
 #define GENERIC_EXIT_BTN_NORM_BMP        0        /* BMP  */
 #define GENERIC_EXIT_BTN_OVER_BMP        1        /* BMP  */
-#define TRADEDEPOT_BACKGROUND_BMP        2        /* BMP  */
 #define TRADEDEPOT_BTN_BMP               3        /* BMP  */
 #define TRADEDEPOT_BTN_MO_BMP            4        /* BMP  */
 #define TRADEDEPOT_CURSOR0_BMP           5        /* BMP  */
@@ -236,9 +240,14 @@ bool ModuleTradeDepot::Init()
 
 
     //load gui images
-	m_background = (BITMAP*)tddata[TRADEDEPOT_BACKGROUND_BMP].dat;
+    m_background=NULL;
+	//m_background = (BITMAP*)tddata[TRADEDEPOT_BACKGROUND_BMP].dat;
+    m_background=(BITMAP*)load_bitmap("data/tradedepot/tradedepot_background.bmp",NULL);
 	if (m_background == NULL)
+    {
+        TRACE("tradedepot: error loading background");
 		return false;
+    }
 
    m_playerListValue = new ScrollBox::ScrollBox(g_game->font22,ScrollBox::SB_LIST,PLAYERLIST_X+PLAYERLIST_WIDTH-PLAYERLIST_VALUE_WIDTH,PLAYERLIST_Y,PLAYERLIST_VALUE_WIDTH,PLAYERLIST_HEIGHT,PLAYERLIST_EVENT);
    if (m_playerListValue == NULL)
@@ -688,6 +697,12 @@ void ModuleTradeDepot::Close()
 	//Module::Close();
 
 	try {
+        if (m_background != NULL)
+        {
+            delete m_background;
+            m_background=NULL;
+        }
+
 	   if (m_playerListValue != NULL)
 	   {
 		  delete m_playerListValue;

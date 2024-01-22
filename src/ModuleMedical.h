@@ -15,11 +15,9 @@
 class ModuleMedical : public Module
 {
 private:
-	BITMAP* img_right_viewer;
-	BITMAP* img_right_bg;
-	BITMAP* img_left_viewer; //shows stat bars for examining officers
-	BITMAP* img_left_viewer2; //shows health readout.
-	BITMAP* img_left_bg;
+	BITMAP* img_crewlist_viewer;
+	BITMAP* img_crewhealth_viewer; 
+	BITMAP* img_crewskills_viewer;
 	BITMAP	*img_health_bar,  *img_science_bar,  *img_nav_bar, 
 			*img_medical_bar, *img_engineer_bar, *img_dur_bar, 
 			*img_learn_bar,   *img_comm_bar,	 *img_tac_bar;

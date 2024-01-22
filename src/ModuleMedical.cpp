@@ -19,23 +19,28 @@
 using namespace std;
 
 int gvl = 0, gvr = 0; //global viewer right and left
-const int RIGHT_TARGET_OFFSET	= 600;//SCREEN_W - 436;
-const int LEFT_TARGET_OFFSET	= 396;
-const int VIEWER_MOVE_RATE		= 16;
+const int RIGHT_TARGET_OFFSET	= 675;  //destination position after sliding
+const int LEFT_TARGET_OFFSET	= 400;
+const int VIEWER_MOVE_RATE		= 30;
 #define CATBTN_X 633
 #define CATBTN_Y 120
 #define CATSPACING 40
 
-int right_offset = SCREEN_WIDTH, 
-	left_offset = -LEFT_TARGET_OFFSET,
-	left_offset2 = -LEFT_TARGET_OFFSET;
+int right_offset = 1024;   //starting position x before sliding
+int left_offset = -400;
+int left_offset2 = -400;
+
+
+//replaced with new images
+//#define GUI_VIEWER_BMP                   3        /* BMP  */
+//#define GUI_VIEWER_RIGHT_BMP             4        /* BMP  */
+//#define RIGHT_VIEWER_BG_BMP              18       /* BMP  */
+//#define MED_WINDOW_DATA_BMP              14       /* BMP  */
 
 
 #define BTN_DIS_BMP                      0        /* BMP  */
 #define BTN_HOV_BMP                      1        /* BMP  */
 #define BTN_NORM_BMP                     2        /* BMP  */
-#define GUI_VIEWER_BMP                   3        /* BMP  */
-#define GUI_VIEWER_RIGHT_BMP             4        /* BMP  */
 #define MED_BAR_COMMUNICATION_BMP        5        /* BMP  */
 #define MED_BAR_DURABILITY_BMP           6        /* BMP  */
 #define MED_BAR_ENGINEER_BMP             7        /* BMP  */
@@ -45,11 +50,9 @@ int right_offset = SCREEN_WIDTH,
 #define MED_BAR_NAVIGATION_BMP           11       /* BMP  */
 #define MED_BAR_SCIENCE_BMP              12       /* BMP  */
 #define MED_BAR_TACTICAL_BMP             13       /* BMP  */
-#define MED_WINDOW_DATA_BMP              14       /* BMP  */
 #define MEDICAL_CAPTBTN_BMP              15       /* BMP  */
 #define MEDICAL_CAPTBTN_DIS_BMP          16       /* BMP  */
 #define MEDICAL_CAPTBTN_HOV_BMP          17       /* BMP  */
-#define RIGHT_VIEWER_BG_BMP              18       /* BMP  */
 
 
 
@@ -295,10 +298,6 @@ bool ModuleMedical::Init()
 	//cease_healing();
 
 
-	//
-	// GUI stuff
-	//
-
 	//sound effects
 	g_game->audioSystem->Load("data/medical/buttonclick.ogg", "click");
 
@@ -309,40 +308,35 @@ bool ModuleMedical::Init()
 		return false;
 	}
 
-	//img_left_viewer2 = load_bitmap("data/medical/gui_viewer_right.bmp", NULL);
-	img_left_viewer2 = (BITMAP*)meddata[GUI_VIEWER_RIGHT_BMP].dat;
-	if (!img_left_viewer2) {
-		g_game->message("Medical: Error loading img_left_viewer2 image");
+
+    //CREW LIST VIEWER (right side)
+	img_crewlist_viewer = load_bitmap("data/medical/gui_viewer_right.bmp",NULL);
+	if (!img_crewlist_viewer) {
+		TRACE("Medical: Error loading gui_viewer_right image");
 		return false;
 	}
 
-	//img_right_viewer = load_bitmap("data/medical/gui_viewer_right.bmp", NULL);
-	img_right_viewer = (BITMAP*)meddata[GUI_VIEWER_RIGHT_BMP].dat;
-	if (!img_right_viewer) {
-		g_game->message("Medical: Error loading gui_viewer_right image");
+
+
+    //CREW HEALTH VIEWER (left side)
+	img_crewhealth_viewer = load_bitmap("data/medical/gui_viewer_left.bmp",NULL);
+	if (!img_crewhealth_viewer) 
+    {
+		g_game->message("Medical: Error loading gui_viewer_left image");
 		return false;
 	}
 
-	//img_right_bg = load_bitmap("data/medical/right_viewer_bg.bmp", NULL);
-	img_right_bg = (BITMAP*)meddata[RIGHT_VIEWER_BG_BMP].dat;
-	if (!img_right_bg) {
-		g_game->message("Medical: Error loading right_viewer_bg image");
-		return false;
-	}
 
-	//img_left_viewer = load_bitmap("data/medical/gui_viewer.bmp", NULL);
-	img_left_viewer = (BITMAP*)meddata[GUI_VIEWER_BMP].dat;
-	if (!img_left_viewer) {
+
+    //CREW SKILLS VIEWER (left side)
+	img_crewskills_viewer = load_bitmap("data/medical/gui_viewer.bmp",NULL);
+	if (!img_crewskills_viewer) 
+    {
 		g_game->message("Medical: Error loading gui_viewer image");
 		return false;
 	}
 
-	//img_left_bg = load_bitmap("data/medical/med_window_data.bmp", NULL);
-	img_left_bg = (BITMAP*)meddata[MED_WINDOW_DATA_BMP].dat;
-	if (!img_left_bg) {
-		g_game->message("Medical: Error loading med_window_data image");
-		return false;
-	}
+
 
 	//img_health_bar = load_bitmap("data/medical/med_bar_health.bmp", NULL);
 	img_health_bar = (BITMAP*)meddata[MED_BAR_HEALTH_BMP].dat;
@@ -489,12 +483,25 @@ bool ModuleMedical::Init()
 
 void ModuleMedical::Close()
 {
-	TRACE("*** ModuleMedical::Close()\n");
-
 	//disable all healing
 	//cease_healing();
 
 	try {
+        if (img_crewlist_viewer!=NULL)
+        {
+            delete img_crewlist_viewer;
+            img_crewlist_viewer=NULL;
+        }
+        if (img_crewhealth_viewer!=NULL)
+        {
+            delete img_crewhealth_viewer;
+            img_crewhealth_viewer=NULL;
+        }
+        if (img_crewskills_viewer!=NULL)
+        {
+            delete img_crewskills_viewer;
+            img_crewskills_viewer=NULL;
+        }
 
 		unload_datafile(meddata);
 		meddata = NULL;
@@ -542,7 +549,7 @@ void ModuleMedical::MedicalUpdate()
 	if(g_game->gameState->getCurrentSelectedOfficer() != OFFICER_MEDICAL)
 		viewer_active = false;
 
-#pragma region Captain
+    //CAPTAIN TREAT
 	if(g_game->gameState->officerCap->attributes.getVitality() <= 0)
 	{
 		OfficerBtns[0]->SetTextColor(BLACK);
@@ -574,9 +581,10 @@ void ModuleMedical::MedicalUpdate()
 	else {
 		OfficerBtns[0]->SetTextColor(WHITE);
 	}
-#pragma endregion
-#pragma region Science Officer
-	if(g_game->gameState->officerSci->attributes.getVitality() <= 0)
+
+    
+    //SCIENCE TREAT
+    if(g_game->gameState->officerSci->attributes.getVitality() <= 0)
 	{
 		OfficerBtns[1]->SetTextColor(BLACK);
 	}
@@ -601,8 +609,9 @@ void ModuleMedical::MedicalUpdate()
 	}else{
 		OfficerBtns[1]->SetTextColor(WHITE);
 	}
-#pragma endregion
-#pragma region Navigation Officer
+
+
+    //NAVIGATION TREAT
 	if(g_game->gameState->officerNav->attributes.getVitality() <= 0){
 		OfficerBtns[2]->SetTextColor(BLACK);
 	}else if(g_game->gameState->officerNav->isBeingHealed() == true){
@@ -625,8 +634,9 @@ void ModuleMedical::MedicalUpdate()
 	}else{
 		OfficerBtns[2]->SetTextColor(WHITE);
 	}
-#pragma endregion
-#pragma region Tactical Officer
+
+
+    //TACTICAL TREAT
 	if(g_game->gameState->officerTac->attributes.getVitality() <= 0)
 	{
 		OfficerBtns[3]->SetTextColor(BLACK);
@@ -654,8 +664,9 @@ void ModuleMedical::MedicalUpdate()
 	}else{
 		OfficerBtns[3]->SetTextColor(WHITE);
 	}
-#pragma endregion
-#pragma region Engineer Officer
+    
+
+    //ENGINEER TREAT
 	if(g_game->gameState->officerEng->attributes.getVitality() <= 0)
 	{
 		OfficerBtns[4]->SetTextColor(BLACK);
@@ -682,8 +693,9 @@ void ModuleMedical::MedicalUpdate()
 	}else{
 		OfficerBtns[4]->SetTextColor(WHITE);
 	}
-#pragma endregion
-#pragma region Comms Officer
+
+
+    //COMMUNICATIONS TREAT
 	if(g_game->gameState->officerCom->attributes.getVitality() <= 0){
 		OfficerBtns[5]->SetTextColor(BLACK);
 	}else if(g_game->gameState->officerCom->isBeingHealed() == true){
@@ -706,8 +718,9 @@ void ModuleMedical::MedicalUpdate()
 	}else{
 		OfficerBtns[5]->SetTextColor(WHITE);
 	}
-#pragma endregion
-#pragma region Doctor
+
+
+    //DOCTOR TREAT
 	if(g_game->gameState->officerDoc->attributes.getVitality() <= 0)
     {
 		OfficerBtns[6]->SetTextColor(BLACK);
@@ -736,7 +749,6 @@ void ModuleMedical::MedicalUpdate()
 	}else{
 		OfficerBtns[6]->SetTextColor(WHITE);
 	}
-#pragma endregion
 }
 
 void ModuleMedical::Draw()
@@ -752,74 +764,106 @@ void ModuleMedical::Draw()
         "durability" };
 
 	float percentile = 0.00f;
-	char t_buffer[20];
+//	char t_buffer[20];
 
     //update medical status
 	MedicalUpdate();
 
+
+    //RIGHT WINDOW (crew list)
+
+    int RIGHT_X = right_offset;
+    int RIGHT_Y = 85;
+
 	if(right_offset < SCREEN_W)
 	{
-		//draw background
-		masked_blit(img_right_viewer, g_game->GetBackBuffer(), 0, 0, right_offset, 85, img_right_viewer->w, img_right_viewer->h);
+		//draw crew list viewer
+		masked_blit(img_crewlist_viewer, g_game->GetBackBuffer(), 0, 0, RIGHT_X, RIGHT_Y, img_crewlist_viewer->w, img_crewlist_viewer->h);
 
-		//draw crew gui
-		blit(img_right_bg, g_game->GetBackBuffer(), 0, 0, right_offset + 34, 119, img_right_bg->w, img_right_bg->h);
-
-		//crew buttons
-		for(int i=0; i < 7; i++){
-			OfficerBtns[i]->SetX(right_offset + 34);
+		//draw crew buttons
+		for(int i=0; i < 7; i++)
+        {
+			OfficerBtns[i]->SetX( RIGHT_X + 34 );
 			OfficerBtns[i]->Run(g_game->GetBackBuffer());
 		}
 	}
 
-#pragma region Left Window 2
+
+    //CREW HEALTH VIEWER
+
+    int LEFT_X = 0;
+    int LEFT_Y = 85;
+    int inner_window_x = 25;
+    int inner_window_y = 34;
+    int x1 = LEFT_X + inner_window_x + 10;
+    int y1 = LEFT_Y + inner_window_y + 10;
+
 	if(left_offset2 > -LEFT_TARGET_OFFSET)
 	{
-		draw_sprite_h_flip(g_game->GetBackBuffer(),img_left_viewer2,left_offset2-43,85);
-		blit(img_right_bg, g_game->GetBackBuffer(), 0, 0, left_offset2 + 64, 119, img_right_bg->w, img_right_bg->h);
+		masked_blit(img_crewhealth_viewer, g_game->GetBackBuffer(), 0, 0, LEFT_X, LEFT_Y, img_crewhealth_viewer->w, img_crewhealth_viewer->h);
+
 		if(selected_officer != NULL)
 		{
-			//print crew person's name
-			g_game->Print22(g_game->GetBackBuffer(), left_offset2 + 75,130, selected_officer->GetTitle() + ": " + selected_officer->name, WHITE); 
 
-			//print health status
+			//print crew person's title and name
+            string title = selected_officer->GetTitle() + ":";
+			g_game->Print22(g_game->GetBackBuffer(), x1, y1, title, WHITE); 
+
+            y1+=20;
+            string name = selected_officer->name;
+			g_game->Print22(g_game->GetBackBuffer(), x1, y1, name, GOLD); 
+
+
+			//show health status
 			int health_color = 0;
 			std::string status = "";
-			if(selected_officer->attributes.getVitality() <= 0){
+			if(selected_officer->attributes.getVitality() <= 0)
+            {
 				health_color = BLACK;
 				status = "DEAD";
-			}else if(selected_officer->attributes.getVitality() < 30){
+			}
+            else if(selected_officer->attributes.getVitality() < 30)
+            {
 				health_color = RED2;
 				status = "CRITICAL";
-			}else if(selected_officer->attributes.getVitality() < 70){
+			}
+            else if(selected_officer->attributes.getVitality() < 70)
+            {
 				health_color = YELLOW2;
 				status = "INJURED";
-			}else{
+			}
+            else
+            {
 				health_color = GREEN2;
 				status = "HEALTHY";
 			}
-			g_game->Print20(g_game->GetBackBuffer(), left_offset2 + 75,200, "STATUS: ", WHITE); 
-			g_game->Print20(g_game->GetBackBuffer(), left_offset2 + 175,200, status, health_color); 
+            y1+=40;
+			g_game->Print20(g_game->GetBackBuffer(), x1, y1, "STATUS: ", WHITE); 
+			g_game->Print20(g_game->GetBackBuffer(), x1 + 80, y1, status, health_color); 
+
+
+            //draw the health bar
+            y1+=40;
+			percentile = selected_officer->attributes.getVitality();
+			rectfill(g_game->GetBackBuffer(), x1, y1, x1 + (int)(275.0f * percentile / 100.0f), y1 + 50, health_color );
+			
+			//print health percentage
+            string percent = Util::ToString(percentile, 1, 1);
+			g_game->Print22(g_game->GetBackBuffer(), x1 + 115, y1 + 20, percent, WHITE);
+
 
 			//enable treat button based on crew health
 			int officer = selected_officer->GetOfficerType() - 1;
-			if (selected_officer->attributes.getVitality() < 100)
+			if (selected_officer->attributes.getVitality() < 100.0f)
 				HealBtns[officer]->SetEnabled(true); 
 			else
 				HealBtns[officer]->SetEnabled(false); 
 
 
-			//draw the health bar
-			percentile = selected_officer->attributes.getVitality();
-			rectfill(g_game->GetBackBuffer(), left_offset2 + 75, 260, left_offset2 + 75 + 260 * percentile / 100, 315, health_color );
-			
-			//print health percentage
-			sprintf(t_buffer, "%.0f%%%%",percentile);
-			g_game->Print22(g_game->GetBackBuffer(), left_offset2 + 185, 280, t_buffer, WHITE);
-
-			//display heal button
-			int buttonx = left_offset2 + 144;
-			int buttony = 341;
+			//display treat button
+            y1+=90;
+			int buttonx = x1 + 80;
+			int buttony = y1;
 			for(int i=0; i<7; i++)
 			{
 				HealBtns[i]->SetX(buttonx);
@@ -827,76 +871,116 @@ void ModuleMedical::Draw()
 				HealBtns[i]->Run(g_game->GetBackBuffer());
 			}
 		}
-	}
-#pragma endregion
+    }
 
-#pragma region Left Window
+
+    //CREW SKILLS VIEWER
+
+    LEFT_X = 0;
+    LEFT_Y = 60;
+    inner_window_x = 25;
+    inner_window_y = 32;
+    x1 = LEFT_X + inner_window_x + 45;
+    y1 = LEFT_Y + inner_window_y + 3;
 
 	if(left_offset > -LEFT_TARGET_OFFSET)
     {
-		masked_blit(img_left_viewer, g_game->GetBackBuffer(), 0, 0, left_offset-43, 10, img_left_viewer->w, img_left_viewer->h);
-		blit(img_left_bg, g_game->GetBackBuffer(), 0, 0, left_offset + 67, 43, img_left_bg->w, img_left_bg->h);
+        //left sliding viewer showing crew skills
+		masked_blit(img_crewskills_viewer, g_game->GetBackBuffer(), 0, 0, LEFT_X, LEFT_Y, img_crewskills_viewer->w, img_crewskills_viewer->h);
 
         //display officer stat bars
 		if(selected_officer != NULL)
 		{
-            int x = left_offset + 110;
+            int stepy = 37;
+            int skilltextcolor = WHITE;
+            string s;
 
             //vitality bar
-			percentile = selected_officer->attributes.getVitality(); percentile /= 100;
-			masked_blit(img_health_bar, g_game->GetBackBuffer(), 0, 0, x, 46, img_health_bar->w * percentile, img_health_bar->h);
-            g_game->Print22(g_game->GetBackBuffer(), x + 10, 46 + 2, "health", BLACK);
+			percentile = selected_officer->attributes.getVitality(); 
+            //percentile /= 100;
+			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x1, y1, img_health_bar->w * percentile/100, img_health_bar->h);
+            s = "HEALTH: " + Util::ToString(percentile,1,0) + string(" %");
+            g_game->Print22(g_game->GetBackBuffer(), x1+10, y1+5, s, skilltextcolor);
 
             //science bar
-			percentile = selected_officer->attributes.getScience();	percentile /= 250;
-			masked_blit(img_science_bar, g_game->GetBackBuffer(), 0, 0, x, 85, img_science_bar->w * percentile, img_science_bar->h);
-            g_game->Print22(g_game->GetBackBuffer(), x + 10, 85 + 2, "science skill", BLACK);
+			percentile = selected_officer->attributes.getScience();	
+            //percentile /= 250;
+            y1+=stepy;
+			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x1, y1, img_science_bar->w * percentile/250, img_science_bar->h);
+            s = "SCI SKILL: " + Util::ToString(percentile,1,0);
+            g_game->Print22(g_game->GetBackBuffer(), x1+10, y1+5, s, skilltextcolor);
 
             //navigation bar
-			percentile = selected_officer->attributes.getNavigation(); percentile /= 250;
-			masked_blit(img_nav_bar, g_game->GetBackBuffer(), 0, 0, x, 129, img_nav_bar->w * percentile, img_nav_bar->h);
-            g_game->Print22(g_game->GetBackBuffer(), x + 10, 129 + 2, "navigation skill", BLACK);
+			percentile = selected_officer->attributes.getNavigation(); 
+            //percentile /= 250;
+            y1 += stepy;
+			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x1, y1, img_nav_bar->w * percentile/250, img_nav_bar->h);
+            s = "NAV SKILL: " + Util::ToString(percentile,1,0);
+            g_game->Print22(g_game->GetBackBuffer(), x1+10, y1+5, s, skilltextcolor);
 
             //engineering bar
-			percentile = selected_officer->attributes.getEngineering(); percentile /= 250;
-			masked_blit(img_engineer_bar, g_game->GetBackBuffer(), 0, 0, x, 177, img_engineer_bar->w * percentile, img_engineer_bar->h);
-            g_game->Print22(g_game->GetBackBuffer(), x + 10, 177 + 2, "engineering skill", BLACK);
+			percentile = selected_officer->attributes.getEngineering(); 
+            //percentile /= 250;
+            y1 += stepy;
+			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x1, y1, img_engineer_bar->w * percentile/250, img_engineer_bar->h);
+            s = "ENG SKILL: " + Util::ToString(percentile,1,0);
+            g_game->Print22(g_game->GetBackBuffer(), x1+10, y1+5, s, skilltextcolor);
 
             //communications bar
-			percentile = selected_officer->attributes.getCommunication(); percentile /= 250;
-			masked_blit(img_comm_bar, g_game->GetBackBuffer(), 0, 0, x, 221, img_comm_bar->w * percentile, img_comm_bar->h);
-            g_game->Print22(g_game->GetBackBuffer(), x + 10, 221 + 2, "communications skill", BLACK);
+			percentile = selected_officer->attributes.getCommunication(); 
+            //percentile /= 250;
+            y1 += stepy;
+			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x1, y1, img_comm_bar->w * percentile/250, img_comm_bar->h);
+            s = "COM SKILL: " + Util::ToString(percentile,1,0);
+            g_game->Print22(g_game->GetBackBuffer(), x1+10, y1+5, s, skilltextcolor);
 
             //medical bar
-			percentile = selected_officer->attributes.getMedical(); percentile /= 250;
-			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x, 266, img_medical_bar->w * percentile, img_medical_bar->h);
-            g_game->Print22(g_game->GetBackBuffer(), x + 10, 266 + 2, "medical skill", BLACK);
+			percentile = selected_officer->attributes.getMedical(); 
+            //percentile /= 250;
+            y1 += stepy;
+			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x1, y1, img_medical_bar->w * percentile/250, img_medical_bar->h);
+            s = "MED SKILL: " + Util::ToString(percentile,1,0);
+            g_game->Print22(g_game->GetBackBuffer(), x1+10, y1+5, s, skilltextcolor);
 
             //tactical bar
-			percentile = selected_officer->attributes.getTactics(); percentile /= 250;
-			masked_blit(img_tac_bar, g_game->GetBackBuffer(), 0, 0, x, 311, img_tac_bar->w * percentile, img_tac_bar->h);
-            g_game->Print22(g_game->GetBackBuffer(), x + 10, 311 + 2, "tactical skill", BLACK);
+			percentile = selected_officer->attributes.getTactics(); 
+            //percentile /= 250;
+            y1 += stepy;
+			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x1, y1, img_tac_bar->w * percentile/250, img_tac_bar->h);
+            s = "TAC SKILL: " + Util::ToString(percentile,1,0);
+            g_game->Print22(g_game->GetBackBuffer(), x1+10, y1+5, s, skilltextcolor);
 
             //learning rate bar
-			percentile = selected_officer->attributes.getLearnRate(); percentile /= 65;
-			masked_blit(img_learn_bar, g_game->GetBackBuffer(), 0, 0, x, 357, img_learn_bar->w * percentile, img_learn_bar->h);
-            g_game->Print22(g_game->GetBackBuffer(), x + 10, 357 + 2, "learning", BLACK);
+			percentile = selected_officer->attributes.getLearnRate(); 
+            //percentile /= 65;
+            y1 += stepy;
+			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x1, y1, img_learn_bar->w * percentile/65, img_learn_bar->h);
+            s = "LEARNING: " + Util::ToString(percentile,1,0);
+            g_game->Print22(g_game->GetBackBuffer(), x1+10, y1+5, s, skilltextcolor);
 
             //durability
-			percentile = selected_officer->attributes.getDurability(); percentile /= 65;
-			masked_blit(img_dur_bar, g_game->GetBackBuffer(), 0, 0, x, 401, img_dur_bar->w * percentile, img_dur_bar->h);
-            g_game->Print22(g_game->GetBackBuffer(), x + 10, 401 + 2, "durability", BLACK);
+			percentile = selected_officer->attributes.getDurability(); 
+            //percentile /= 65;
+            y1 += stepy;
+			masked_blit(img_medical_bar, g_game->GetBackBuffer(), 0, 0, x1, y1, img_dur_bar->w * percentile/65, img_dur_bar->h);
+            s = "DURABILITY: " + Util::ToString(percentile,1,0);
+            g_game->Print22(g_game->GetBackBuffer(), x1+10, y1+5, s, skilltextcolor);
 		}
 	}
-#pragma endregion
-	if(viewer_active)
+
+
+    //MOVE THE SLIDING PANELS
+    if(viewer_active)
     {
 		if(right_offset > RIGHT_TARGET_OFFSET)
         {
 			right_offset -= VIEWER_MOVE_RATE;
 		}
-		if(b_examine == true){
-			if(left_offset < 0){
+		if(b_examine == true)
+        {
+            //view crew stats
+			if(left_offset < 0)
+            {
 				left_offset += VIEWER_MOVE_RATE;
 			}
 			if(left_offset2 > -LEFT_TARGET_OFFSET)
@@ -904,7 +988,9 @@ void ModuleMedical::Draw()
 				left_offset2 -= VIEWER_MOVE_RATE;
 			}
 		}else{
-			if(left_offset2 < 0){
+            //treat crew injuries
+			if(left_offset2 < 0)
+            {
 				left_offset2 += VIEWER_MOVE_RATE;
 			}
 			if(left_offset > -LEFT_TARGET_OFFSET)
