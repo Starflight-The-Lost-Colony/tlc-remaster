@@ -128,7 +128,7 @@ bool ModuleCaptainsLounge::Init()
     m_background=NULL;
     m_background = (BITMAP*)load_bitmap("data/captainslounge/captainslounge_background.bmp",NULL);
 	if (m_background == NULL) {
-		TRACE("Error loading captainslounge_background.bmp");
+		debug << "Error loading captainslounge_background.bmp" << endl;
 		return false;
 	}
 
@@ -344,10 +344,10 @@ void ModuleCaptainsLounge::Close()
 		cldata = NULL;
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in CaptainsLounge::Close\n");
+		debug << "Unhandled exception in CaptainsLounge::Close" << endl;
 	}
 
 

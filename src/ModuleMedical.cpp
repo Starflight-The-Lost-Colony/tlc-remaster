@@ -289,7 +289,7 @@ void ModuleMedical::OnEvent(Event *event)
 
 bool ModuleMedical::Init()
 {
-	TRACE("  ModuleMedical::Init()\n");
+	debug << "  ModuleMedical::Init" << endl;
 
 	b_examine = false;
 	selected_officer = NULL;
@@ -312,7 +312,7 @@ bool ModuleMedical::Init()
     //CREW LIST VIEWER (right side)
 	img_crewlist_viewer = load_bitmap("data/medical/gui_viewer_right.bmp",NULL);
 	if (!img_crewlist_viewer) {
-		TRACE("Medical: Error loading gui_viewer_right image");
+		debug << "Medical: Error loading gui_viewer_right image" << endl;
 		return false;
 	}
 
@@ -520,10 +520,10 @@ void ModuleMedical::Close()
 
 	}
 	catch (std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in ModuleMedical::Close\n");
+		debug << "Unhandled exception in ModuleMedical::Close" << endl;
 	}
 }
 

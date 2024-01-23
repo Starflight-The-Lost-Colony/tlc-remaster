@@ -1,6 +1,7 @@
 #include "env.h"			//for TRACE
 #include "AudioSystem.h"
 #include <fmod_errors.h>    //for FMOD_ErrorString()
+using namespace std;
 
 Sample::Sample():
 	name(""),
@@ -82,7 +83,7 @@ void Sample::SetPaused(bool doPause)
 
 	FMOD_RESULT res = FMOD_Channel_SetPaused(channel, paused);
 	if(res != FMOD_OK)
-		TRACE("Audiosystem: FMOD_Channel_SetPaused return value was not FMOD_OK but %d\n", res);
+		debug << "Audiosystem: FMOD_Channel_SetPaused return value was not FMOD_OK but " << res << endl;
 }
 
 AudioSystem::AudioSystem(void)
@@ -110,7 +111,7 @@ bool AudioSystem::Init()
 
 	result = FMOD_System_Create(&system);
 	if (result != FMOD_OK) {
-		TRACE("AudioSystem::Init\tFMOD_System_Create issue. (%d) %s\n", result, FMOD_ErrorString(result));
+		debug << "AudioSystem::Init\tFMOD_System_Create issue. (" << result << ") " << FMOD_ErrorString(result) << endl;
 		return false;
 	}
 
@@ -118,7 +119,7 @@ bool AudioSystem::Init()
 	if (!bPlay) {
 		result = FMOD_System_SetOutput(system, FMOD_OUTPUTTYPE_NOSOUND);
 		if (result != FMOD_OK) { 
-			TRACE("AudioSystem::Init\tUnable to set output mode to FMOD_OUTPUTTYPE_NOSOUND (%d) %s\n", result, FMOD_ErrorString(result));
+			debug << "AudioSystem::Init\tUnable to set output mode to FMOD_OUTPUTTYPE_NOSOUND (" << result << ") " << FMOD_ErrorString(result) << endl;
 			return false;
 		}
 	}
@@ -126,22 +127,22 @@ bool AudioSystem::Init()
 
 	result = FMOD_System_Init(system,100,FMOD_INIT_NORMAL,NULL);
 	if (result != FMOD_OK) {
-		TRACE("AudioSystem::Init\tFMOD_System_Init issue. (%d) %s\n", result, FMOD_ErrorString(result));
+		debug << "AudioSystem::Init\tFMOD_System_Init issue. (" << result << ") " << FMOD_ErrorString(result) << endl;
 
 		//Trying again with sound disabled, unless we already tried that as a result of global settings
 		if(!bPlay) return false;
 		
-		TRACE("AudioSystem::Init\tTrying again with sound disabled\n");
+		debug << "AudioSystem::Init: Trying again with sound disabled..." << endl;
 
 		result = FMOD_System_SetOutput(system, FMOD_OUTPUTTYPE_NOSOUND);
 		if (result != FMOD_OK) { 
-			TRACE("AudioSystem::Init\tUnable to set output mode to FMOD_OUTPUTTYPE_NOSOUND (%d) %s\n", result, FMOD_ErrorString(result));
+			debug << "AudioSystem::Init: Unable to set output mode to FMOD_OUTPUTTYPE_NOSOUND (" << result << ") " << FMOD_ErrorString(result) << endl;
 			return false;
 		}
 
 		result = FMOD_System_Init(system,100,FMOD_INIT_NORMAL,NULL);
 		if (result != FMOD_OK) {
-			TRACE("AudioSystem::Init\tUnable to initialize FMOD, even in FMOD_OUTPUTTYPE_NOSOUND mode. (%d) %s\n", result, FMOD_ErrorString(result));
+			debug << "AudioSystem::Init: Unable to initialize FMOD, even in FMOD_OUTPUTTYPE_NOSOUND mode. (" << result << ") " << FMOD_ErrorString(result) << endl;
 			return false;
 		}
 	}
@@ -188,11 +189,11 @@ bool AudioSystem::Load(std::string filename, std::string name, float volume)
 	try {
 		FMOD_RESULT res = FMOD_System_CreateSound(system, filename.c_str(), FMOD_DEFAULT, NULL, &sample->sample);
 		if (res != FMOD_OK) {
-			TRACE("AudioSystem::Load\tCould not load %s, string %s\n", filename.c_str(), name.c_str());
+			debug << "AudioSystem::Load: Could not load " << filename << ", string " << name << endl;
 			return false;
 		}
 	} catch (...) {
-		TRACE("AudioSystem::Load\tCould not load %s, string %s\n", filename.c_str(), name.c_str());
+		debug << "AudioSystem::Load: Could not load " << filename << ", string " << name << endl;
 		return false;
 	}
 	ASSERT(sample);
@@ -239,22 +240,22 @@ bool AudioSystem::IsPlaying(std::string name)
 /*
 	Sample *samp = FindSample(name);
 	if (samp == NULL){
-		TRACE("IsPlaying: samp was NULL for sample %s\n", name.c_str());
+		debug << "IsPlaying: samp was NULL for sample %s\n", name.c_str());
 		return false;
 	}
     if (samp->sample == NULL){
-		TRACE("IsPlaying: samp->sample was NULL for sample %s\n", name.c_str());
+		debug << "IsPlaying: samp->sample was NULL for sample %s\n", name.c_str());
 		return false;
 	}
     if (samp->channel == NULL){
-		TRACE("IsPlaying: samp->channel was NULL for sample %s\n", name.c_str());
+		debug << "IsPlaying: samp->channel was NULL for sample %s\n", name.c_str());
 		return false;
 	}
 
 	bool playing = false;
 	FMOD_RESULT res= FMOD_Channel_IsPlaying(samp->channel, (FMOD_BOOL *) &playing);
 	if (res != FMOD_OK)
-		TRACE("IsPlaying: FMOD_Channel_IsPlaying return value was not FMOD_OK but %d\n", res);
+		debug << "IsPlaying: FMOD_Channel_IsPlaying return value was not FMOD_OK but %d\n", res);
 	
 	return playing;
 */
@@ -292,7 +293,7 @@ bool AudioSystem::Play(std::string name, bool doLoop)
 
 	Sample *sample = FindSample(name);
 	if (sample == NULL || sample->sample == NULL){
-		TRACE("AudioSystem::Play\tCould not play %s: no such sample\n", name.c_str());
+		debug << "AudioSystem::Play: Could not play " << name << ": no such sample" << endl;
 		return false;
 	}
 
@@ -307,7 +308,7 @@ bool AudioSystem::Play(std::string name, bool doLoop)
 		sample->SetPaused(false);
 
 	} catch (...) {
-		TRACE("AudioSystem::Play\tCould not play %s\n", name.c_str());
+		debug << "AudioSystem::Play: Could not play " << name << endl;
 		return false;
 	}
 
@@ -320,7 +321,7 @@ bool AudioSystem::Play(Sample *sample, bool doLoop)
 	if (!bPlay) return true;
 
 	if (sample == NULL || sample->sample == NULL){
-		TRACE("AudioSystem::Play\tCannot play NULL sample\n");
+		debug << "AudioSystem::Play: Cannot play NULL sample" << endl;
 		return false;
 	}
 
@@ -334,7 +335,7 @@ bool AudioSystem::Play(Sample *sample, bool doLoop)
 		sample->SetPaused(false);
 
 	} catch (...) {
-		TRACE("AudioSystem::Play\tCould not play 0x%p\n", (void *) sample);
+		debug << "AudioSystem::Play: Could not play sample" << endl;
 		return false;
 	}
 
@@ -355,7 +356,7 @@ void AudioSystem::PauseMusic(std::string name)
 {
 	Sample *sample = FindSample(name);
 	if (sample == NULL || sample->sample == NULL || sample->channel == NULL){
-		TRACE("AudioSystem::PauseMusic\tCould not pause %s", name.c_str());
+		debug << "AudioSystem::PauseMusic: Could not pause " << name << endl;
 		return;
 	}
 
@@ -366,7 +367,7 @@ void AudioSystem::UnpauseMusic(std::string name)
 {
 	Sample *sample = FindSample(name);
 	if (sample == NULL || sample->sample == NULL || sample->channel == NULL){
-		TRACE("AudioSystem::UnpauseMusic\tCould not unpause %s", name.c_str());
+		debug << "AudioSystem::UnpauseMusic: Could not unpause " << name << endl;
 		return;
 	}
 

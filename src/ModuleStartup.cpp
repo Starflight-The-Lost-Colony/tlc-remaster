@@ -17,6 +17,7 @@
 #include "Util.h"
 #include "ModuleStartup.h"
 #include <string>
+using namespace std;
 
 void showOpeningStory(int page);
 int storypage = 0;
@@ -72,10 +73,10 @@ void ModuleStartup::Close()
         }
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in Startup::Close\n");
+		debug << "Unhandled exception in Startup::Close" << endl;
 	}
 }
 

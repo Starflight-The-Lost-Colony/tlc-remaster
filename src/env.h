@@ -10,7 +10,6 @@
 
 
 //Allegro looks for this define when compiling ASSERTs
-//#define DEBUGMODE 1
 #define ALLEGRO_ASSERT 1
 #define MSVC10_DEBUG 1
 

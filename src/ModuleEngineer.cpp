@@ -16,6 +16,7 @@
 #include "DataMgr.h"
 #include "Script.h"
 #include "ModeMgr.h"
+using namespace std;
 
 //bar 1 = Lasers
 //bar 2 = Missiles
@@ -70,7 +71,7 @@ ModuleEngineer::~ModuleEngineer()
 
 bool ModuleEngineer::Init()
 {
-	TRACE("  ModuleEngineer Initialize\n");
+	debug << "  ModuleEngineer Initialize" << endl;
 
 	module_active = false;
 
@@ -187,10 +188,10 @@ void ModuleEngineer::Close()
 		}
 	}
 	catch (std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in ModuleEngineer::Close\n");
+		debug << "Unhandled exception in ModuleEngineer::Close" << endl;
 	}
 }
 
@@ -203,11 +204,11 @@ bool ModuleEngineer::useMineral(Ship &ship){
 	ShipPart repairing = ship.partInRepair;
 
 	if ( repairing == PART_NONE ){
-		TRACE("engineer: [ERROR] useMineral() was called while no repair were in progress\n");
+		debug << "engineer: [ERROR] useMineral() was called while no repair were in progress" << endl;
 		return false;
 	}
 
-	//TRACE("useMineral: system=%d, counter=%d, mineral=%d\n",
+	//debug << "useMineral: system=%d, counter=%d, mineral=%d\n",
 	//		repairing-1, ship.repairCounters[repairing-1], ship.neededMinerals[repairing-1]);
 	
 	//we do up to MAX_REPAIR_COUNT (defined as 3 in GameState.h) repair iterations before consuming one mineral

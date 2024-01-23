@@ -593,7 +593,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 #pragma region INIT_CLOSE
 void ModulePlanetSurface::Close()
 {
-	TRACE("PlanetSurface Destroy\n");
+	debug << "PlanetSurface Destroy" << endl;
 
 	try {
 
@@ -697,10 +697,10 @@ void ModulePlanetSurface::Close()
 			g_game->audioSystem->Stop("mining");
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in PlanetSurface::Close\n");
+		debug << "Unhandled exception in PlanetSurface::Close" << endl;
 	}
 }
 
@@ -710,7 +710,7 @@ bool ModulePlanetSurface::Init()
 {
 	g_game->SetTimePaused(false);	//game-time normal in this module.
 
-	TRACE("  PlanetSurface Initialize\n");
+	debug << "  PlanetSurface Initialize" << endl;
 
 
 	//enable the Pause Menu
@@ -765,70 +765,70 @@ bool ModulePlanetSurface::Init()
 	//load the sound effects
 	if (!g_game->audioSystem->SampleExists("TVmove")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/TVmove.wav","TVmove",0.3)) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/TVmove.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/TVmove.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file scanning.wav");
 			//return false;
 		}
 	}
 	if (!g_game->audioSystem->SampleExists("damagedTV")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/damagedTV.wav","damagedTV",0.3)) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/damagedTV.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/damagedTV.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file scanning.wav");
 			//return false;
 		}
 	}
 	if (!g_game->audioSystem->SampleExists("scanning")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/scanning.wav","scanning")) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/scanning.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/scanning.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file scanning.wav");
 			//return false;
 		}
 	}
 	if (!g_game->audioSystem->SampleExists("pickuplifeform")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/pickuplifeform.wav","pickuplifeform")) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/pickuplifeform.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/pickuplifeform.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file pickuplifeform.wav");
 			//return false;
 		}
 	}
 	if (!g_game->audioSystem->SampleExists("mining")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/mining.wav","mining")) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/mining.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/mining.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file mining.wav");
 			//return false;
 		}
 	}
 	if (!g_game->audioSystem->SampleExists("stunner")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/stunner.wav","stunner")) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/stunner.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/stunner.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file stunner.wav");
 			//return false;
 		}
 	}
 	if (!g_game->audioSystem->SampleExists("launchtv")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/launchtv.wav","launchtv")) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/launchtv.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/launchtv.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file launchtv.wav");
 			//return false;
 		}
 	}
 	if (!g_game->audioSystem->SampleExists("dockingtv")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/dockingtv.wav","dockingtv")) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/dockingtv.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/dockingtv.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file dockingtv.wav");
 			//return false;
 		}
 	}
 	if (!g_game->audioSystem->SampleExists("lifeformattack")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/lifeformattack.wav","lifeformattack")) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/lifeformattack.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/lifeformattack.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file lifeformattack.wav");
 			//return false;
 		}
 	}
 	if (!g_game->audioSystem->SampleExists("lifeformkilled")) {
 		if (!g_game->audioSystem->Load("data/planetsurface/lifeformkilled.wav","lifeformkilled")) {
-			TRACE("PlanetSurface: Error loading data/planetsurface/lifeformkilled.wav\n");
+			debug << "PlanetSurface: Error loading data/planetsurface/lifeformkilled.wav" << endl;
 			//g_game->message("PlanetSurface: Error loading audio file lifeformkilled.wav");
 			//return false;
 		}
@@ -2346,10 +2346,7 @@ int L_Debug(lua_State* luaVM)
 {
 	std::string text = lua_tostring(luaVM, -1);
 	lua_pop(luaVM, 1);	
-
-	//cout << "LUA DEBUG: " << text << endl;
-	TRACE( text.append("\n").c_str() );
-
+	debug << text << endl;
 	return 0;
 }
 
@@ -3704,7 +3701,7 @@ int L_PlaySound(lua_State* luaVM)
 	if (g_game->audioSystem->SampleExists(sample))
 		g_game->audioSystem->Play(sample);
 	else
-		TRACE("L_PlaySound: [ERROR] sample %s was not previously loaded\n", sample.c_str());
+		debug << "L_PlaySound: [ERROR] sample " << sample << " was not previously loaded" << endl;
 	lua_pop(luaVM, 1);
 
 	return 0;
@@ -3717,7 +3714,7 @@ int L_PlayLoopingSound(lua_State* luaVM)
 	if (g_game->audioSystem->SampleExists(sample))
 		g_game->audioSystem->Play(sample, true);
 	else
-		TRACE("L_PlayLoopingSound: [ERROR] sample %s was not previously loaded\n", sample.c_str());
+		debug << "L_PlayLoopingSound: [ERROR] sample " << sample << " was not previously loaded" << endl;
 	lua_pop(luaVM, 1);
 
 	return 0;
@@ -3730,7 +3727,7 @@ int L_StopSound(lua_State* luaVM)
 	if (g_game->audioSystem->SampleExists(sample))
 		g_game->audioSystem->Stop(sample);
 	else
-		TRACE("L_StopSound: [ERROR] sample %s was not previously loaded\n", sample.c_str());
+		debug << "L_StopSound: [ERROR] sample " << sample << " was not previously loaded" << endl;
 	lua_pop(luaVM, 1);
 
 	return 0;

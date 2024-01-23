@@ -5,10 +5,11 @@
 	Date:
 */
 
-#include <iostream>
 #include "env.h"
 #include <allegro.h>
 #include "Game.h"
+#include "LogFile.h"
+
 
 //global engine object
 Game *g_game;

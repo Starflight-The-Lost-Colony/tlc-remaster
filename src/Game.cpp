@@ -13,6 +13,7 @@
 #include <memory.h>
 #include <cstdio>
 #include <sstream>
+#include "LogFile.h"
 
 #include "Game.h"
 #include "GameState.h"
@@ -62,6 +63,12 @@ AudioSystem *Game::audioSystem = NULL;
 QuestMgr	*Game::questMgr = NULL;
 
 #pragma endregion
+
+
+void trace(std::string t)
+{
+    debug << t << std::endl;
+}
 
 Game::Game()
 {
@@ -159,7 +166,7 @@ void Game::message(std::string msg)
 void Game::fatalerror(std::string error)
 {
 	try {
-		TRACE(error.c_str());
+		debug << error << endl;
 		message(error);
 		g_game->modeMgr->CloseCurrentModule();
 		this->Stop();
@@ -173,7 +180,7 @@ void Game::fatalerror(std::string error)
 void Game::shutdown()
 {
 	try {
-		TRACE("[shutting down]");
+		debug << "[shutting down]" << endl;
 		g_game->modeMgr->CloseCurrentModule();
 		this->Stop();
 	}
@@ -297,6 +304,9 @@ int voidfunc(lua_State* L) { return 0; }
 
 bool ValidateScripts()
 {
+	string error,filename,linenum,message;
+	int pos,n;
+
 	const int PLANETFUNCS = 103;
 	string planet_funcnames[PLANETFUNCS] = {
 		"L_Debug",
@@ -420,61 +430,7 @@ bool ValidateScripts()
 		"data/planetsurface/artifact.lua",
 	};
 
-
-	const int ENCFUNCS = 3;
-	string enc_funcnames[ENCFUNCS] = {
-		"L_Debug",
-		"L_Terminate",
-		"L_Attack",
-	};
-
-	const int ENCNUM = 12;
-	string encounterScripts[ENCNUM] = {
-		"data/globals.lua",
-		"data/quests.lua",
-		"data/encounter/encounter_common.lua",
-		"data/encounter/encounter_pirate.lua",
-		"data/encounter/encounter_spemin.lua",
-		"data/encounter/encounter_tafel.lua",
-		"data/encounter/encounter_thrynn.lua",
-		"data/encounter/encounter_nyssian.lua",
-		"data/encounter/encounter_minex.lua",
-		"data/encounter/encounter_elowan.lua",
-		"data/encounter/encounter_coalition.lua",
-		"data/encounter/encounter_barzhon.lua"
-	};
-
-	string error,filename,linenum,message;
-	int pos,n;
-
-	//validate global and encounter scripts
-	Script *scr;
-	for (n=0; n < ENCNUM; n++)
-	{
-		scr = new Script();
-
-		//register all required C++ functions needed by encounter scripts
-		for (int f=0; f < ENCFUNCS; f++)
-			lua_register(scr->getState(), enc_funcnames[f].c_str(), voidfunc);
-		
-		if (!scr->load(encounterScripts[n]))
-		{
-			error = scr->errorMessage;
-			pos = (int)error.find(":");
-			filename = error.substr(0, pos);
-			error = error.substr(pos+1);
-			pos = (int)error.find(":");
-			linenum = error.substr(0,pos);
-			message = error.substr(pos+1);
-			error = "Filename: " + encounterScripts[n] + "\n\nLine #: " + linenum + "\n\nError: " + filename + "\n" + message;
-			TRACE( error.c_str() );
-			//MessageBox(0, error.c_str(), "SCRIPT ERROR", 0);
-            TRACE("SCRIPT ERROR");
-			delete scr;
-			return false;
-		}
-		delete scr;
-	}
+    debug << "Validating planet scripts..." << endl;
 
 	//validate planet surface scripts
 	Script *planetScript;
@@ -505,16 +461,70 @@ bool ValidateScripts()
 			linenum = error.substr(0,pos);
 			message = error.substr(pos+1);
 			error = "Filename: " + planetScripts[n] + "\n\nLine #: " + linenum + "\n\nError: " + filename + "\n" + message;
-			TRACE( error.c_str() );
-			//MessageBox(0, error.c_str(), "SCRIPT ERROR", 0);
-            TRACE("SCRIPT ERROR");
+            debug << "SCRIPT ERROR" << endl;
+			debug <<  error << endl;
 			delete planetScript;
 			return false;
 		}
 		delete planetScript;
 	}
+
+
+	const int ENCFUNCS = 3;
+	string enc_funcnames[ENCFUNCS] = {
+		"L_Debug",
+		"L_Terminate",
+		"L_Attack",
+	};
+
+	const int ENCNUM = 12;
+	string encounterScripts[ENCNUM] = {
+		"data/globals.lua",
+		"data/quests.lua",
+		"data/encounter/encounter_common.lua",
+		"data/encounter/encounter_pirate.lua",
+		"data/encounter/encounter_spemin.lua",
+		"data/encounter/encounter_tafel.lua",
+		"data/encounter/encounter_thrynn.lua",
+		"data/encounter/encounter_nyssian.lua",
+		"data/encounter/encounter_minex.lua",
+		"data/encounter/encounter_elowan.lua",
+		"data/encounter/encounter_coalition.lua",
+		"data/encounter/encounter_barzhon.lua"
+	};
+
+    debug << "Validating encounter scripts..." << endl;
+
+	//validate global and encounter scripts
+	Script *scr;
+	for (n=0; n < ENCNUM; n++)
+	{
+		scr = new Script();
+
+		//register all required C++ functions needed by encounter scripts
+		for (int f=0; f < ENCFUNCS; f++)
+			lua_register(scr->getState(), enc_funcnames[f].c_str(), voidfunc);
+		
+		if (!scr->load(encounterScripts[n]))
+		{
+			error = scr->errorMessage;
+			pos = (int)error.find(":");
+			filename = error.substr(0, pos);
+			error = error.substr(pos+1);
+			pos = (int)error.find(":");
+			linenum = error.substr(0,pos);
+			message = error.substr(pos+1);
+			error = "Filename: " + encounterScripts[n] + "\n\nLine #: " + linenum + "\n\nError: " + filename + "\n" + message;
+            debug << "SCRIPT ERROR" << endl;
+			debug << error << endl;
+			delete scr;
+			return false;
+		}
+		delete scr;
+	}
 	return true;
 }
+
 /*
    verify that the portraits for all the items in the database do exist + log the missing ones in allegro.log
    return true if all files where found, false if there was at least one file missing.
@@ -544,6 +554,9 @@ bool ValidatePortraits()
 		"data/planetsurface/PopRockyPlanet.lua" };
 	for (int n=0; n<6; n++) script.load(PopScripts[n]);
 */
+
+    debug << "Validating portraits..." << endl;
+
 	for (int n=0; n<g_game->dataMgr->GetNumItems(); n++){
 		Item *item = g_game->dataMgr->GetItem(n);
 		std::string filepath;
@@ -551,7 +564,7 @@ bool ValidatePortraits()
 		switch(item->itemType){
 			case IT_INVALID:{
 				//this one is not supposed to ever happen
-				TRACE("[ERROR]: item #%d is of invalid type\n", item->id);
+				debug << "[ERROR]: item #" << item->id << " is of invalid type" << endl;
 				ASSERT(0);
 			}
 			case IT_ARTIFACT:{
@@ -584,14 +597,14 @@ bool ValidatePortraits()
 			}
 			default:{
 				//not supposed to happen either
-				TRACE("[ERROR]: item #%d is of unknown type\n", item->id);
+				debug << "[ERROR]: item # is of unknown type: " << item->id << endl;
 				ASSERT(0);
 				break;
 			}
 		}
 
 		if ( doCheck && !file_exists(filepath.c_str(),FA_ALL,NULL) ){
-			TRACE("[WARNING]: portrait %s for item #%d does not exist\n", filepath.c_str(), item->id);
+            debug << "[WARNING]: portrait " << filepath << " for item # does not exist: " << item->id << endl;
 			retval=false;
 		}
 	}
@@ -605,30 +618,31 @@ bool ValidatePortraits()
 void Game::Run()
 {
 	//validate scripts
-	TRACE("Validating Lua scripts...\n");
+	debug << "Validating Lua scripts..." << endl;
 	if (!ValidateScripts()) {
+        debug << "Fatal error: script validation failed" << endl;
 		return;
 	}
 
 
 	//initialize scripting and load globals.lua
-	TRACE("Loading startup script...\n");
+	debug << "Loading startup script..." << endl;
 	globals = new Script();
 	globals->load("data/globals.lua");
 
-	TRACE("Initializing game...\n");
+	debug << "Initializing game..." << endl;
 	if (!InitGame()) {
 		fatalerror("Error during game initialization\n");
 		return;
 	}
 
-	TRACE("Firing up game state...\n");
+	debug << "Firing up game state..." << endl;
 	gameState = new GameState();
 
-	TRACE("Firing up mode manager...\n");
+	debug << "Firing up mode manager..." << endl;
 	modeMgr = new ModeMgr(this);
 
-	TRACE("Firing up data manager...\n");
+	debug << "Firing up data manager..." << endl;
 	dataMgr = new DataMgr();
 	if (!dataMgr->Initialize()) {
 		fatalerror("Error initializing data manager");
@@ -640,13 +654,13 @@ void Game::Run()
 	//initialize gamestate
 	gameState->Reset();
 
-	TRACE("Firing up quest manager...\n");
+	debug << "Firing up quest manager..." << endl;
 	questMgr = new QuestMgr();
 	if (!questMgr->Initialize()) {
 		fatalerror("Error initializing quest manager");
 	}
 
-	TRACE("Initializing modules...\n");
+	debug << "Initializing modules..." << endl;
 	InitializeModules();
 	gameState->m_captainSelected = false;
 
@@ -657,7 +671,7 @@ void Game::Run()
 	std::string startupmodule;
 	startupmodule = globals->getGlobalString("STARTUPMODULE");
 	if (startupmodule.length() == 0) startupmodule = MODULE_STARTUP;
-	TRACE("\nLaunching Startup Module: %s\n", startupmodule.c_str());
+	debug << "\nLaunching Startup Module: " << startupmodule << endl;
 	modeMgr->LoadModule(startupmodule);
 
 	//set window caption with title, version
@@ -666,7 +680,7 @@ void Game::Run()
 	set_window_title(s.str().c_str());
 
 
-	TRACE("\nLaunching game loop...\n");
+	debug << "\nLaunching game loop..." << endl;
 	while (m_keepRunning)
 	{
 		try {
@@ -674,11 +688,11 @@ void Game::Run()
 		}
 		catch(std::exception e)
 		{
-			TRACE(e.what());
+			debug << e.what() << endl;
 		}
 	}
 
-	TRACE("\nBailing...\n");
+	debug << "\nBailing..." << endl;
 	DestroyGame();
 }
 
@@ -700,16 +714,16 @@ bool Game::Initialize_Graphics()
     if (desktop_width == 0)
     {
         get_desktop_resolution(&desktop_width, &desktop_height);
-        TRACE("Desktop resolution: %d x %d\n", desktop_width, desktop_height);
+        debug << "Desktop resolution: " << desktop_width << " x " << desktop_height << endl;
 
         //this will probably be used regardless of resolution settings
         desktop_colordepth = desktop_color_depth();
 	    set_color_depth(desktop_colordepth);
 	    set_alpha_blender();
-        TRACE("Desktop color depth: %d\n", desktop_colordepth);
+        debug << "Desktop color depth: " << desktop_colordepth << endl;
     }
     else
-        TRACE("Attempting to reset graphics mode...\n");
+        debug << "Attempting to reset graphics mode..." << endl;
 
     //try to get user-selected resolution chosen in the settings screen
     //format will be: resolution = "1024x768" or "1024 x 768";
@@ -734,7 +748,7 @@ bool Game::Initialize_Graphics()
             actual_height = desktop_height;
         }
     }
-    TRACE("Settings resolution: %d,%d\n", actual_width, actual_height);
+    debug << "Settings resolution: " << actual_width << "," << actual_height << endl;
 
     //try to get user-selected fullscreen toggle from settings screen
     bool fullscreen = g_game->getGlobalBoolean("FULLSCREEN");
@@ -752,16 +766,16 @@ bool Game::Initialize_Graphics()
     //try to set graphics mode
 	if (set_gfx_mode(gfxmode, actual_width, actual_height, 0, 0) != 0)
 	{
-        TRACE("Video mode failed (%s), attempting default mode...\n", resolution);
+        debug << "Video mode failed (" << resolution << "), attempting default mode..." << endl;
         actual_width = SCREEN_WIDTH;
         actual_height = SCREEN_HEIGHT;
         if (set_gfx_mode(gfxmode, actual_width, actual_height, 0, 0) != 0)
         {
-            TRACE("Fatal Error: Unable to set graphics mode\n");
+            debug << "Fatal Error: Unable to set graphics mode" << endl;
             return false;
         }
 	}
-    TRACE("Refresh rate: %d\n", get_refresh_rate());
+    debug << "Refresh rate: " << get_refresh_rate() << endl;
 
 
     //
@@ -772,14 +786,14 @@ bool Game::Initialize_Graphics()
     //
     if (m_backbuffer) 
     {
-        TRACE("Destroying old backbuffer (%d,%d)...\n", m_backbuffer->w, m_backbuffer->h);
+        debug << "Destroying old backbuffer " << m_backbuffer->w << "," << m_backbuffer->h << "..." << endl;
         destroy_bitmap(m_backbuffer);
         m_backbuffer = NULL;
     }
-    TRACE("Creating back buffer (%d,%d)...\n", SCREEN_WIDTH, SCREEN_HEIGHT);
+    debug << "Creating back buffer " << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "..." << endl;
 	m_backbuffer = create_bitmap(SCREEN_WIDTH,SCREEN_HEIGHT);
 	if (!m_backbuffer) {
-        TRACE("Error creating back buffer\n");
+        debug << "Error creating back buffer" << endl;
         return false;
     }
     
@@ -809,10 +823,10 @@ bool Game::Initialize_Graphics()
         }
         destroy_gfx_mode_list(list);
 
-        TRACE("Detected video modes:\n");
+        debug << "Detected video modes:" << endl;
         for (VideoModeIterator mode = videomodes.begin(); mode != videomodes.end(); ++mode)
 	    {
-            TRACE("%d,%d,%d\n", mode->bpp, mode->width, mode->height);
+            debug << mode->bpp << "," << mode->width << "," << mode->height << endl;
         }
     }
 
@@ -829,34 +843,34 @@ bool Game::InitGame()
 	//get title and version from script
 	p_title = getGlobalString("GAME_TITLE");
 	p_version = getGlobalString("GAME_VERSION");
-	TRACE("%s v%s\n", p_title.c_str(), p_version.c_str());
+	debug << p_title << " v" << p_version << endl;
 
-	TRACE("Firing up Allegro...\n");
+	debug << "Firing up Allegro..." << endl;
 	if (allegro_init() != 0) {
 		return false;
 	}
 
-	TRACE("Firing up Alfont...\n");
+	debug << "Firing up Alfont..." << endl;
 	if (alfont_init() != ALFONT_OK) {
 		g_game->message("Error initializing font system");
 		return false;
 	}
 
-	TRACE("Firing up graphics system...\n");
+	debug << "Firing up graphics system..." << endl;
     if (!Initialize_Graphics()) {
         g_game->fatalerror("Error initializing graphics\n");
         return false;
     }
 
-	TRACE("Firing up keyboard and mouse handlers...\n");
+	debug << "Firing up keyboard and mouse handlers..." << endl;
 	if (install_keyboard() != 0) {
-		g_game->message("Error initializing keyboard\n");
+		g_game->message("Error initializing keyboard");
 		return false;
 	}
 	memset(m_prevKeyState,0,256);
 	m_numMouseButtons = install_mouse();
 	if (m_numMouseButtons < 0) {
-		g_game->message("Error initializing mouse\n");
+		g_game->message("Error initializing mouse");
 		return false;
 	}
 	m_mouseButtons = new bool[m_numMouseButtons+1];
@@ -870,26 +884,26 @@ bool Game::InitGame()
 		m_mousePressedLocs[button].y = -1;
 	}
 
-	TRACE("Firing up timers...\n");
+	debug << "Firing up timers..." << endl;
 	if (install_timer() != 0) {
-		g_game->message("Error initializing timer system\n");
+		g_game->message("Error initializing timer system");
 		return false;
 	}
 
-	TRACE("Firing up sound system...\n");
+	debug << "Firing up sound system..." << endl;
 	audioSystem = new AudioSystem();
 	if (!audioSystem->Init()) {
-		g_game->message("Error initializing the sound system\n");
+		g_game->message("Error initializing the sound system");
 		return false;
 	}
 
 	//load up default fonts
     //string fontfile = "data/ORBITBN.TTF";
     string fontfile = "data/gui/Xolonium-Regular.ttf";
-	TRACE("Creating default fonts...\n");
+	debug << "Creating default fonts..." << endl;
 	font10 = alfont_load_font(fontfile.c_str());
 	if (font10 == NULL) {
-		g_game->message("Error locating font file\n");
+		g_game->message("Error locating font file");
 		return false;
 	}
 	font12 = alfont_load_font(fontfile.c_str());
@@ -911,13 +925,13 @@ bool Game::InitGame()
 	//hide the default mouse cursor
 	show_mouse(NULL);
 
-	TRACE("Initialization succeeded\n");
+	debug << "Initialization succeeded" << endl;
 	return true;
 }
 
 void Game::DestroyGame()
 {
-	TRACE("*** DestroyGame\n");
+	debug << "*** DestroyGame" << endl;
 
 	if (cursor != NULL)
 	{
@@ -984,7 +998,7 @@ void Game::DestroyGame()
 		m_mousePressedLocs = NULL;
 	}
 
-	TRACE("\nShutdown completed.\n");
+	debug << "\nShutdown completed." << endl;
 
 	allegro_exit();
 	alfont_exit();
@@ -1124,7 +1138,7 @@ void Game::RunGame()
 			cursor->draw(m_backbuffer); 
             
             //show mouse position
-            if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true) 
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true) 
             {
                 ostringstream oss(""); 
                 oss << mx << "," << my; 
@@ -1145,7 +1159,7 @@ void Game::RunGame()
 
 
     //display debug info on the upper-left corner of screen
-    if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true)
+    if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
     {
         int GRAY = makecol(160,160,160);
 		int y = 3;  int x = 3;
@@ -1178,8 +1192,6 @@ void Game::RunGame()
     //
 	//Copy back buffer to the screen 
     //Takes into account screen scaling.
-    //***restore vibration effect after testing resolution independence***
-    //blit( m_backbuffer, screen, 0, 0, v, v, m_backbuffer->w-v, m_backbuffer->h-v ); 
     //
     screen_scaling = (double)screen->h / (double)SCREEN_HEIGHT;
     scale_height = (int)( (double)m_backbuffer->h * screen_scaling );
@@ -1189,7 +1201,7 @@ void Game::RunGame()
     stretch_blit( m_backbuffer, screen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cx, 0, scale_width, scale_height );
 
 	//slow down!
-	//rest(1);
+	rest(1);
 }
 
 

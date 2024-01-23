@@ -16,7 +16,7 @@ static jmp_buf custom_lua_panic_jump;
 
 static int custom_lua_atpanic(lua_State *lua)
 {
-    TRACE("custom_lua_atpanic\n");
+    debug << "custom_lua_atpanic" << endl;
     longjmp(custom_lua_panic_jump, 1);
     return 0;
 }
@@ -43,7 +43,7 @@ bool Script::load(std::string scriptfile)
 		string luaError = lua_tostring(luaState, -1);
 		lua_pop(luaState, 1);
 		errorMessage = luaError.c_str();
-		TRACE("Script load error: return= %d, message= %s.\n", ret, errorMessage.c_str());
+		debug << "Script load error: return=" << ret << ", message=" << errorMessage << endl;
 		return false;
 	}
 
@@ -116,7 +116,7 @@ bool Script::runFunction(std::string name)
 	int result = lua_pcall(luaState, 0, 0, 0);
 	if (result != 0) {
 		luaError = lua_tostring(luaState, -1);
-		TRACE("Script run error:  Lua error message= %s\n", errorMessage.c_str());
+		debug << "Script run error: Lua error message=" << errorMessage << endl;
 		lua_pop(luaState, 1);
 		errorMessage = luaError;
 		return false;

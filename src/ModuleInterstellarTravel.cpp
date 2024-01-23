@@ -126,7 +126,7 @@ void ModuleInterstellarTravel::Draw()
 	//same mod in ModuleInterplanetaryTravel and some changes in PlayerShipSprite.  
 	g_game->CrossModuleAngle = ship->getRotationAngle();
 
-    if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true)
+    if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
     {
 	    //DEBUG CODE -- do not delete
 	    int y = 90;
@@ -196,52 +196,87 @@ void ModuleInterstellarTravel::OnKeyPressed(int keyCode){}
 
 void ModuleInterstellarTravel::OnKeyReleased(int keyCode)
 {
-	switch (keyCode) {
+    switch (keyCode) 
+    {
+		case FORCE_ENCOUNTER_PIRATE:    
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+                RollEncounter(ALIEN_PIRATE); 
+            }
+            break;
+		case FORCE_ENCOUNTER_ELOWAN:    
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+                RollEncounter(ALIEN_ELOWAN); 
+            }
+            break;
+		case FORCE_ENCOUNTER_SPEMIN:    
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+                RollEncounter(ALIEN_SPEMIN); 
+            }
+            break;
+		case FORCE_ENCOUNTER_THRYNN:    
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+                RollEncounter(ALIEN_THRYNN); 
+            }
+            break;
+		case FORCE_ENCOUNTER_BARZHON:   
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+                RollEncounter(ALIEN_BARZHON); 
+            }
+            break;
+		case FORCE_ENCOUNTER_NYSSIAN:   
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+                RollEncounter(ALIEN_NYSSIAN); 
+            }
+            break;
+		case FORCE_ENCOUNTER_TAFEL:     
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+                RollEncounter(ALIEN_TAFEL); 
+            }
+            break;
+		case FORCE_ENCOUNTER_MINEX:     
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+                RollEncounter(ALIEN_MINEX); 
+            }
+            break;
+		case FORCE_ENCOUNTER_COALITION: 
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+                RollEncounter(ALIEN_COALITION); 
+            }
+            break;
 
-#ifdef DEBUGMODE		
-        //test encounters:
-		case FORCE_ENCOUNTER_PIRATE:
-			RollEncounter(ALIEN_PIRATE); break;
-		case FORCE_ENCOUNTER_ELOWAN:
-			RollEncounter(ALIEN_ELOWAN); break;
-		case FORCE_ENCOUNTER_SPEMIN:
-			RollEncounter(ALIEN_SPEMIN); break;
-		case FORCE_ENCOUNTER_THRYNN:
-			RollEncounter(ALIEN_THRYNN); break;
-		case FORCE_ENCOUNTER_BARZHON:
-			RollEncounter(ALIEN_BARZHON); break;
-		case FORCE_ENCOUNTER_NYSSIAN:
-			RollEncounter(ALIEN_NYSSIAN); break;
-		case FORCE_ENCOUNTER_TAFEL:
-			RollEncounter(ALIEN_TAFEL); break;
-		case FORCE_ENCOUNTER_MINEX:
-			RollEncounter(ALIEN_MINEX); break;
-		case FORCE_ENCOUNTER_COALITION:
-			RollEncounter(ALIEN_COALITION); break;
-
-		case IST_QUEST_PLUS: {
-			int questnum = g_game->gameState->getActiveQuest();
-			g_game->gameState->setActiveQuest( questnum + 1 );
+		case IST_QUEST_PLUS: 
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+			    g_game->gameState->setActiveQuest( g_game->gameState->getActiveQuest() + 1 );
+            }
 			break;
-		}
-		case IST_QUEST_MINUS: {
-			int questnum = g_game->gameState->getActiveQuest();
-			g_game->gameState->setActiveQuest( questnum - 1 );
+		case IST_QUEST_MINUS: 
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+    			g_game->gameState->setActiveQuest( g_game->gameState->getActiveQuest() - 1 );
+            }
 			break;
-		}
-
-		case IST_STAGE_PLUS: {
-			int plotStage = g_game->gameState->getPlotStage();
-			g_game->gameState->setPlotStage(plotStage+1);
+		case IST_STAGE_PLUS: 
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+    			g_game->gameState->setPlotStage(g_game->gameState->getPlotStage() + 1);
+            }
 			break;
-		}
-		case IST_STAGE_MINUS: {
-			int plotStage = g_game->gameState->getPlotStage();
-			g_game->gameState->setPlotStage(plotStage-1);
+		case IST_STAGE_MINUS: 
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+    			g_game->gameState->setPlotStage(g_game->gameState->getPlotStage() - 1);
+            }
 			break;
-		}
-
-#endif
 
 		//reset ship frame when key released
         case KEY_A:
@@ -339,7 +374,7 @@ bool ModuleInterstellarTravel::Init()
 {
 	g_game->SetTimePaused(false);	//game-time normal in this module.
 
-	TRACE("  Hyperspace Initialize\n");
+	debug << "  Hyperspace Initialize" << endl;
 
 	movement_counter = 0;
 	flag_nav = flag_thrusting = false;
@@ -431,7 +466,7 @@ bool ModuleInterstellarTravel::Init()
 
 void ModuleInterstellarTravel::Close()
 {
-	TRACE("*** Hyperspace closing\n\n");
+	debug << "*** Hyperspace closing" << endl << endl;
 
 	try {
 		//delete shield;
@@ -444,10 +479,10 @@ void ModuleInterstellarTravel::Close()
 		isdata = NULL;
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in InterstellarTravel::Close\n");
+		debug << "Unhandled exception in InterstellarTravel::Close" << endl;
 	}
 }
 
@@ -747,7 +782,7 @@ int ModuleInterstellarTravel::getFleetSizeByRace(bool small_fleet)
 	switch(alienRace)
 	{
 	case ALIEN_PIRATE:
-		//TRACE( "ALIEN_PIRATE fleet size calculation...\n" );
+		//debug <<  "ALIEN_PIRATE fleet size calculation...\n" );
 		if( small_fleet )
 			return ( 1 + rand() % 3 );	// 1-3
 		else
@@ -755,7 +790,7 @@ int ModuleInterstellarTravel::getFleetSizeByRace(bool small_fleet)
 		break;
 
 	case ALIEN_ELOWAN:
-		//TRACE( "ALIEN_ELOWAN fleet size calculation...\n" );
+		//debug <<  "ALIEN_ELOWAN fleet size calculation...\n" );
 		if( small_fleet )
 			return ( 1 + rand() % 3 ); // 1-3
 		else
@@ -763,7 +798,7 @@ int ModuleInterstellarTravel::getFleetSizeByRace(bool small_fleet)
 		break;
 
 	case ALIEN_SPEMIN:
-		//TRACE( "ALIEN_SPEMIN fleet size calculation...\n" );
+		//debug <<  "ALIEN_SPEMIN fleet size calculation...\n" );
 		if( small_fleet )
 			return ( 1 + rand() % 2 );	//1-2
 		else
@@ -771,7 +806,7 @@ int ModuleInterstellarTravel::getFleetSizeByRace(bool small_fleet)
 		break;
 
 	case ALIEN_THRYNN:
-		//TRACE( "ALIEN_THRYNN fleet size calculation...\n" );
+		//debug <<  "ALIEN_THRYNN fleet size calculation...\n" );
 		if( small_fleet )
 			return ( 1 + rand() % 3 );	//1-3
 		else
@@ -779,7 +814,7 @@ int ModuleInterstellarTravel::getFleetSizeByRace(bool small_fleet)
 		break;
 
 	case ALIEN_BARZHON:
-		//TRACE( "ALIEN_BARZHON fleet size calculation...\n" );
+		//debug <<  "ALIEN_BARZHON fleet size calculation...\n" );
 		if( small_fleet )
 			return ( rand() % 3 );	// 1-3
 		else
@@ -787,12 +822,12 @@ int ModuleInterstellarTravel::getFleetSizeByRace(bool small_fleet)
 		break;
 
 	case ALIEN_NYSSIAN:
-		//TRACE( "ALIEN_NYSSIAN fleet size calculation...\n" );
+		//debug <<  "ALIEN_NYSSIAN fleet size calculation...\n" );
 		return 1;
 		break;
 
 	case ALIEN_TAFEL:
-		//TRACE( "ALIEN_TAFEL fleet size calculation...\n" );
+		//debug <<  "ALIEN_TAFEL fleet size calculation...\n" );
 		if( small_fleet )
 			return ( 1 + rand() % 2 );	// 1-2
 		else
@@ -800,12 +835,12 @@ int ModuleInterstellarTravel::getFleetSizeByRace(bool small_fleet)
 		break;
 
 	case ALIEN_MINEX:
-		//TRACE( "ALIEN_MINEX fleet size calculation...\n" );
+		//debug <<  "ALIEN_MINEX fleet size calculation...\n" );
 		return ( 4 + rand() % 16 );	//4-20
 		break;
 
 	case ALIEN_COALITION:
-		//TRACE( "ALIEN_COALITION fleet size calculation...\n" );
+		//debug <<  "ALIEN_COALITION fleet size calculation...\n" );
 		if( small_fleet )
 			return ( 1 );	// 1
 		else
@@ -813,7 +848,7 @@ int ModuleInterstellarTravel::getFleetSizeByRace(bool small_fleet)
 		break;
 
 	default:
-		TRACE("  ERROR: Alien race not known, calculateFleetSizeByRace()");
+		debug << "  ERROR: Alien race not known, calculateFleetSizeByRace" << endl;
 		if( small_fleet )
 			return ( 1 + rand() % 2 );	// 1-2
 		else
@@ -1280,7 +1315,7 @@ void ModuleInterstellarTravel::identifyStar()
 
  void ModuleInterstellarTravel::loadGalaxyData()
 {
-	TRACE("  Loading galaxy data...\n");
+	debug << "  Loading galaxy data..." << endl;
 	Star *star;
 	int spectral = -1;
 

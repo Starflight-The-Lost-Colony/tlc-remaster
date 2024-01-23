@@ -245,7 +245,7 @@ bool ModuleTradeDepot::Init()
     m_background=(BITMAP*)load_bitmap("data/tradedepot/tradedepot_background.bmp",NULL);
 	if (m_background == NULL)
     {
-        TRACE("tradedepot: error loading background");
+        debug << "tradedepot: error loading background" << endl;
 		return false;
     }
 
@@ -687,7 +687,7 @@ void ModuleTradeDepot::Draw()
 	   }
 	   else {
 		   string s = "TradeDepot: ERROR! " + temp_string + " not found!";
-		   TRACE(s.c_str());
+		   debug << s << endl;
 	   }
    }
 }
@@ -755,10 +755,10 @@ void ModuleTradeDepot::Close()
 		tddata = NULL;
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in TradeDepot::Close\n");
+		debug << "Unhandled exception in TradeDepot::Close" << endl;
 	}
 
 }

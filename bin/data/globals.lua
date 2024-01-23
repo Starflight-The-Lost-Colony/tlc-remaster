@@ -12,7 +12,7 @@ STARTUPMODULE = "TITLESCREEN"
 --STARTUPMODULE = "STARPORT"
 ESCAPEMODULE = "TITLESCREEN"
 
-DEBUG_OUTPUT = true
+DEBUG_MODE = true
 
 --acceleration increases velocity per FRAME
 --this adds up FAST (like 40x per sec) so don't go too high

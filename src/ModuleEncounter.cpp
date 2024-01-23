@@ -208,38 +208,38 @@ void ModuleEncounter::OnKeyReleased(int keyCode)
 			firingMissile = false;
 			break;
 
-#ifdef DEBUGMODE
-		case ALIEN_ATTITUDE_PLUS:
+        if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
         {
-			int attitude = g_game->gameState->getAlienAttitude(); 
-		    g_game->gameState->setAlienAttitude(++attitude);
+		    case ALIEN_ATTITUDE_PLUS:
+            {
+			    int attitude = g_game->gameState->getAlienAttitude(); 
+		        g_game->gameState->setAlienAttitude(++attitude);
+            }
+		    break;
+
+		    case ALIEN_ATTITUDE_MINUS:
+		    {
+			    int attitude = g_game->gameState->getAlienAttitude();
+			    g_game->gameState->setAlienAttitude(--attitude);
+		    }
+		    break;
+
+		    case IST_QUEST_PLUS:
+		    {
+			    int questnum = g_game->gameState->getActiveQuest();
+			    g_game->gameState->setActiveQuest( questnum + 1 );
+		    }
+		    break;
+
+		    case IST_QUEST_MINUS:
+		    {
+			    int questnum = g_game->gameState->getActiveQuest();
+			    g_game->gameState->setActiveQuest( questnum - 1 );
+		    }
+		    case KEY_F:
+			    g_game->toggleShowControls();
+			    break;
         }
-		break;
-
-		case ALIEN_ATTITUDE_MINUS:
-		{
-			int attitude = g_game->gameState->getAlienAttitude();
-			g_game->gameState->setAlienAttitude(--attitude);
-		}
-		break;
-
-		case IST_QUEST_PLUS:
-		{
-			int questnum = g_game->gameState->getActiveQuest();
-			g_game->gameState->setActiveQuest( questnum + 1 );
-		}
-		break;
-
-		case IST_QUEST_MINUS:
-		{
-			int questnum = g_game->gameState->getActiveQuest();
-			g_game->gameState->setActiveQuest( questnum - 1 );
-		}
-		case KEY_F:
-			g_game->toggleShowControls();
-			break;
-#endif
-
 	}
 }
 
@@ -285,7 +285,7 @@ void ModuleEncounter::OnMouseWheelDown(int x, int y)
 
 bool ModuleEncounter::Init()
 {
-	TRACE("  Encounter Initialize\n");
+	debug << "  Encounter Initialize" << endl;
 
 	// 0=encounter; 1=combat
 	module_mode = 1;
@@ -308,13 +308,6 @@ bool ModuleEncounter::Init()
 	//enable the Pause Menu
 	g_game->pauseMenu->setEnabled(true);
 
-	//load the datafile
-	/*encdata = load_datafile("data/encounter/encounter.dat");
-	if (!encdata) {
-		g_game->message("Encounter: Error loading datafile");
-		return false;
-	}*/
-
 	scroller = new TileScroller();
 	scroller->setTileSize(TILESIZE,TILESIZE);
 	scroller->setTileImageColumns(5);
@@ -331,28 +324,28 @@ bool ModuleEncounter::Init()
 	scroller->loadTileImage("data/encounter/IP_TILES.bmp");
     
     //load the message gui
-	img_messages = (BITMAP*)load_bitmap("data/encounter/gui_messagewindow.png",NULL);
+	img_messages = (BITMAP*)load_bitmap("data/encounter/gui_messagewindow.tga",NULL);
 	if (!img_messages) {
 		g_game->message("Encounter: error loading img_messages");
 		return false;
 	}
 
 	//load the socket gui
-	img_socket = (BITMAP*)load_bitmap("data/encounter/gui_socket.png",NULL);
+	img_socket = (BITMAP*)load_bitmap("data/encounter/gui_socket.tga",NULL);
 	if (!img_socket) {
 		g_game->message("Encounter: error loading img_socket");
 		return false;
 	}
 
 	//load the aux gui
-	img_aux = (BITMAP*)load_bitmap("data/encounter/gui_aux.png",NULL);
+	img_aux = (BITMAP*)load_bitmap("data/encounter/gui_aux.tga",NULL);
 	if (!img_aux) {
 		g_game->message("error loading img_aux");
 		return false;
 	}
 
 	//load the gui viewer screen
-	img_viewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer.png",NULL);
+	img_viewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer.tga",NULL);
 	if (!img_viewer) {
 		g_game->message("error loading gui_viewer");
 		return false;
@@ -413,7 +406,7 @@ bool ModuleEncounter::Init()
 
 void ModuleEncounter::Close()
 {
-	TRACE("*** Encounter Close\n\n");
+	debug << "*** Encounter Close" << endl << endl;
 
 	//force weapons and shield off
 	g_game->gameState->setWeaponStatus(false);
@@ -433,7 +426,7 @@ void ModuleEncounter::Close()
 
 bool ModuleEncounter::Encounter_Init()
 {
-	TRACE("  Encounter_Init\n");
+	debug << "  Encounter_Init" << endl;
 	ostringstream os;
 	string scriptFile = "";
 	string portraitFile  = "";
@@ -457,7 +450,7 @@ bool ModuleEncounter::Encounter_Init()
 	dialogCensor.insert( make_pair("[ALIEN]", alienName) );
 
 	//load the right gui viewer
-	img_rightviewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer_right.png",NULL);
+	img_rightviewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer_right.tga",NULL);
 	if (!img_rightviewer) {
 		g_game->message("Encounter: error loading gui_viewer_right");
 		return false;
@@ -543,7 +536,7 @@ bool ModuleEncounter::Encounter_Init()
 
 	scriptFile = "data/encounter/" + scriptFile + ".lua";
 
-	TRACE("  Loading encounter script: %s\n", scriptFile.c_str());
+	debug << "  Loading encounter script: " << scriptFile << endl;
 
 	//load the script for this encounter
 	script = new Script();
@@ -559,10 +552,11 @@ bool ModuleEncounter::Encounter_Init()
 	if (!script->runFunction("Initialize")) return false;
 	readGlobalsFromScript();	//read globals too, in case Initialize changed anything.
 
-#ifdef DEBUGMODE
-	Print("Posture: " + g_game->gameState->playerPosture,WHITE,5000);      
-#endif
-	
+    if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+    {
+    	Print("Posture: " + g_game->gameState->playerPosture,WHITE,5000);      
+    }
+
     ostringstream filename;
     ostringstream filename2;
     ostringstream filename3;
@@ -711,82 +705,84 @@ bool ModuleEncounter::Combat_Init()
 		//get health property from script
 		int health = script->getGlobalNumber("health");
 		if (health < 1 || health > 10000) {
-			TRACE("***Error in Combat_Init: health property is invalid\n");
+			debug << "***Error in Combat_Init: health property is invalid" << endl;
 			health = 100;
 		}
-		TRACE("Combat_Init: health=%d\n", health);
+		debug << "Combat_Init: health=" << health << endl;
 		temp->setHealth( health );
 
 		//get mass property from script
 		int mass = script->getGlobalNumber("mass");
 		if (mass < 1 || mass > 100) {
-			TRACE("***Error in Combat_Init: mass property is invalid\n");
+			debug << "***Error in Combat_Init: mass property is invalid" << endl;
 			mass = 1;
 		}
-		TRACE("Combat_Init: mass=%d\n", mass);
+		debug << "Combat_Init: mass=" << mass << endl;
 		temp->setMass( mass );
 
 		//get engine class property
 		int engine = script->getGlobalNumber("engineclass");
 		if (engine < 1 || engine > 6) {
-			TRACE("***Error in Combat_Init: engineclass is invalid\n");
+			debug << "***Error in Combat_Init: engineclass is invalid" << endl;
 			engine = 1;
 		}
-		TRACE("Combat_Init: engineclass=%d\n", engine);
+		debug << "Combat_Init: engineclass=" << engine << endl;
 		setEngineProperties(temp, engine);
 
 		//get shield props from script
 		int shield = script->getGlobalNumber("shieldclass");
 		if (shield < 0 || shield > 8) {
-			TRACE("***Error in Combat_Init: shieldclass is invalid\n");
+			debug << "***Error in Combat_Init: shieldclass is invalid" << endl;
 			shield = 0;
 		}
-		TRACE("Combat_Init: shieldclass=%d\n", shield);
+		debug << "Combat_Init: shieldclass=" << shield << endl;
 		setShieldProperties(temp, shield);
 
 		//get armor props from script
 		int armor = script->getGlobalNumber("armorclass");
 		if (armor < 0 || armor > 6) {
-			TRACE("***Error in Combat_Init: armorclass is invalid\n");
+			debug << "***Error in Combat_Init: armorclass is invalid" << endl;
 			armor = 0;
 		}
-		TRACE("Combat_Init: armorclass=%d\n", armor);
+		debug << "Combat_Init: armorclass=" << armor << endl;
 		setArmorProperties(temp, armor);
 
 		//get laser props from script
 		int laser = script->getGlobalNumber("laserclass");
 		if (laser < 0 || laser > 9) {
-			TRACE("***Error in Combat_Init: laserclass is invalid\n");
+			debug << "***Error in Combat_Init: laserclass is invalid" << endl;
 			laser = 0;
 		}
-		TRACE("Combat_Init: laserclass=%d\n", laser);
+		debug << "Combat_Init: laserclass=" << laser << endl;
 		setLaserProperties(temp, laser);
 
 		//get laser modifier from script
+        //this reduces damage done with lasers
 		int laserModifier = script->getGlobalNumber("laser_modifier");
 		if (laserModifier < 0 || laserModifier > 100) {
-			TRACE("***Error in Combat_Init: laser_modifier is invalid\n");
+			debug << "***Error in Combat_Init: laser_modifier is invalid" << endl;
 			laserModifier = 100;
 		}
-		TRACE("Combat_Init: laser modifier=%d\n", laserModifier);
+		debug << "Combat_Init: laser modifier=" << laserModifier << endl;
 		temp->setLaserModifier(laserModifier);
 
 		//get missile props from script
 		int missile = script->getGlobalNumber("missileclass");
 		if (missile < 0 || missile > 9) {
-			TRACE("***Error in Combat_Init: laserclass is invalid\n");
+			debug << "***Error in Combat_Init: laserclass is invalid" << endl;
 			missile = 0;
 		}
-		TRACE("Combat_Init: missileclass=%d\n", missile);
+		debug << "Combat_Init: missileclass=" << missile << endl;
 		setMissileProperties(temp, missile);
 
 		//get missile modifier from script
+        //this reduces damage done with missiles
 		int missileModifier = script->getGlobalNumber("missile_modifier");
 		if (missileModifier < 0 || missileModifier > 100) {
-			TRACE("***Error in Combat_Init: missile_modifier is invalid\n");
+			debug << "***Error in Combat_Init: missile_modifier is invalid" << endl;
 			missileModifier = 100;
 		}
-		TRACE("Combat_Init: missile modifier=%d\n", missileModifier);
+		debug << "Combat_Init: missile modifier=" << missileModifier << endl;
 		temp->setMissileModifier(missileModifier);
 
 		//set object to random location in battlespace (somewhat close to player)
@@ -1177,7 +1173,7 @@ void ModuleEncounter::commDoPosture(int index)
 	//set script global and run the update function:
 	script->setGlobalString("POSTURE", g_game->gameState->playerPosture);
 	if (!script->runFunction("UpdatePosture")) {
-		TRACE("ModuleEncounter::commDoPosture\tProblem updating script globals- exiting!\n");
+		debug << "ModuleEncounter::commDoPosture: Problem updating script globals- exiting!" << endl;
 		return;
 	}
 }
@@ -1685,7 +1681,7 @@ void ModuleEncounter::Update()
 	/*	if ((!bFlagDialogue) && (!bFlagDoResponse)) {
 			sendGlobalsToScript();
 			if (!script->runFunction("Update")) {
-				TRACE("ModuleEncounter::Update\tProblem updating script globals- exiting!\n");
+				debug << "ModuleEncounter::Update\tProblem updating script globals- exiting!\n");
 				return;
 			}
 			readGlobalsFromScript();
@@ -1714,13 +1710,15 @@ void ModuleEncounter::Draw()
 	//draw minimap
 	DrawMinimap();
 
-	if (g_game->doShowControls()){
+	if (g_game->doShowControls())
+    {
 		//draw message window gui
 		static int gmx = (int)g_game->getGlobalNumber("GUI_MESSAGE_POS_X");
 		static int gmy = (int)g_game->getGlobalNumber("GUI_MESSAGE_POS_Y");
 		static int gmw = (int)g_game->getGlobalNumber("GUI_MESSAGE_WIDTH");
 		static int gmh = (int)g_game->getGlobalNumber("GUI_MESSAGE_HEIGHT");
-		masked_blit(img_messages, g_game->GetBackBuffer(), 0, 0, gmx, gmy, gmw, gmh);
+		//masked_blit(img_messages, g_game->GetBackBuffer(), 0, 0, gmx, gmy, gmw, gmh);
+        draw_trans_sprite(img_messages, g_game->GetBackBuffer(), gmx, gmy);
 
 		//draw message and list boxes
 		(bFlagDialogue)? dialogue->Draw(g_game->GetBackBuffer()) : text->Draw(g_game->GetBackBuffer());
@@ -1728,15 +1726,17 @@ void ModuleEncounter::Draw()
 		//draw socket gui
 		static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
 		static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
-		masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
+		//masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
+        draw_trans_sprite(img_socket, g_game->GetBackBuffer(), gsx, gsy);
 
 		// draw the aux gui
 		static int gax = (int)g_game->getGlobalNumber("GUI_AUX_POS_X");
 		static int gay = (int)g_game->getGlobalNumber("GUI_AUX_POS_Y");
-		masked_blit(img_aux, g_game->GetBackBuffer(), 0, 0, gax, gay, img_aux->w, img_aux->h);
+		//masked_blit(img_aux, g_game->GetBackBuffer(), 0, 0, gax, gay, img_aux->w, img_aux->h);
+        draw_trans_sprite(img_aux, g_game->GetBackBuffer(), gax, gay);
 	}
 
-    if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true)
+    if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
     {
 	    //DEBUG CODE
 	    int y=90;
@@ -1900,7 +1900,7 @@ void ModuleEncounter::pickupRandomDropItem()
 	numitems = Util::Random(1,4);
 	Item *item = g_game->dataMgr->GetItemByID( itemid );
 	if (item == NULL) {
-		TRACE("*** Error: pickupRandomDropItem generated invalid item id\n");
+		debug << "*** Error: pickupRandomDropItem generated invalid item id: " << itemid << endl;
 		return;
 	}
 
@@ -1982,7 +1982,7 @@ void ModuleEncounter::pickupAsteroidMineral()
 	numitems = Util::Random(1,4);
 	Item *item = g_game->dataMgr->GetItemByID( itemid );
 	if (item == NULL) {
-		TRACE("*** Error: pickupAsteroidMineral generated invalid item id\n");
+		debug << "*** Error: pickupAsteroidMineral generated invalid item id: " << itemid << endl;
 		return;
 	}
 
@@ -2130,8 +2130,6 @@ void ModuleEncounter::combatTestPlayerCollision(CombatObject *other)
 				Print(eng + "We got a Hull Powerup!", GREEN, 1000);
 				other->setAlive(false);
 				ship = g_game->gameState->getShip();
-				//hull = ship.getHullIntegrity() + 20;
-				//ship.setHullIntegrity(hull);
                 ship.augHullIntegrity(20);
 				g_game->gameState->setShip(ship);
 				break;
@@ -2251,7 +2249,7 @@ void ModuleEncounter::combatDoCollision(CombatObject *first, CombatObject *secon
 						damage_modifier = second->getMissileModifier()/100.0 ;
 					d = (int) ( first->getDamage() * damage_modifier ); 
 
-					//TRACE("Encounter: unmodified damage=%.2f, modifier=%.2f, modified damage=%d\n", first->getDamage(), damage_modifier, d);
+					//debug << "Encounter: unmodified damage=%.2f, modifier=%.2f, modified damage=%d\n", first->getDamage(), damage_modifier, d);
 
                     //hit their shield
 					if (d > 0 && s > 0) {
@@ -2791,10 +2789,6 @@ void ModuleEncounter::Combat_Draw()
 	double rx,ry;
 	float angle;
 
-	//draw box around player
-	//rect(g_game->GetBackBuffer(), playerScreen.x, playerScreen.y, playerScreen.x + 64, playerScreen.y + 64, BLUE);
-	//textprintf_ex(g_game->GetBackBuffer(), font, playerScreen.x, playerScreen.y, WHITE, -1, "%i,%i", (int)playerGlobal.x, (int)playerGlobal.y);
-
 	//Loop through all combat objects
 	for (int i=0; i < (int)combatObjects.size(); ++i)
 	{
@@ -3328,8 +3322,8 @@ void ModuleEncounter::combatDoPowerup(CombatObject *victim)
 			pow->setAlpha(true);
 			pow->setTotalFrames(9);
 			pow->setAnimColumns(9);
-			pow->setFrameWidth(32);
-			pow->setFrameHeight(32);
+			pow->setFrameWidth(64);
+			pow->setFrameHeight(64);
 			break;
 		case 2: //shield
 			pow->setImage(img_powerup_shield);
@@ -3337,8 +3331,8 @@ void ModuleEncounter::combatDoPowerup(CombatObject *victim)
 			pow->setAlpha(true);
 			pow->setTotalFrames(9);
 			pow->setAnimColumns(9);
-			pow->setFrameWidth(32);
-			pow->setFrameHeight(32);
+			pow->setFrameWidth(64);
+			pow->setFrameHeight(64);
 			break;
 		case 3: //armor
 			pow->setImage(img_powerup_armor);
@@ -3346,8 +3340,8 @@ void ModuleEncounter::combatDoPowerup(CombatObject *victim)
 			pow->setAlpha(true);
 			pow->setTotalFrames(9);
 			pow->setAnimColumns(9);
-			pow->setFrameWidth(32);
-			pow->setFrameHeight(32);
+			pow->setFrameWidth(64);
+			pow->setFrameHeight(64);
 			break;
 		case 4: //mineral
         case 5:
@@ -3357,10 +3351,10 @@ void ModuleEncounter::combatDoPowerup(CombatObject *victim)
 			(victim->getObjectType() == OBJ_ALIENSHIP)?
 				pow->setObjectType(OBJ_POWERUP_MINERAL_FROM_SHIP) :
 				pow->setObjectType(OBJ_POWERUP_MINERAL_FROM_ASTEROID);
-			pow->setAlpha(false);
+			pow->setAlpha(true);
 			pow->setTotalFrames(7);
 			pow->setAnimColumns(7);
-			pow->setFrameWidth(30);
+			pow->setFrameWidth(24);
 			pow->setFrameHeight(24);
 			break;
 
@@ -3370,14 +3364,14 @@ void ModuleEncounter::combatDoPowerup(CombatObject *victim)
 	pow->setExpireDuration(45000);
 	pow->setFrameDelay(3);
 
-	//set position
+	//set position to center of exploded object
 	vcx = victim->getX() + victim->getFrameWidth()/2;
 	vcy = victim->getY() + victim->getFrameHeight()/2;
 	pow->setPos(vcx - 32, vcy - 32);
 
-	//set velocity
-	velx = (double) (Util::Random(1,3) - 2);
-	vely = (double) (Util::Random(1,3) - 2);
+	//set velocity -1, 0, +1 (x slowdown)
+	velx = (double) (Util::Random(1,3) - 2) * 0.5;
+	vely = (double) (Util::Random(1,3) - 2) * 0.5;
 	pow->setVelX(velx);
 	pow->setVelY(vely);
 
@@ -3425,7 +3419,7 @@ void ModuleEncounter::sendGlobalsToScript()
 		//get number of that item currently in hold
 		g_game->gameState->m_items.Get_Item_By_ID(pItem->id, itemInHold, numInHold);
 
-		//TRACE("Encounter: Sending variable `%s' with value %d to lua\n", luaName.c_str(), numInHold);
+		//debug << "Encounter: Sending variable `%s' with value %d to lua\n", luaName.c_str(), numInHold);
 		script->setGlobalNumber(luaName, numInHold);
 	}
 }
@@ -3532,7 +3526,7 @@ void ModuleEncounter::readGlobalsFromScript()
                              luaName = "player_" + pItem->name;
 
 		newcount = script->getGlobalNumber(luaName);
-		//TRACE("Encounter: Getting variable `%s' with value %d from lua\n", luaName.c_str(), newcount);
+		//debug << "Encounter: Getting variable `%s' with value %d from lua\n", luaName.c_str(), newcount);
 
 		//nothing changed for this item; next!
 		if (newcount == numInHold) continue;

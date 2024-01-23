@@ -36,7 +36,7 @@ DATAFILE *spdata;
 ModuleStarport::ModuleStarport(void)
 {
 	//load the starport background
-	//TRACE("    ModuleStarport: Loading starport.bmp");
+	//debug << "    ModuleStarport: Loading starport.bmp");
 
 	//The starport.bmp file is huge so it is loaded at mode startup and remains
 	//in memory during gameplay only to be removed when the root mode terminates
@@ -57,10 +57,10 @@ ModuleStarport::~ModuleStarport(void)
 		spdata = NULL;
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in Starport\n");
+		debug << "Unhandled exception in Starport" << endl;
 	}
 }
 
@@ -195,10 +195,10 @@ void ModuleStarport::Close()
 
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in Starport::Close\n");
+		debug << "Unhandled exception in Starport::Close" << endl;
 	}
 }
 
@@ -206,7 +206,7 @@ bool ModuleStarport::Init()
 {
 	g_game->SetTimePaused(true);	//game-time frozen in this module.
 
-	TRACE("  Starport Initialize\n");
+	debug << "  Starport Initialize" << endl;
 
 	//enable the Pause Menu
 	g_game->pauseMenu->setEnabled(true);
@@ -215,7 +215,7 @@ bool ModuleStarport::Init()
 	//NOTE: a missing wav file is a soft error for the time being
 	if (!g_game->audioSystem->SampleExists("dooropen.wav")) {
 		if (!g_game->audioSystem->Load("data/starport/dooropen.wav","dooropen")) {
-			TRACE("Starport: Error loading data/starport/dooropen.wav\n");
+			debug << "Starport: Error loading data/starport/dooropen.wav" << endl;
 			//g_game->message("Starport: Error loading audio file dooropen.wav");
 			//return false;
 		}
@@ -227,7 +227,7 @@ bool ModuleStarport::Init()
     starport = (BITMAP*)load_bitmap("data/starport/starport.bmp",NULL);
 	if (!starport)
 	{
-		TRACE("Starport: Error loading background");
+		debug << "Starport: Error loading background" << endl;
 		return false;
 	}
 
@@ -247,7 +247,7 @@ bool ModuleStarport::Init()
 	avatar->setFrameHeight(237);
 	avatar->setFrameWidth(237);
 
-	TRACE("    Positioning avatar\n");
+	debug << "    Positioning avatar" << endl;
 	playerx = SCREEN_WIDTH / 2 - 237/2;
 	playery = g_game->getGlobalNumber("PLAYER_STARPORT_START_Y");
 
@@ -367,32 +367,12 @@ void ModuleStarport::OnKeyReleased(int keyCode)
 			movement = -2; //to indicate stopped in this direction
 			break;
 
-#ifdef DEBUGMODE
-		case STARPORT_JUMP_LEFT:
-			//playerx -= 400; g_game->gameState->player->posStarport.x -= 400;
-			movePlayerLeft(400); break;
-		case STARPORT_JUMP_RIGHT:
-			//playerx += 400;	g_game->gameState->player->posStarport.x += 400;
-			movePlayerRight(400); break;
-
-		case STARPORT_QUEST_PLUS:
-		{
-			int questnum = g_game->gameState->getActiveQuest();
-			g_game->gameState->setActiveQuest( questnum + 1 );
-		}
-		break;
-
-		case STARPORT_QUEST_MINUS:
-		{
-			int questnum = g_game->gameState->getActiveQuest();
-			g_game->gameState->setActiveQuest( questnum - 1 );
-		}
-		break;
-
 		case STARPORT_ADD_CREDITS:
-			g_game->gameState->augCredits(1000);
-			break;
-#endif
+            if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+            {
+    			g_game->gameState->augCredits(1000);
+            }
+	    	break;
 
 
 		case KEY_ESC:

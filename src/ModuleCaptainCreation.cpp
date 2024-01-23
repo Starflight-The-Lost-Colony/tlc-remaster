@@ -214,7 +214,7 @@ bool ModuleCaptainCreation::Init()
     m_professionChoiceBackground = (BITMAP*)load_bitmap("data/captaincreation/captaincreation_professionbackground.bmp",NULL);
 	if (m_professionChoiceBackground == NULL)
     {
-        TRACE("captaincreation: error loading profession background");
+        debug << "captaincreation: error loading profession background" << endl;
 		return false;
     }
 
@@ -266,7 +266,7 @@ bool ModuleCaptainCreation::Init()
     m_detailsBackground = (BITMAP*)load_bitmap("data/captaincreation/captaincreation_detailsbackground.bmp",NULL);
 	if (m_detailsBackground == NULL)
     {
-        TRACE("captaincreation: error loading details background");
+        debug << "captaincreation: error loading details background" << endl;
 		return false;
     }
 
@@ -576,10 +576,10 @@ void ModuleCaptainCreation::Close()
 		ccdata = NULL;	
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in CaptainCreation::Close\n");
+		debug << "Unhandled exception in CaptainCreation::Close" << endl;
 	}
 
 

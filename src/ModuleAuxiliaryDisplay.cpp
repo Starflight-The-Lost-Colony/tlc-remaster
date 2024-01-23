@@ -114,7 +114,7 @@ void ModuleAuxiliaryDisplay::Close()
 
 bool ModuleAuxiliaryDisplay::Init()
 {
-	TRACE("  ModuleAuxiliaryDisplay Initialize\n");
+	debug << "  ModuleAuxiliaryDisplay Initialize" << endl;
 
 	//load the datafile
 	auxdata = load_datafile("data/auxiliary/auxiliary.dat");
@@ -612,7 +612,7 @@ void ModuleAuxiliaryDisplay::updateCrew()
 		case OFFICER_TACTICAL:		updateTac(); break;
 		default:
 			//this should never happen, so we want a fatal if it happens to find the bug
-			TRACE("  [AuxiliaryDisplay] ERROR: No officer selected in control panel.");
+			debug << "  [AuxiliaryDisplay] ERROR: No officer selected in control panel" << endl;
 	}
 }
 

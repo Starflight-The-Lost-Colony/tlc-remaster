@@ -270,7 +270,7 @@ void ModuleInterPlanetaryTravel::OnEvent(Event * event)
 
 void ModuleInterPlanetaryTravel::Close()
 {
-	TRACE("*** Interplanetary Closing\n\n");
+	debug << "*** Interplanetary Closing" << endl << endl;
 
 	try {
 		if (text != NULL){
@@ -290,10 +290,10 @@ void ModuleInterPlanetaryTravel::Close()
 		ipdata = NULL;
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in InterplanetaryTravel::Close\n");
+		debug << "Unhandled exception in InterplanetaryTravel::Close" << endl;
 	}
 
 }
@@ -302,7 +302,7 @@ bool ModuleInterPlanetaryTravel::Init()
 {
 	g_game->SetTimePaused(false);	//game-time normal in this module.
 
-	TRACE("  Interplanetary Initialize\n");
+	debug << "  Interplanetary Initialize" << endl;
 
 
 	//enable the Pause Menu
@@ -649,7 +649,7 @@ void ModuleInterPlanetaryTravel::Draw()
 	//same mod in ModuleInterstellarTravel and some changes in PlayerShipSprite.  
 	g_game->CrossModuleAngle = ship->getRotationAngle();	
 
-    if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true)
+    if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
     {
 	    int y = 90;
 	    g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "flag_nav: " + Util::ToString(flag_nav));
@@ -808,7 +808,7 @@ int ModuleInterPlanetaryTravel::loadStarSystem(int id)
 {
 	int i;
 
-	TRACE("  Loading star system %i.\n", id);
+	debug << "  Loading star system " << id << endl;
 	srand(time(NULL));
 
 
@@ -874,7 +874,7 @@ int ModuleInterPlanetaryTravel::loadStarSystem(int id)
 			case PT_ACIDIC:		planets[i].tilenum = 8;	break;
 			default:
 				planets[i].tilenum = 2; //this bug needs to be fixed
-                TRACE("loadStarSystem: Unknown planet type: %d\n",planet->type);
+                debug << "loadStarSystem: Unknown planet type: " << planet->type << endl;
 			}
 			scroller->setTile(planets[i].tilex, planets[i].tiley, planets[i].tilenum);
 		}

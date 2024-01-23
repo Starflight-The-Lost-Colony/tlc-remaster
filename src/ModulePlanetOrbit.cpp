@@ -267,12 +267,12 @@ bool ModulePlanetOrbit::CreatePlanetTexture()
     ostringstream os;
     os << "data/planetorbit/planet_" << randomness << "_256.bmp";
     orbitFilename = os.str();
-    TRACE("Planet orbit filename: %s\n", orbitFilename.c_str());
+    debug << "Planet orbit filename: " << orbitFilename << endl;
 
 	os.str("");
 	os << "data/planetorbit/planet_" << randomness << "_500.bmp";
 	surfaceFilename = os.str();
-	TRACE("Planet surface filename: %s\n", surfaceFilename.c_str());
+	debug << "Planet surface filename: " << surfaceFilename << endl;
 
     //try to find planet texture previously generated
 	planet_texture=NULL;
@@ -325,7 +325,7 @@ bool ModulePlanetOrbit::CreatePlanetTexture()
 
 void ModulePlanetOrbit::Close()
 {
-	TRACE("PlanetOrbit Destroy\n");
+	debug << "PlanetOrbit Destroy" << endl;
 
 	try {
         if (lightmap_overlay) {
@@ -366,10 +366,10 @@ void ModulePlanetOrbit::Close()
 
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in PlanetOrbit::Close\n");
+		debug << "Unhandled exception in PlanetOrbit::Close"  << endl;
 	}
 }
 
@@ -378,16 +378,17 @@ void ModulePlanetOrbit::Close()
 bool ModulePlanetOrbit::Init()
 {
 	g_game->SetTimePaused(false);	//game-time normal in this module.
-	TRACE("  PlanetOrbit Initialize\n");
+	debug << "  PlanetOrbit Initialize" << endl;
 
-#ifdef DEBUGMODE
-    if (g_game->getGlobalString("STARTUPMODULE") == "PLANETORBIT")
+    if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
     {
-        starid = g_game->gameState->player->currentStar = 2;
-        planetid = g_game->gameState->player->currentPlanet = 8;
+        if (g_game->getGlobalString("STARTUPMODULE") == "PLANETORBIT")
+        {
+            starid = g_game->gameState->player->currentStar = 2;
+            planetid = g_game->gameState->player->currentPlanet = 8;
+        }
     }
-#endif
-    
+
 	//enable the Pause Menu
 	g_game->pauseMenu->setEnabled(true);
 
@@ -668,7 +669,7 @@ void ModulePlanetOrbit::Update()
                     else
                         os << "It appears to be an ancient Ruin.";
 
-					 if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true) {
+					 if (g_game->getGlobalBoolean("DEBUG_MODE") == true) {
 					// Reporting position of artifacts/ruins disabled because we don't want to give them away too easily!
                     // But this could be used in a future upgrade by giving the player a planet scanner device.  REACTIVATED UNDER DEBUG BY JJH
 						int lat = item->x;
@@ -793,12 +794,12 @@ void ModulePlanetOrbit::Draw()
     draw_trans_sprite(g_game->GetBackBuffer(), lightmap_overlay, cx+lightmapOffsetX, cy+lightmapOffsetY);
 
 
-#ifdef DEBUGMODE
-	int y = 0;
-	g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "planetScan: " + Util::ToString(planetScan));
-	y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "planetAnalysis: " + Util::ToString(planetAnalysis));
-#endif
-
+    if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+    {
+	    int y = 0;
+	    g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "planetScan: " + Util::ToString(planetScan));
+	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "planetAnalysis: " + Util::ToString(planetAnalysis));
+    }
 
 }
 

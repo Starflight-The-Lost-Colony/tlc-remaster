@@ -10,12 +10,14 @@
 #define GAME_H 1
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <alfont.h>
 #include "ScrollBox.h"
 #include "Timer.h"
 #include "Sprite.h"
+#include "LogFile.h"
 
 #ifdef MSVC10_DEBUG
 	#include "GameState.h"
@@ -272,6 +274,9 @@ private:
 
 
 extern Game *g_game;
+
+void trace(std::string t);
+
 
 
 #endif

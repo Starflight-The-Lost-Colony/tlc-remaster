@@ -487,7 +487,7 @@ Ship::~Ship() {}
 
 void Ship::initializeRepair()
 {
-	TRACE("Calling Ship::initializeRepair()\n");
+	debug << "Calling Ship::initializeRepair()" << endl;
 
 	//roll the minerals that will be used for repair
 	for ( int i=0; i < NUM_REPAIR_PARTS; i++){
@@ -2004,7 +2004,7 @@ GameState* GameState::ReadGame(std::string fileName)
 
 	Archive ar;
 	if (!ar.Open(fileName,Archive::AM_LOAD)) {
-		TRACE("*** GameState: Cannot open save game file");
+		debug << "*** GameState: Cannot open save game file" << endl;
 		return NULL;
 	}
 
@@ -2013,7 +2013,7 @@ GameState* GameState::ReadGame(std::string fileName)
    ar >> LoadedGameMagic;
    if ( (unsigned int) LoadedGameMagic != GAME_MAGIC ) {
 	   g_game->message("Invalid save game file");
-       TRACE("*** GameState: Invalid save game file");
+       debug << "*** GameState: Invalid save game file" << endl;
       return NULL;
    }
 
@@ -2022,7 +2022,7 @@ GameState* GameState::ReadGame(std::string fileName)
    ar >> LoadedGameString;
    if (LoadedGameString != GAME_STRING) {
 	   g_game->message("Invalid save game file");
-       TRACE("*** GameState: Invalid save game file");
+       debug << "*** GameState: Invalid save game file" << endl;
       return NULL;
    }
 
@@ -2030,7 +2030,7 @@ GameState* GameState::ReadGame(std::string fileName)
    int LoadedGameSchema = 0;
    ar >> LoadedGameSchema;
    if (LoadedGameSchema > GAME_SCHEMA) {
-	   TRACE("*** GameState: Incorrect schema in save game file");
+	   debug << "*** GameState: Incorrect schema in save game file" << endl;
       return NULL;
    }
 
@@ -2039,7 +2039,7 @@ GameState* GameState::ReadGame(std::string fileName)
 
 	if (!g->Serialize(ar))
 	{
-		TRACE("*** GameState: Error reading save game file");
+		debug << "*** GameState: Error reading save game file" << endl;
 		delete g;
 		ar.Close();
 		return NULL;
@@ -2049,7 +2049,7 @@ GameState* GameState::ReadGame(std::string fileName)
    ar >> LoadedGameMagic;
    if ( (unsigned int) LoadedGameMagic != GAME_MAGIC )
    {
-	   TRACE("*** GameState: Error loading save game file");
+	   debug << "*** GameState: Error loading save game file" << endl;
       delete g;
       ar.Close();
       return NULL;
@@ -2060,9 +2060,14 @@ GameState* GameState::ReadGame(std::string fileName)
 }
 
 GameState * GameState::LoadGame(std::string fileName) {
-	TRACE("\n");
+	debug << "" << endl;
 	GameState* gs= ReadGame(fileName);
-	if (gs == NULL) {TRACE(" in GameState::LoadGame\n"); return gs; }	//message picks up where ReadGame left off.
+	if (gs == NULL) 
+    {
+        //message picks up where ReadGame left off
+        debug << " in GameState::LoadGame" << endl;
+        return gs; 	
+    }
 
 	gs->m_captainSelected= true;
 	*g_game->gameState= *gs;		//assign to game state.
@@ -2147,7 +2152,7 @@ GameState * GameState::LoadGame(std::string fileName) {
 	#ifdef DEBUG
 	DumpStats(g_game->gameState);	//dump statistics to file.
 	#endif
-	TRACE("Game state loaded successfully\n");
+	debug << "Game state loaded successfully" << endl;
 	return g_game->gameState;		//return gs & leave deletion to caller?
 }
 
@@ -2329,7 +2334,7 @@ int GameState::CalcEffectiveSkill(Skill skill)
 		off_skill*off_vitality/100 + cap_skill/10*cap_vitality/100 :
 		cap_skill*cap_vitality/100;
 
-//	TRACE("CalcSkill: skill %d, cap_skill %f, cap_vitality %f, off_skill %f, off_vitality %f, res %f\n",
+//	debug << "CalcSkill: skill %d, cap_skill %f, cap_vitality %f, off_skill %f, off_vitality %f, res %f\n",
 //				skill,cap_skill,cap_vitality,off_skill,off_vitality,res);
 
 	return res;

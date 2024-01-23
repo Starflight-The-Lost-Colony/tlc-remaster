@@ -568,7 +568,7 @@ void ModuleCrewHire::OnEvent(Event *event)
 //Close is where you release all your resources
 void ModuleCrewHire::Close()
 {
-	TRACE("CrewHire Close\n");
+	debug << "CrewHire Close" << endl;
 	//Module::Close();
 
 	//We must save all the officers to the game state class before closing
@@ -682,7 +682,7 @@ bool ModuleCrewHire::Init()
 {
 	BITMAP *btnNorm, *btnOver, *btnDis;
 
-	TRACE("  Crew Hire Initialize\n");
+	debug << "  Crew Hire Initialize" << endl;
 	
 	//load the datafile
 	chdata = load_datafile("data/crewhire/crewhire.dat");
@@ -842,7 +842,7 @@ bool ModuleCrewHire::Init()
     m_background = (BITMAP*)load_bitmap("data/crewhire/personel_background.bmp",NULL);
 	if (!m_background) 
 	{
-		TRACE("CrewHire: Error loading personel_background");
+		debug << "CrewHire: Error loading personel_background" << endl;
 		return false;
 	}
 

@@ -108,7 +108,7 @@ double PlayerShipSprite::getMaximumVelocity()
 	int engine = g_game->gameState->getShip().getEngineClass();
 	if (engine < 1 || engine > 6) {
 		engine = 1;
-		TRACE("*** Error in PlayerShipSprite::getMaximumVelocity: Engine class is invalid");
+		debug << "*** Error in PlayerShipSprite::getMaximumVelocity: Engine class is invalid" << endl;
 	}
 
 	switch(engine) {
@@ -131,7 +131,7 @@ double PlayerShipSprite::getForwardThrust()
 	int engine = g_game->gameState->getShip().getEngineClass();
 	if (engine < 1 || engine > 6) {
 		engine = 1;
-		TRACE("*** Error in PlayerShipSprite::getForwardThrust: Engine class is invalid");
+		debug << "*** Error in PlayerShipSprite::getForwardThrust: Engine class is invalid" << endl;
 	}
 
 	switch(engine) {
@@ -166,7 +166,7 @@ double PlayerShipSprite::getTurnRate()
 	int engine = g_game->gameState->getShip().getEngineClass();
 	if (engine < 1 || engine > 6) {
 		engine = 1;
-		TRACE("*** Error in PlayerShipSprite::getTurnRate: Engine class is invalid");
+		debug << "*** Error in PlayerShipSprite::getTurnRate: Engine class is invalid" << endl;
 	}
 
 	switch(engine) {

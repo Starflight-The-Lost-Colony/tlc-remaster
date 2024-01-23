@@ -55,7 +55,7 @@ protected:
 	int			threshold3;
 
 public:
-	bool		DebugMode;
+	bool		DebugOutline;
 
 	//accessors
 	double getX()			 { return x; }

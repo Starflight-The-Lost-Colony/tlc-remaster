@@ -77,6 +77,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\LogFile.cpp" />
     <ClCompile Include="..\..\TexturedSphere.cpp" />
     <ClCompile Include="..\..\tinyxml\tinystr.cpp" />
     <ClCompile Include="..\..\tinyxml\tinyxml.cpp" />
@@ -114,6 +115,7 @@
     <ClCompile Include="..\..\TileScroller.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\LogFile.h" />
     <ClInclude Include="..\..\TexturedSphere.h" />
     <ClInclude Include="..\..\tinyxml\tinystr.h" />
     <ClInclude Include="..\..\tinyxml\tinyxml.h" />

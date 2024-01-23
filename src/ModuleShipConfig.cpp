@@ -48,7 +48,7 @@ ModuleShipConfig::ModuleShipConfig(void)
 //Init is a good place to load resources
 bool ModuleShipConfig::Init()
 {
-	TRACE("  ShipConfig Initialize\n");
+	debug << "  ShipConfig Initialize" << endl;
 	
 	//load the datafile
 	scdata = load_datafile("data/shipconfig/shipconfig.dat");
@@ -97,7 +97,7 @@ bool ModuleShipConfig::Init()
     shipConfig = (BITMAP*)load_bitmap("data/shipconfig/ShipConfig.bmp",NULL);
 	if (!shipConfig) 
     {
-		TRACE("ShipConfig: Error loading background");
+		debug << "ShipConfig: Error loading background" << endl;
 		return false;
 	}
 
@@ -107,7 +107,7 @@ bool ModuleShipConfig::Init()
 		case PROFESSION_MILITARY:	shipImage = (BITMAP*)scdata[MILITARY_TGA].dat; break;
 		case PROFESSION_SCIENTIFIC:	shipImage = (BITMAP*)scdata[SCIENCE_TGA].dat; break;
 		default:
-			TRACE("***ERROR: ShipConfig: Player's profession is invalid.");
+			debug << "***ERROR: ShipConfig: Player's profession is invalid" << endl;
 	}
 
 
@@ -529,7 +529,7 @@ void ModuleShipConfig::OnEvent(Event *event)
 
 void ModuleShipConfig::Close()
 {
-	TRACE("ShipConfig Destroy\n");
+	debug << "ShipConfig Destroy" << endl;
 
 	try {
         if (shipConfig != NULL)
@@ -557,10 +557,10 @@ void ModuleShipConfig::Close()
 		scdata = NULL;
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in ShipConfig::Close\n");
+		debug << "Unhandled exception in ShipConfig::Close" << endl;
 	}	
 	
 }

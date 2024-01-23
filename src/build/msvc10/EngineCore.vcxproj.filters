@@ -123,6 +123,9 @@
     <ClCompile Include="..\..\TexturedSphere.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\LogFile.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tinyxml\tinystr.h">
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="..\..\TexturedSphere.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LogFile.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

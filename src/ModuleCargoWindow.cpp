@@ -22,6 +22,7 @@
 #include "Label.h"
 #include "Util.h"
 #include "ModuleControlPanel.h"
+using namespace std;
 
 //borders for the jettison button from data/cargohold/cargohold.dat
 //NOTE: static.tga is not used anymore.
@@ -88,7 +89,7 @@ ModuleCargoWindow::~ModuleCargoWindow(){}
 
 bool ModuleCargoWindow::Init()
 {
-	TRACE("  ModuleCargoWindow: initializing...\n");
+	debug << "  ModuleCargoWindow: initializing..." << endl;
 
 	//load the window "skin"
 	svdata = load_datafile("data/cargohold/sideviewer.dat");
@@ -184,7 +185,7 @@ bool ModuleCargoWindow::Init()
 	// initialized when calling this.
 	this->InitViewer();
 
-	TRACE("  ModuleCargoWindow: initialized\n");
+	debug << "  ModuleCargoWindow: initialized" << endl;
 
 	return true;
 }
@@ -263,7 +264,7 @@ void ModuleCargoWindow::OnEvent(Event * event)
 {
 	int ev = event->getEventType();
 	//NOTE: uncommenting the following line can help a great deal when tracking bugs.
-	//TRACE("CargoWindow: got event %d (0x%X)\n", ev, (unsigned int) ev);
+	//debug << "CargoWindow: got event %d (0x%X)\n", ev, (unsigned int) ev);
 
 	switch(ev)
 	{

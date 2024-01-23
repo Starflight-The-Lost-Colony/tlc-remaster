@@ -16,6 +16,7 @@
 #include "DataMgr.h"
 #include "Script.h"
 #include "PlayerShipSprite.h"
+using namespace std;
 
 #define FLUX_TILE_TRANS_BMP              0        /* BMP  */
 #define IS_TILES_TRANS_BMP               1        /* BMP  */
@@ -144,7 +145,7 @@ void ModuleStarmap::OnEvent(Event *event)
 bool ModuleStarmap::Init()
 {
 	//if (!Module::Init()) return false;
-	TRACE("  ModuleStarmap Initialize\n");
+	debug << "  ModuleStarmap Initialize" << endl;
 
 	//load the datafile
 	smdata = load_datafile("data/starmap/starmap.dat");
@@ -311,10 +312,10 @@ void ModuleStarmap::Close()
 		unload_datafile(smdata);
 	}
 	catch (std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in Starmap::Close\n");
+		debug << "Unhandled exception in Starmap::Close" << endl;
 	}
 
 }
@@ -401,7 +402,7 @@ void ModuleStarmap::Draw()
 /*
 	This next stmt is for debuggng only. Set/unset red circle on starmap to move player. JJH
 */
-			if (g_game->getGlobalBoolean("DEBUG_OUTPUT") == true) 
+			if (g_game->getGlobalBoolean("DEBUG_MODE") == true) 
                 g_game->gameState->player->set_galactic_pos(m_destPos.x * 128,m_destPos.y * 128);
 
 			textprintf_centre_ex(text, font, 310, text_y, fontColor, -1, "%.0f", m_destPos.x );

@@ -385,10 +385,8 @@ elseif (plot_stage == 4) then -- ancients plot state
 	"Twas brillig, and the slithy toves, Did gyre and gimble in the wabe, All mimsy were the borogoves, And the mome raths outgrabe.",
 	"01111 001 1011 111, 00111 1010 111 10 1 010 111 0100, 00011 0010 111 1010 001 000, 00001 0100 111 1010 01 1 0 100, 00000, 10000"
 	}
-
-
+   
 end
-
 
 	greetings[1] = {
 		action="attack", ftest= 1,
@@ -463,127 +461,24 @@ function StandardQuestions()
 end
 
 
-
-
 function QuestDialogue()
-
-
 end
 
 
---[[ -------------------------------------------------------------------
---Randomized ship characteristics, 1st pass:
-----------------------------------------------------------------------]]
+-------------------------------------------------------------------
+-- PIRATE SHIPS ARE INTENTIONALLY VERY WEAK
+-- NOT AFFECTED BY PLOT STAGE
+--------------------------------------------------------------------
 function GenerateShips()
-
-    -- COMBAT VALUES FOR THIS ALIEN RACE
---[[
-    health = 100                    -- 100=baseline minimum
-    mass = 2                        -- 1=tiny, 10=huge
+	health= gen_random(90)+10;      
+	mass = 2                        -- 1=tiny, 10=huge
 	engineclass = 1
 	shieldclass = 1
-	armorclass = 2
-	laserclass = 2
+	armorclass = 1
+	laserclass = 1
 	missileclass = 0
-	laser_modifier = 100			-- % of damage received, used for racial abilities, 0-100 %
-	missile_modifier = 100			-- % of damage received, used for racial abilities, 0-100%
---]]
-
-if (plot_stage == 1) then  -- initial plot stage
-
-	health= gen_random(100)
-	if (health < 10) then							health= 10							end
-
-	mass= 2
-
-	-- If the player's ship is fast, the alien ships are always just as fast. This applies to most Minex systems
-	engineclass= gen_random(2)
-	if (engineclass < 1) then						engineclass= 1						end
-	if (engineclass < ship_engine_class) then		engineclass= ship_engine_class		end
-
-	shieldclass= gen_random(3)
-	if (shieldclass < 1) then						shieldclass= 1						end
-
-	armorclass= gen_random(2)
-	if (armorclass < 1) then						armorclass= 1						end
-
-	laserclass= gen_random(2)
-	if (laserclass < 1) then						laserclass= 1						end
-	-- Improves the enemy ships laser class to at least four levels below the player's laser class
-	if (laserclass < (ship_laser_class -4)) then	laserclass= (ship_laser_class -4)   end
-
-
-	missileclass= gen_random(1)
-	if (missileclass < (ship_missile_class -4)) then missileclass= (ship_missile_class -4) end
-
-	laser_modifier= 100
-
-	missile_modifier= gen_random(100)
-	if (missile_modifier < 40) then 				missile_modifier= 40				end
-
-
-elseif (plot_stage == 2) then -- virus plot state
-
-	health= gen_random(100)
-	if (health < 40) then							health= 40							end
-
-	mass= 4
-
-	engineclass= gen_random(2)
-	if (engineclass < 1) then						engineclass= 1						end
-	if (engineclass < ship_engine_class) then		engineclass= ship_engine_class		end
-
-	shieldclass= gen_random(4)
-	if (shieldclass < 1) then						shieldclass= 1						end
-
-	armorclass= gen_random(2)
-	if (armorclass < 1) then						armorclass= 1						end
-
-	laserclass= gen_random(3)
-	if (laserclass < 1) then						laserclass= 1						end
-	if (laserclass < (ship_laser_class -4)) then	laserclass= (ship_laser_class -4)   end
-
-	missileclass= gen_random(3)
-	if (missileclass < (ship_missile_class -2)) then	missileclass= (ship_missile_class -2) end
-
-	laser_modifier= 100
-
-	missile_modifier= gen_random(100)
-	if (missile_modifier < 40) then 				missile_modifier= 40				end
-
-
-elseif (plot_stage == 3) or (plot_stage == 4) then -- war and ancients plot states
-
-	health= gen_random(100)
-	if (health < 70) then							health= 70							end
-
-	mass= 6
-
-	engineclass= gen_random(2)
-	if (engineclass < 1) then						engineclass= 1						end
-	if (engineclass < ship_engine_class) then		engineclass= ship_engine_class		end
-
-	shieldclass= gen_random(4)
-	if (shieldclass < 1) then						shieldclass= 1						end
-
-	armorclass= gen_random(5)
-	if (armorclass < 1) then						armorclass= 1						end
-
-	laserclass= gen_random(6)
-	if (laserclass < 1) then						laserclass= 1						end
-	if (laserclass < (ship_laser_class -1)) then	laserclass= (ship_laser_class -1)   end
-
-
-	missileclass= gen_random(6)
-	if (missileclass < (ship_missile_class -1)) then	missileclass= (ship_missile_class -1) end
-
-	laser_modifier= 50
-
-	missile_modifier= gen_random(100)
-	if (missile_modifier < 0) then 				missile_modifier= 0				end
-
-end
-
+	laser_modifier = 10
+	missile_modifier = 10
 end
 
 ------------------------------------------------------------------------

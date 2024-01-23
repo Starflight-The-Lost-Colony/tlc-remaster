@@ -1292,7 +1292,7 @@ bool DataMgr::LoadGalaxy()
 				msg += " , gravity " + Planet::PlanetGravityToString(newPlanet.gravity);
 				msg += " , atmosphere " + Planet::PlanetAtmosphereToString(newPlanet.atmosphere);
 				msg += "\n";
-				TRACE(msg.c_str());
+				debug << msg << endl;
 				ASSERT(0);
 		}
 

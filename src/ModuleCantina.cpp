@@ -70,7 +70,7 @@ ModuleCantina::ModuleCantina(void) {}
 
 ModuleCantina::~ModuleCantina(void) 
 {
-	TRACE("ModuleCantina Dead\n");
+	debug << "ModuleCantina Dead" << endl;
 }
 
 #pragma region INPUT
@@ -146,16 +146,16 @@ void ModuleCantina::Close()
 		candata = NULL;	
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in TitleScreen::Close\n");
+		debug << "Unhandled exception in TitleScreen::Close" << endl;
 	}
 }
 
 bool ModuleCantina::Init()
 {
-	TRACE("  Cantina/Research Lab/Military Ops Initialize\n");
+	debug << "  Cantina/Research Lab/Military Ops Initialize" << endl;
 	
 	//load the datafile
 	candata = load_datafile("data/cantina/cantina.dat");

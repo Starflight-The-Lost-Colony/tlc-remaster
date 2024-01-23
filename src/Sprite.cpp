@@ -53,7 +53,7 @@ Sprite::Sprite()
 	threshold2 = 0;
 	threshold3 = 0;
 	bLoaded = false;
-	DebugMode = false;
+	DebugOutline = false;
 }
 
 Sprite::~Sprite()  
@@ -152,7 +152,7 @@ void Sprite::drawframe(BITMAP *dest, bool UseAlpha)  {
 		destroy_bitmap(temp);
 	}
 	
-	if (DebugMode) {
+	if (DebugOutline) {
 		rect(dest, (int)x, (int)y, (int)x + frameWidth, (int)y + frameHeight, BLUE);
 	}
 }
@@ -166,7 +166,7 @@ void Sprite::drawframe_scale(BITMAP *dest, int dest_w, int dest_h)  {
     int fy = animStartY + (currFrame / animColumns) * frameHeight;
     masked_stretch_blit(image, dest, fx, fy, frameWidth, frameHeight, (int)x, (int)y, dest_w, dest_h);
 
-	if (DebugMode) {
+	if (DebugOutline) {
 		rect(dest, (int)x, (int)y, (int)x + dest_w, (int)y + dest_h, BLUE);
 	}
 }
@@ -190,7 +190,7 @@ void Sprite::drawframe_rotate(BITMAP *dest, int angle)  {
     //adjust for Allegro's 16.16 fixed trig (256 / 360 = 0.7) then divide by 2 radians
     rotate_sprite(dest, frame, (int)x, (int)y, itofix((int)(angle / 0.7f / 2.0f)));
 
-	if (DebugMode) {
+	if (DebugOutline) {
 		rect(dest, (int)x, (int)y, (int)x + frameWidth, (int)y + frameHeight, BLUE);
 	}
 }

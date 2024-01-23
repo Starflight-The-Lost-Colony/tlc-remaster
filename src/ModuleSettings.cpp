@@ -49,7 +49,7 @@ ModuleSettings::~ModuleSettings(void){}
 
 bool ModuleSettings::Init()
 {
-	TRACE("  ModuleSettings Initialize\n");
+	debug << "  ModuleSettings Initialize" << endl;
 
 	cmd_selected = 0;
 	button_selected = 0;
@@ -168,7 +168,7 @@ bool ModuleSettings::Init()
 
 void ModuleSettings::Close()
 {
-	TRACE("*** ModuleSettings closing\n");
+	debug << "*** ModuleSettings closing" << endl;
 	try {
         if (btn_fullscreen!=NULL)
         {
@@ -195,10 +195,10 @@ void ModuleSettings::Close()
         }
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in ModuleSettings::Close\n");
+		debug << "Unhandled exception in ModuleSettings::Close" << endl;
 	}
 }
 	
@@ -323,7 +323,7 @@ bool ModuleSettings::SaveConfigurationFile()
     configfile.open("data/config.lua", std::ofstream::out | std::ofstream::trunc);
     if (!configfile.is_open())
     {
-        TRACE("ModuleSettings: error opening config.lua\n");
+        debug << "ModuleSettings: error opening config.lua" << endl;
         return false;
     }
     
@@ -357,7 +357,7 @@ void ModuleSettings::OnEvent(Event *event)
             {
                 old_resolution = chosenResolution;
                 chosenResolution = resScrollbox->GetSelectedItem();
-                TRACE("Resolution change: %s\n", chosenResolution.c_str());
+                debug << "Resolution change: " << chosenResolution << endl;
             }
             break;
 

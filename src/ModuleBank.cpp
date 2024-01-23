@@ -7,6 +7,7 @@
 #include "ModuleBank.h"
 #include "QuestMgr.h"
 #include "AudioSystem.h"
+using namespace std;
 
 //replaced with png file, no longer using this one
 //#define BANK_BACKGROUND_BMP              0        /* BMP  */
@@ -112,13 +113,13 @@ ModuleBank::ModuleBank(void){
 }
 
 ModuleBank::~ModuleBank(void){
-	TRACE("ModuleBank Dead\n");
+	debug << "ModuleBank Dead" << endl;
 }
 
 bool ModuleBank::Init()
 {
 	//if (!Module::Init()){return false;}
-	TRACE("ModuleBank Initialize\n");
+	debug << "ModuleBank Initialize" << endl;
 
 
 	//load the datafile
@@ -822,7 +823,7 @@ void ModuleBank::OnMouseWheelDown(int x, int y){
 #pragma endregion
 
 void ModuleBank::Close(){
-	TRACE("ModuleBank Closing\n");
+	debug << "ModuleBank Closing" << endl;
 	Module::Close();
 
 	try {
@@ -869,10 +870,10 @@ void ModuleBank::Close(){
 		bdata = NULL;	
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in Bank::Close\n");
+		debug << "Unhandled exception in Bank::Close" << endl;
 	}
 }
 

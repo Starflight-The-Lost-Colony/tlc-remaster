@@ -90,7 +90,7 @@ void ModuleCredits::OnMouseWheelDown(int x, int y){}
 void ModuleCredits::OnEvent(Event *event) {}
 void ModuleCredits::Close()
 {
-	TRACE("Credits Close\n");
+	debug << "Credits Close" << endl;
 
 	//unload the data file 
 	unload_datafile(datafile);
@@ -100,7 +100,7 @@ void ModuleCredits::Close()
 
 bool ModuleCredits::Init()
 {
-	TRACE("  ModuleCredits Initialize\n");
+	debug << "  ModuleCredits Initialize" << endl;
 
 	//load the datafile
 	datafile = load_datafile("data/credits/credits.dat");

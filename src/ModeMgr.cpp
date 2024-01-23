@@ -32,7 +32,7 @@ ModeMgr::ModeMgr(Game *game):
 
 ModeMgr::~ModeMgr()
 {
-	TRACE("[DESTROYING MODULES]\n");
+	debug << "[DESTROYING MODULES]" << endl;
 	try {
 		map<string,Mode *>::iterator i;
 		i = m_modes.begin(); 
@@ -50,21 +50,21 @@ ModeMgr::~ModeMgr()
 					
 				if ((!isOperationsRoom) || (!operationsRoomDeleted)) {
 					if (isOperationsRoom) operationsRoomDeleted= true;
-					TRACE("  Destroying %s\n", i->first.c_str());
+					debug << "  Destroying " << i->first << endl;
 					delete i->second;
 				}
 				else {
-					TRACE("  Module %s was previously deleted (object assigned 3x)\n", i->first.c_str());
+					debug << "  Module " << i->first << " was previously deleted (object assigned 3x)" << endl;
 				}
 			}
 			++i;
 		}
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in ~ModeMgr\n");
+		debug << "Unhandled exception in ~ModeMgr" << endl;
 	}
 }
 
@@ -119,16 +119,16 @@ bool ModeMgr::LoadModule(std::string newModeName)
 	//the following will always be true except exactly once, at game start
 	if ( icurr != m_modes.end() ){
 		//close active module
-		TRACE("ModeMgr: closing module '%s'\n", this->prevModeName.c_str());
+		debug << "ModeMgr: closing module " << this->prevModeName << endl;
 		CloseCurrentModule();
-		TRACE("ModeMgr: module '%s' closed\n\n", this->prevModeName.c_str());
+		debug << "ModeMgr: module " << this->prevModeName << " closed" << endl << endl;
 	}
 
 	//launch new module 
-	TRACE("ModeMgr: initializing module '%s'\n", newModeName.c_str());
+	debug << "ModeMgr: initializing module " << newModeName << endl;
 	m_activeRootModule = inew->second->rootModule;
 	result = m_activeRootModule->Init();
-	TRACE("ModeMgr: module '%s' Init(): %s\n", newModeName.c_str(), result? "SUCCESS" : "FAILURE");
+	debug << "ModeMgr: module " << newModeName << " Init(): " << (result ? "SUCCESS" : "FAILURE") << endl;
 
 	if (!result) return false;
 
@@ -150,14 +150,14 @@ bool ModeMgr::LoadModule(std::string newModeName)
 
 	//stop the current music, unless we were told not to deal with it.
 	if ( currentMusicPath.compare("") != 0 && currentMusic != NULL ){ 
-		TRACE("ModeMgr: stop playing music %s\n", currentMusicPath.c_str());
+		debug << "ModeMgr: stop playing music " << currentMusicPath << endl;
 		g_game->audioSystem->Stop(currentMusic);
 		delete currentMusic;
 		currentMusic = NULL;
 	}
 
 
-	TRACE("ModeMgr: start playing music %s\n", newMusicPath.c_str());
+	debug << "ModeMgr: start playing music " << newMusicPath << endl;
 	currentMusic = g_game->audioSystem->LoadMusic(newMusicPath);
 	if ( currentMusic == NULL ){
 		g_game->message("Error loading music from " + newMusicPath);

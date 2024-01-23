@@ -15,6 +15,7 @@
 #include "ModuleTopGUI.h"
 #include "DataMgr.h"
 #include "ModeMgr.h"
+using namespace std;
 
 int ggx = 0;
 int ggy = 0;
@@ -50,10 +51,10 @@ void ModuleTopGUI::Close()
 		destroy_bitmap(img_shield_gauge);
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in ModuleTopGUI::Close\n");
+		debug << "Unhandled exception in ModuleTopGUI::Close" << endl;
 	}
 }
 	

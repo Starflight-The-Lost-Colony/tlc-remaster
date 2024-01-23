@@ -59,10 +59,10 @@ void ModuleMessageGUI::Close()
 		data = NULL;
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in ModuleMessageGUI::Close\n");
+		debug << "Unhandled exception in ModuleMessageGUI::Close" << endl;
 	}
 }
 	

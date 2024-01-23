@@ -77,10 +77,10 @@ void ModuleQuestLog::Close()
         }
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in QuestLog::Close\n");
+		debug << "Unhandled exception in QuestLog::Close"  << endl;
 	}
 }
 
@@ -117,7 +117,7 @@ bool ModuleQuestLog::Init()
     window=(BITMAP*)load_bitmap("data/questviewer/quest_viewer.bmp",NULL);
     if (!window) 
     {
-		TRACE("Error loading quest viewer image");
+		debug << "Error loading quest viewer image" << endl;
 		return false;
 	}
 

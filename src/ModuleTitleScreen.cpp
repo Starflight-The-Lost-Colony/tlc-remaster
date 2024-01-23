@@ -243,10 +243,10 @@ void ModuleTitleScreen::Close()
 
 	}
 	catch(std::exception e) {
-		TRACE(e.what());
+		debug << e.what() << endl;
 	}
 	catch(...) {
-		TRACE("Unhandled exception in TitleScreen::Close\n");
+		debug << "Unhandled exception in TitleScreen::Close" << endl;
 	}
 }
 
