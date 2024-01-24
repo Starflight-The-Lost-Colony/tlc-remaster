@@ -470,15 +470,15 @@ end
 -- NOT AFFECTED BY PLOT STAGE
 --------------------------------------------------------------------
 function GenerateShips()
-	health= gen_random(90)+10;      
+	health= gen_random(50)+50;      
 	mass = 2                        -- 1=tiny, 10=huge
 	engineclass = 1
 	shieldclass = 1
 	armorclass = 1
 	laserclass = 1
 	missileclass = 0
-	laser_modifier = 10
-	missile_modifier = 10
+	laser_modifier = 100            -- percent of dmg done to pirate
+	missile_modifier = 100          -- percent of dmg done to pirate
 end
 
 ------------------------------------------------------------------------
