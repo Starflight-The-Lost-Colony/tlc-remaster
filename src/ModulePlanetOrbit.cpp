@@ -53,7 +53,16 @@ ModulePlanetOrbit::~ModulePlanetOrbit(void){}
 
 #pragma region INPUT
 
-void ModulePlanetOrbit::OnKeyPress(int keyCode){}
+void ModulePlanetOrbit::OnKeyPress(int keyCode)
+{
+    switch (keyCode) 
+    {
+        case KEY_ESC:
+            g_game->printout(g_game->g_scrollbox, "The pause menu is not available in planet orbit.", YELLOW);
+            break;
+    }
+}
+
 void ModulePlanetOrbit::OnKeyPressed(int keyCode){}
 void ModulePlanetOrbit::OnKeyReleased(int keyCode){}
 
@@ -96,21 +105,21 @@ void ModulePlanetOrbit::OnEvent(Event *event)
 	switch(event->getEventType())
 	{
         //pause menu events
-		case 0xDEADBEEF + 2: //save game
-			g_game->gameState->AutoSave();
-			g_game->printout(text, "<Game Saved>", WHITE, 5000);
-			return;
-			break;
-		case 0xDEADBEEF + 3: //load game
-			g_game->gameState->AutoLoad();
-			return;//this must come after any LoadModule call
-			break;
-		case 0xDEADBEEF + 4: //quit game
-			g_game->setVibration(0);
-			escape = g_game->getGlobalString("ESCAPEMODULE");
-			g_game->modeMgr->LoadModule(escape);
-			return;//this must come after any LoadModule call
-			break;
+		//case 0xDEADBEEF + 2: //save game
+		//	g_game->gameState->AutoSave();
+		//	g_game->printout(text, "<Game Saved>", WHITE, 5000);
+		//	return;
+		//	break;
+		//case 0xDEADBEEF + 3: //load game
+		//	g_game->gameState->AutoLoad();
+		//	return;//this must come after any LoadModule call
+		//	break;
+		//case 0xDEADBEEF + 4: //quit game
+		//	g_game->setVibration(0);
+		//	escape = g_game->getGlobalString("ESCAPEMODULE");
+		//	g_game->modeMgr->LoadModule(escape);
+		//	return;//this must come after any LoadModule call
+		//	break;
 
 		case EVENT_CAPTAIN_LAUNCH:
 			g_game->printout(text, nav + "Yes, sir, leaving planet orbit...", ORANGE);
@@ -389,8 +398,8 @@ bool ModulePlanetOrbit::Init()
         }
     }
 
-	//enable the Pause Menu
-	g_game->pauseMenu->setEnabled(true);
+	//disable the Pause Menu in planet orbit
+	g_game->pauseMenu->setEnabled(false);
 
 	planetScan = 0;
 	planetAnalysis = 0;

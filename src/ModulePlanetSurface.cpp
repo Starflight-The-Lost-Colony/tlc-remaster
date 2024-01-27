@@ -79,7 +79,7 @@ using namespace std;
 //#define GUI_CONTROLPANEL_BMP             20       /* BMP  */
 #define GUI_GAUGES_BMP                   21       /* BMP  */
 #define GUI_MESSAGEWINDOW_BMP            22       /* BMP  */
-#define GUI_SOCKET_BMP                   23       /* BMP  */
+//#define GUI_SOCKET_BMP                   23       /* BMP  */
 #define HULL_BAR_BMP                     24       /* BMP  */
 #define STATIC_TGA                       25       /* BMP  */
 #define TILESET_ASH_TGA                  26       /* BMP  */
@@ -200,21 +200,32 @@ void ModulePlanetSurface::OnKeyPress(int keyCode)
 {
 	switch (keyCode)
 	{
-		case KEY_UP:		
+		case KEY_UP:
         case KEY_W:
             activeVessel->ForwardThrust(true);		
             break;
-		case KEY_DOWN:		
+		case KEY_DOWN:
         case KEY_S:
             activeVessel->ReverseThrust(true);		
             break;
-		case KEY_RIGHT:		
+		case KEY_RIGHT:
         case KEY_D:
             activeVessel->TurnRight(true);			
             break;
-		case KEY_LEFT:		
+		case KEY_LEFT:
         case KEY_A:
             activeVessel->TurnLeft(true);			
+            break;
+
+        case KEY_LCONTROL:
+        case KEY_RCONTROL:
+        case KEY_SPACE:
+        case KEY_X:
+
+            break;
+
+        case KEY_ESC:
+            //g_game->printout(g_game->g_scrollbox, "The pause menu is not available on a planet surface.", YELLOW);
             break;
 	}
 
@@ -226,7 +237,6 @@ void ModulePlanetSurface::OnKeyPressed(int keyCode){}
 void ModulePlanetSurface::OnKeyReleased(int keyCode)
 {
 	switch (keyCode) {
-		//reset ship anim frame when key released
 		case KEY_LEFT:	
         case KEY_A:
             activeVessel->TurnLeft(false); 
@@ -243,15 +253,6 @@ void ModulePlanetSurface::OnKeyReleased(int keyCode)
         case KEY_S:
             activeVessel->ReverseThrust(false); 
             break;
-		case KEY_ESC:
-			//std::string escape = g_game->getGlobalString("ESCAPEMODULE");
-			//g_game->modeMgr->LoadModule(escape);
-			//return;
-			break;
-		//case KEY_L:
-		//	g_game->modeMgr->LoadModule(MODULE_ORBIT);
-		//	return;
-		//	break;
 	}
 
 }
@@ -260,9 +261,11 @@ void ModulePlanetSurface::OnMouseMove(int x, int y)
 {
 	messages->OnMouseMove(x,y);
 
-	for (int i=0; i < 2; ++i) BigBtns[i]->OnMouseMove(x,y);
+	for (int i=0; i < 2; ++i) 
+        BigBtns[i]->OnMouseMove(x,y);
 
-	for (int i=0; i < activeButtons; ++i) Btns[i]->OnMouseMove(x,y);
+	for (int i=0; i < activeButtons; ++i) 
+        Btns[i]->OnMouseMove(x,y);
 
 	cargoBtn->OnMouseMove(x,y);
 
@@ -282,9 +285,19 @@ void ModulePlanetSurface::OnMouseReleased(int button, int x, int y)
 {
 	messages->OnMouseReleased(button,x,y);
 
-	for (int i=0; i < 2; ++i) { if (BigBtns[i]->OnMouseReleased(button,x,y)) return; } //Stop passing on if click landed
+	for (int i=0; i < 2; ++i) 
+    { 
+        //Stop passing on if click landed
+        if (BigBtns[i]->OnMouseReleased(button,x,y)) 
+            return; 
+    } 
 
-	for (int i=0; i < activeButtons; ++i) { if (Btns[i]->OnMouseReleased(button,x,y)) return; }//Stop passing on if click landed
+	for (int i=0; i < activeButtons; ++i) 
+    {
+        //Stop passing on if click landed
+        if (Btns[i]->OnMouseReleased(button,x,y)) 
+            return; 
+    }
 
 	if (cargoBtn->OnMouseReleased(button,x,y)) 
 	{
@@ -301,7 +314,11 @@ void ModulePlanetSurface::OnMouseReleased(int button, int x, int y)
 			y += (int)scroller->getScrollY();
 			for (int i=0; i < (int)surfaceObjects.size(); ++i)
 			{
-				if (surfaceObjects[i]->OnMouseReleased(button,x,y)) { return; } //Stop passing on if click landed
+				if (surfaceObjects[i]->OnMouseReleased(button,x,y)) 
+                { 
+                    //Stop passing on if click landed
+                    return; 
+                } 
 			}
 		}
 	}
@@ -328,13 +345,13 @@ void ModulePlanetSurface::OnEvent(Event *event)
 
 	switch (event->getEventType())
 	{
-		case 0xDEADBEEF + 2: //save game
-			g_game->gameState->AutoSave();
-			break;
-		case 0xDEADBEEF + 3: //load game
-			g_game->gameState->AutoLoad();
-			return;
-			break;
+		//case 0xDEADBEEF + 2: //save game
+		//	g_game->gameState->AutoSave();
+		//	break;
+		//case 0xDEADBEEF + 3: //load game
+		//	g_game->gameState->AutoLoad();
+		//	return;
+		//	break;
 		case 0xDEADBEEF + 4: //quit game
             {
 				g_game->setVibration(0);
@@ -360,7 +377,8 @@ void ModulePlanetSurface::OnEvent(Event *event)
 				panCamera = false;
 
 				if (!g_game->gameState->getShip().getHasTV()){
-					g_game->ShowMessageBoxWindow("", "You can't land--no Terrain Vehicle! Acquire one at the Starport.");
+					g_game->printout(g_game->g_scrollbox, "But sir, we can't land without a Terrain Vehicle!");
+                    
 					return;
 				}
 
@@ -370,7 +388,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 					!IsValidTile((int)(playerShip->getX() + playerShip->getFrameWidth()), (int)(playerShip->getY()+ playerShip->getFrameHeight())) ||
 					!IsValidTile((int)playerShip->getX(), (int)(playerShip->getY()+ playerShip->getFrameHeight())))
 				{
-					g_game->ShowMessageBoxWindow("", "You can't land here!", 400, 200);
+					g_game->printout(g_game->g_scrollbox, "Sir, we can't land at that location!");
 					return;
 				}
 
@@ -380,7 +398,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 					int number_of_endurium = g_game->gameState->m_ship.getEnduriumOnBoard();
 					if(number_of_endurium <= 0)
                     {
-						g_game->ShowMessageBoxWindow("", "You can't land--no fuel!");
+						g_game->printout(g_game->g_scrollbox, "But sir, we can't land--not enough fuel!");
 						return;
 					}					
 					else g_game->gameState->getShip().injectEndurium();
@@ -460,7 +478,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 				}
 				else
 				{
-					g_game->ShowMessageBoxWindow("", "You are not close enough to the ship yet to dock",400,200);
+					g_game->printout(g_game->g_scrollbox, "We are not close enough to the ship to dock!");
 				}
 			}
 
@@ -498,7 +516,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 				}
 				else
 				{
-					g_game->ShowMessageBoxWindow("", "You are not close enough to pick up the Terrain Vehicle",400,200);
+					g_game->printout(g_game->g_scrollbox, "Sir, we are not close enough to pick up the Terrain Vehicle.");
 				}
 			}
 			break;
@@ -542,7 +560,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 			}
 			else
 			{
-				g_game->ShowMessageBoxWindow("", "You need to select something to scan first! You can select objects on the planet surface by clicking on them.");
+				g_game->printout(g_game->g_scrollbox, "Sir, please select an object to scan.");
 			}
 		}
 		else if (vessel_mode == 2)
@@ -578,7 +596,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 			}
 			else
 			{
-				g_game->ShowMessageBoxWindow("", "You are not close enough to pick up the Terrain Vehicle");
+				g_game->printout(g_game->g_scrollbox, "But sir, we are not close enough to pick up the Terrain Vehicle!");
 			}
 		}
 		break;
@@ -846,11 +864,11 @@ bool ModulePlanetSurface::Init()
 	}
 
 	//load the socket gui
-	img_socket = (BITMAP*)psdata[GUI_SOCKET_BMP].dat;
-	if (!img_socket) {
-		g_game->message("Planet: Error loading gui_socket");
-		return false;
-	}
+	//img_socket = (BITMAP*)psdata[GUI_SOCKET_BMP].dat;
+	//if (!img_socket) {
+	//	g_game->message("Planet: Error loading gui_socket");
+	//	return false;
+	//}
 
 	//load the gauges gui
 	img_gauges = (BITMAP*)psdata[GUI_GAUGES_BMP].dat;
@@ -1297,7 +1315,7 @@ bool ModulePlanetSurface::fabTilemap()
 
 	//create tile scroller
 	//these parameters CANNOT CHANGE despite being passed
-	scroller = new AdvancedTileScroller(499, 499, 64, 64); 
+	scroller = new AdvancedTileScroller(500, 500, 64, 64); 
 
 	star = g_game->dataMgr->GetStarByID(g_game->gameState->player->currentStar);
 
@@ -1727,7 +1745,7 @@ void ModulePlanetSurface::Update()
             }
             else {
                 //ship damaged
-                g_game->ShowMessageBoxWindow("", "The heavy gravity of this planet has damaged your ship!", 400, 200, YELLOW);
+                g_game->printout(g_game->g_scrollbox, "The heavy gravity of this planet has damaged your ship!", RED);
 				//key events won't be processed while the message window is shown
 				//so, we force release of all keys here otherwise confusing things will happen
 				activeVessel->TurnLeft(false);
@@ -1749,7 +1767,6 @@ void ModulePlanetSurface::Update()
 		if (deathState == 0) {
 			deathState++;
 			g_game->printout(g_game->g_scrollbox,"The heavy gravity of this planet has CRUSHED your ship!", RED);
-            g_game->ShowMessageBoxWindow("", "The heavy gravity of this planet has CRUSHED your ship!",400,200,RED);
 		}
 		else {
 			//show pause menu since player has died
@@ -1832,7 +1849,7 @@ void ModulePlanetSurface::Draw()
 
 
 	//draw scroll buffer
-	scroller->DrawScrollWindow(g_game->GetBackBuffer(), 0, 0, SCREEN_WIDTH, 540);
+	scroller->DrawScrollWindow(g_game->GetBackBuffer(), 0, 0, SCREEN_WIDTH, 550);
 
 	//TV goes on bottom so projectiles and lifeforms appear to crawl on top of it
 	if (vessel_mode > 0)
@@ -1975,9 +1992,9 @@ void ModulePlanetSurface::Draw()
 	messages->Draw(g_game->GetBackBuffer());
 
 	//draw socket gui
-	static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
-	static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
-	masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
+	//static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
+	//static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
+	//masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
 
 
 	static int gcpx = (int)g_game->getGlobalNumber("GUI_CONTROLPANEL_POS_X");
@@ -1989,9 +2006,11 @@ void ModulePlanetSurface::Draw()
 	if (!activeButtons)
 		label->Draw(g_game->GetBackBuffer());
 
-	for (int i=0; i < 2; ++i) BigBtns[i]->Run(g_game->GetBackBuffer());
+	for (int i=0; i < 2; ++i) 
+        BigBtns[i]->Run(g_game->GetBackBuffer());
 
-	for (int i=0; i < activeButtons; ++i) Btns[i]->Run(g_game->GetBackBuffer());
+	for (int i=0; i < activeButtons; ++i) 
+        Btns[i]->Run(g_game->GetBackBuffer());
 
 	cargoBtn->Run(g_game->GetBackBuffer());
 
@@ -2706,13 +2725,13 @@ int L_AttackTV(lua_State* luaVM)
 		int health = g_game->PlanetSurfaceHolder->playerTV->getHealth();
 
 		if (health < 25)
-			g_game->PlanetSurfaceHolder->PostMessage("CAPTAIN! THE TERRAIN VEHICLE IS UNDER ATTACK AND IN CRITICAL CONDITION! HURRY AND GET IT OUT OF THERE!", RED, 0, 5);
+			g_game->PlanetSurfaceHolder->PostMessage("CAPTAIN! THE T.V. IS IN CRITICAL CONDITION! GET US OUT OF HERE!", RED, 0, 5);
 		else if (health < 50)
-			g_game->PlanetSurfaceHolder->PostMessage("CAPTAIN! A LIFEFORM IS ATTACKING THE TERRAIN VEHICLE! DO SOMETHING QUICK!", RED, 0, 5);
+			g_game->PlanetSurfaceHolder->PostMessage("CAPTAIN! A LIFEFORM IS ATTACKING US! DO SOMETHING QUICK!", RED, 0, 5);
 		else if (health < 75)
-			g_game->PlanetSurfaceHolder->PostMessage("CAPTAIN! A LIFEFORM IS ATTACKING THE TERRAIN VEHICLE!", RED, 0, 6);
+			g_game->PlanetSurfaceHolder->PostMessage("CAPTAIN! A LIFEFORM IS ATTACKING US!", RED, 0, 6);
 		else
-			g_game->PlanetSurfaceHolder->PostMessage("Captain, the Terrain Vehicle is under attack.", RED, 0, 6);
+			g_game->PlanetSurfaceHolder->PostMessage("Captain, we are under attack!", RED, 0, 6);
 	}
 
 	return 0;
@@ -3329,9 +3348,6 @@ int L_GetDescription(lua_State* luaVM)
 	return 1;
 }
 
-
-
-
 //Lua Example: L_SetPosition(x,y)
 int L_SetPosition(lua_State* luaVM)
 {
@@ -3691,8 +3707,6 @@ int L_SetActiveAnimation(lua_State* luaVM)
 
 	return 0;
 }
-
-
 
 //Lua Example: L_PlaySound("stunner")
 int L_PlaySound(lua_State* luaVM)

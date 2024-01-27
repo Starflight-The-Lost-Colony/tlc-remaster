@@ -230,11 +230,11 @@ void ModuleSettings::Draw()
 	g_game->Print20(g_game->GetBackBuffer(), x, y, "Reverse", WHITE); 	y+=40;
 	g_game->Print20(g_game->GetBackBuffer(), x, y, "Strafe left", WHITE);   	y+=40;
 	g_game->Print20(g_game->GetBackBuffer(), x, y, "Strafe right", WHITE);  	y+=40;
-	g_game->Print20(g_game->GetBackBuffer(), x, y, "Fire laser or stunner", WHITE);    	y+=40;
+	g_game->Print20(g_game->GetBackBuffer(), x, y, "Fire laser/stunner", WHITE);    	y+=40;
 	g_game->Print20(g_game->GetBackBuffer(), x, y, "Fire missile", WHITE);  	y+=40;
 	g_game->Print20(g_game->GetBackBuffer(), x, y, "Toggle shield", WHITE); 	y+=40;
 	g_game->Print20(g_game->GetBackBuffer(), x, y, "Toggle weapons", WHITE);    y+=40;
-    g_game->Print20(g_game->GetBackBuffer(), x, y, "Select bridge station", WHITE);    y+=40;
+    g_game->Print20(g_game->GetBackBuffer(), x, y, "Select bridge officer", WHITE);    y+=40;
 
 	//draw buttons for each command
 	for(int i=0; i<11; i++)

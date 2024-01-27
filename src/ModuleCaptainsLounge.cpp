@@ -57,7 +57,7 @@ using namespace std;
 #define GAMES_TITLE_Y 100
 #define TEXTHEIGHT_GAMES_TITLE 50
 
-#define CURGAME_TITLE_X 690
+#define CURGAME_TITLE_X 660
 #define CURGAME_TITLE_Y 192
 
 #define YES_X 317
@@ -85,17 +85,22 @@ using namespace std;
 #define CAPTAINSLOUNGE_PLUS_DISABLED_TGA 7        /* BMP  */
 #define CAPTAINSLOUNGE_PLUS_MOUSEOVER_TGA 8        /* BMP  */
 #define CAPTAINSLOUNGE_PLUS_TGA          9        /* BMP  */
-#define CAPTAINSLOUNGE_SAVE_BMP          10       /* BMP  */
-#define CAPTAINSLOUNGE_SAVE_MOUSEOVER_BMP 11       /* BMP  */
-#define CAPTAINSLOUNGE_SEL_DISABLED_TGA  12       /* BMP  */
-#define CAPTAINSLOUNGE_SEL_MOUSEOVER_TGA 13       /* BMP  */
-#define CAPTAINSLOUNGE_SEL_TGA           14       /* BMP  */
 #define CAPTAINSLOUNGE_YES_BMP           15       /* BMP  */
 #define CAPTAINSLOUNGE_YES_MOUSEOVER_BMP 16       /* BMP  */
 #define GENERIC_EXIT_BTN_NORM_BMP        17       /* BMP  */
 #define GENERIC_EXIT_BTN_OVER_BMP        18       /* BMP  */
 
 DATAFILE *cldata;
+
+
+//#define CAPTAINSLOUNGE_SAVE_BMP          10       /* BMP  */
+//#define CAPTAINSLOUNGE_SAVE_MOUSEOVER_BMP 11       /* BMP  */
+BITMAP *img_cl_save, *img_cl_save_mo;
+
+//#define CAPTAINSLOUNGE_SEL_DISABLED_TGA  12       /* BMP  */
+//#define CAPTAINSLOUNGE_SEL_MOUSEOVER_TGA 13       /* BMP  */
+//#define CAPTAINSLOUNGE_SEL_TGA           14       /* BMP  */
+BITMAP *img_cl_sel, *img_cl_sel_dis, *img_cl_sel_mo;
 
 
 
@@ -166,20 +171,35 @@ bool ModuleCaptainsLounge::Init()
 		if (m_delCaptBtns[i] == NULL) return false;
 		if (!m_delCaptBtns[i]->IsInitialized()) return false;
 
-		btnNorm = (BITMAP*)cldata[CAPTAINSLOUNGE_SEL_TGA].dat;
-		btnOver = (BITMAP*)cldata[CAPTAINSLOUNGE_SEL_MOUSEOVER_TGA].dat;
-		btnDis = (BITMAP*)cldata[CAPTAINSLOUNGE_SEL_DISABLED_TGA].dat;
-		m_selCaptBtns[i] = new Button(btnNorm,btnOver,btnDis,
-			BTN_SELCAPTAIN_X,y,EVENT_NONE,EVENT_SELCAPTAIN_SLOT0+i);
+		//btnNorm = (BITMAP*)cldata[CAPTAINSLOUNGE_SEL_TGA].dat;
+		//btnOver = (BITMAP*)cldata[CAPTAINSLOUNGE_SEL_MOUSEOVER_TGA].dat;
+		//btnDis = (BITMAP*)cldata[CAPTAINSLOUNGE_SEL_DISABLED_TGA].dat;
+        img_cl_sel = (BITMAP*)load_bitmap("data/captainslounge/captainslounge_sel.tga",NULL);
+        img_cl_sel_dis = (BITMAP*)load_bitmap("data/captainslounge/captainslounge_sel_disabled.tga",NULL);
+        img_cl_sel_mo = (BITMAP*)load_bitmap("data/captainslounge/captainslounge_sel_mouseover.tga",NULL);
+
+        if (!img_cl_sel || !img_cl_sel_dis || !img_cl_sel_mo) 
+        {
+            debug << "captainslounge: error loading load button images" << endl;
+        }
+
+		m_selCaptBtns[i] = new Button(img_cl_sel, img_cl_sel_mo, img_cl_sel_dis, BTN_SELCAPTAIN_X, y, EVENT_NONE, EVENT_SELCAPTAIN_SLOT0+i);
 		if (m_selCaptBtns[i] == NULL)
 			return false;
 		if (!m_selCaptBtns[i]->IsInitialized())
 			return false;
 
-		btnNorm = (BITMAP*)cldata[CAPTAINSLOUNGE_SAVE_BMP].dat;
-		btnOver = (BITMAP*)cldata[CAPTAINSLOUNGE_SAVE_MOUSEOVER_BMP].dat;
-		m_saveCaptBtns[i] = new Button(btnNorm,btnOver,NULL,
-			BTN_SAVECAPTAIN_X,y,EVENT_NONE,EVENT_SAVECAPTAIN_SLOT0+i);
+		//btnNorm = (BITMAP*)cldata[CAPTAINSLOUNGE_SAVE_BMP].dat;
+		//btnOver = (BITMAP*)cldata[CAPTAINSLOUNGE_SAVE_MOUSEOVER_BMP].dat;
+        img_cl_save = (BITMAP*)load_bitmap("data/captainslounge/captainslounge_save.bmp",NULL);
+        img_cl_save_mo = (BITMAP*)load_bitmap("data/captainslounge/captainslounge_save_mouseover.bmp",NULL);
+        if (!img_cl_save || !img_cl_save_mo)
+        {
+            debug << "captainslounge: error loading save button images" << endl;
+            return false;
+        }
+
+		m_saveCaptBtns[i] = new Button(img_cl_save, img_cl_save_mo, NULL, BTN_SAVECAPTAIN_X, y, EVENT_NONE, EVENT_SAVECAPTAIN_SLOT0+i);
 		if (m_saveCaptBtns[i] == NULL)
 			return false;
 		if (!m_saveCaptBtns[i]->IsInitialized())
@@ -272,7 +292,33 @@ void ModuleCaptainsLounge::Close()
 	//g_game->gameState->stardate.paused = false;
 
 
-	try {
+	try 
+    {
+        if (img_cl_sel != NULL)
+        {
+            delete img_cl_sel;
+            img_cl_sel=NULL;
+        }
+        if (img_cl_sel_mo != NULL)
+        {
+            delete img_cl_sel_mo;
+            img_cl_sel_mo=NULL;
+        }
+        if (img_cl_sel_dis != NULL)
+        {
+            delete img_cl_sel_dis;
+            img_cl_sel_dis=NULL;
+        }
+        if (img_cl_save != NULL)
+        {
+            delete img_cl_save;
+            img_cl_save=NULL;
+        }
+        if (img_cl_save_mo != NULL)
+        {
+            delete img_cl_save_mo;
+            img_cl_save_mo=NULL;
+        }
         if (m_background != NULL)
         {
             delete m_background;
@@ -368,11 +414,11 @@ void ModuleCaptainsLounge::Draw()
 	int x= CURGAME_TITLE_X, y= CURGAME_TITLE_Y;
 
 	//alfont_set_font_size(m_font,TEXTHEIGHT_GAMES_TITLE);
-	g_game->Print24(g_game->GetBackBuffer(), x,y-40,"SELECTED CAPTAIN",TEXTCOL);
+	g_game->Print24(g_game->GetBackBuffer(), x, y-40, "SELECTED CAPTAIN",TEXTCOL);
 
 	if ( g_game->gameState->m_captainSelected)
 	{
-		g_game->Print32(g_game->GetBackBuffer(), x,y, g_game->gameState->officerCap->name.c_str(),TEXTCOL);
+		g_game->Print32(g_game->GetBackBuffer(), x, y, g_game->gameState->officerCap->name.c_str(),TEXTCOL);
 
 		ostringstream str;
 		str << "Profession: ";
@@ -412,7 +458,8 @@ void ModuleCaptainsLounge::Draw()
 			else if (str == MODULE_PORT)			str= "Starport";
 			else if (str == MODULE_STARPORT)		str= "Starport";
 
-			str= "Current location: " +str;			y+= TEXTHEIGHT_GAME_PROFESSION +2;
+            y+= TEXTHEIGHT_GAME_PROFESSION +2;
+			str= "Current location: " +str;			
 			g_game->Print20(g_game->GetBackBuffer(), x,y, str.c_str(), TEXTCOL);
 		}
 
@@ -425,44 +472,41 @@ void ModuleCaptainsLounge::Draw()
 		}
 
 		{
+			y += TEXTHEIGHT_GAME_PROFESSION + 2;
 			ostringstream str;
 			str << "Cargo Pods: " << Util::ToString( g_game->gameState->m_ship.getCargoPodCount() );
-			y += TEXTHEIGHT_GAME_PROFESSION + 2;
 			g_game->Print20(g_game->GetBackBuffer(),x,y, str.str().c_str(),TEXTCOL);
 		}
 
 		{
 			ostringstream str;
 			str << "Engine: " << g_game->gameState->m_ship.getEngineClassString();
-			//y += TEXTHEIGHT_GAME_PROFESSION + 2;
 			g_game->Print20(g_game->GetBackBuffer(),x+150,y,str.str().c_str(),TEXTCOL);
 		}
 
 		{
+			y += TEXTHEIGHT_GAME_PROFESSION + 2;
 			ostringstream str;
 			str << "Armor: " << g_game->gameState->m_ship.getArmorClassString();
-			y += TEXTHEIGHT_GAME_PROFESSION + 2;
 			g_game->Print20(g_game->GetBackBuffer(),x,y,str.str().c_str(),TEXTCOL);
 		}
 
 		{
 			ostringstream str;
 			str << "Shields: " << g_game->gameState->m_ship.getShieldClassString();
-			//y += TEXTHEIGHT_GAME_PROFESSION + 2;
 			g_game->Print20(g_game->GetBackBuffer(),x+150,y,str.str().c_str(),TEXTCOL);
 		}
 
 		{
+			y += TEXTHEIGHT_GAME_PROFESSION + 2;
 			ostringstream str;
 			str << "Laser: " << g_game->gameState->m_ship.getLaserClassString();
-			y += TEXTHEIGHT_GAME_PROFESSION + 2;
 			g_game->Print20(g_game->GetBackBuffer(),x,y,str.str().c_str(),TEXTCOL);
 		}
 
 		{
 			ostringstream str;
 			str << "Missile: " << g_game->gameState->m_ship.getMissileLauncherClassString();
-			//y += TEXTHEIGHT_GAME_PROFESSION + 2;
 			g_game->Print20(g_game->GetBackBuffer(),x+150,y,str.str().c_str(),TEXTCOL);
 		}
 
@@ -502,21 +546,21 @@ void ModuleCaptainsLounge::Draw()
 		y += TEXTHEIGHT_GAME_NAME + 2;
 
 		y += TEXTHEIGHT_GAME_PROFESSION + 2;
-		g_game->Print20(g_game->GetBackBuffer(),x-33,y,"You may load an existing captain by",TEXTCOL);
+		g_game->Print20(g_game->GetBackBuffer(), x, y,"You may load an existing captain by",TEXTCOL);
 		y += TEXTHEIGHT_GAME_PROFESSION + 2;
-		g_game->Print20(g_game->GetBackBuffer(),x-33,y,"clicking on the target (load) button",TEXTCOL);
+		g_game->Print20(g_game->GetBackBuffer(), x, y,"clicking on the target (load) button",TEXTCOL);
 		y += TEXTHEIGHT_GAME_PROFESSION + 2;
-		g_game->Print20(g_game->GetBackBuffer(),x-33,y,"beside a slot which contains an",TEXTCOL);
+		g_game->Print20(g_game->GetBackBuffer(), x, y,"beside a slot which contains an",TEXTCOL);
 		y += TEXTHEIGHT_GAME_PROFESSION + 2;
-		g_game->Print20(g_game->GetBackBuffer(),x-33,y,"existing captain.",TEXTCOL);
+		g_game->Print20(g_game->GetBackBuffer(), x, y,"existing captain.",TEXTCOL);
 
 		y += TEXTHEIGHT_GAME_PROFESSION + 2;
 		y += TEXTHEIGHT_GAME_PROFESSION + 2;
-		g_game->Print20(g_game->GetBackBuffer(),x-33,y,"Or, you may create a new captain by",TEXTCOL);
+		g_game->Print20(g_game->GetBackBuffer(), x, y,"Or, you may create a new captain by",TEXTCOL);
 		y += TEXTHEIGHT_GAME_PROFESSION + 2;
-		g_game->Print20(g_game->GetBackBuffer(),x-33,y,"clicking on the + (new) button beside",TEXTCOL);
+		g_game->Print20(g_game->GetBackBuffer(), x, y,"clicking on the + (new) button beside",TEXTCOL);
 		y += TEXTHEIGHT_GAME_PROFESSION + 2;
-		g_game->Print20(g_game->GetBackBuffer(),x-33,y,"an empty slot.",TEXTCOL);
+		g_game->Print20(g_game->GetBackBuffer(), x, y,"an empty slot.",TEXTCOL);
 	}
 
 	y = GAME_BASE_Y;

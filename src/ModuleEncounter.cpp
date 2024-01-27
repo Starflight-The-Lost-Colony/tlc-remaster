@@ -124,16 +124,17 @@ void ModuleEncounter::OnKeyPress(int keyCode)
                 break;
 
 			case KEY_Q:	
-                if (!flag_thrusting) playerShip->applybraking();
+                //if (!flag_thrusting) playerShip->applybraking();
                 playerShip->starboard();	
                 break;
 
 			case KEY_E:	
-                if (!flag_thrusting) playerShip->applybraking();
+                //if (!flag_thrusting) playerShip->applybraking();
                 playerShip->port();			
                 break;
 
 			case KEY_ALT:
+            case KEY_ALTGR:
 			case KEY_X:
 				if (!firingMissile) {
 					firingLaser = true;
@@ -184,7 +185,7 @@ void ModuleEncounter::OnKeyReleased(int keyCode)
 
 		case KEY_Q:
 		case KEY_E:
-            playerShip->applybraking();
+            //playerShip->applybraking();
 			playerShip->cruise();
 			break;
 
@@ -192,19 +193,24 @@ void ModuleEncounter::OnKeyReleased(int keyCode)
 			shieldStatus = !g_game->gameState->getShieldStatus();	//jjh - added back shields/weapons toggles
 			g_game->gameState->setShieldStatus(shieldStatus);
 			break;
-		case KEY_PGDN:
+		
+        case KEY_PGDN:
 			weaponStatus = !g_game->gameState->getWeaponStatus();
 			g_game->gameState->setWeaponStatus(weaponStatus);
 			break;
-		case KEY_ESC:		//escape key opens pause menu
+		
+        case KEY_ESC:		//escape key opens pause menu
 			//g_game->ShowPauseMenu();
 			//return;
 			break;
 
 		case KEY_ALT:
+        case KEY_ALTGR:
 			firingLaser = false;
 			break;
+
 		case KEY_LCONTROL:
+        case KEY_RCONTROL:
 			firingMissile = false;
 			break;
 
@@ -324,28 +330,28 @@ bool ModuleEncounter::Init()
 	scroller->loadTileImage("data/encounter/IP_TILES.bmp");
     
     //load the message gui
-	img_messages = (BITMAP*)load_bitmap("data/encounter/gui_messagewindow.tga",NULL);
+	img_messages = (BITMAP*)load_bitmap("data/encounter/gui_messagewindow.bmp",NULL);
 	if (!img_messages) {
 		g_game->message("Encounter: error loading img_messages");
 		return false;
 	}
 
 	//load the socket gui
-	img_socket = (BITMAP*)load_bitmap("data/encounter/gui_socket.tga",NULL);
+	img_socket = (BITMAP*)load_bitmap("data/encounter/gui_socket.bmp",NULL);
 	if (!img_socket) {
 		g_game->message("Encounter: error loading img_socket");
 		return false;
 	}
 
 	//load the aux gui
-	img_aux = (BITMAP*)load_bitmap("data/encounter/gui_aux.tga",NULL);
+	img_aux = (BITMAP*)load_bitmap("data/encounter/gui_aux.bmp",NULL);
 	if (!img_aux) {
 		g_game->message("error loading img_aux");
 		return false;
 	}
 
 	//load the gui viewer screen
-	img_viewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer.tga",NULL);
+	img_viewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer.bmp",NULL);
 	if (!img_viewer) {
 		g_game->message("error loading gui_viewer");
 		return false;
@@ -400,6 +406,12 @@ bool ModuleEncounter::Init()
 
 	//force start in "show control" mode for the time being
 	if (!g_game->doShowControls()) g_game->toggleShowControls();
+
+    Print("F - toggle FULLSCREEN mode (hide the controls)", WHITE, -1);
+    Print("PGUP - toggle the shield", WHITE, -1);
+    Print("PGDN - toggle the weapons", WHITE, -1);
+    Print("CTRL or Z - fire missile", WHITE, -1);
+    Print("ALT or X - fire laser", WHITE, -1);
 	
 	return true;
 }
@@ -450,7 +462,7 @@ bool ModuleEncounter::Encounter_Init()
 	dialogCensor.insert( make_pair("[ALIEN]", alienName) );
 
 	//load the right gui viewer
-	img_rightviewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer_right.tga",NULL);
+	img_rightviewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer_right.bmp",NULL);
 	if (!img_rightviewer) {
 		g_game->message("Encounter: error loading gui_viewer_right");
 		return false;
@@ -1717,23 +1729,20 @@ void ModuleEncounter::Draw()
 		static int gmy = (int)g_game->getGlobalNumber("GUI_MESSAGE_POS_Y");
 		static int gmw = (int)g_game->getGlobalNumber("GUI_MESSAGE_WIDTH");
 		static int gmh = (int)g_game->getGlobalNumber("GUI_MESSAGE_HEIGHT");
-		//masked_blit(img_messages, g_game->GetBackBuffer(), 0, 0, gmx, gmy, gmw, gmh);
-        draw_trans_sprite(img_messages, g_game->GetBackBuffer(), gmx, gmy);
+		masked_blit(img_messages, g_game->GetBackBuffer(), 0, 0, gmx, gmy, gmw, gmh);
 
 		//draw message and list boxes
-		(bFlagDialogue)? dialogue->Draw(g_game->GetBackBuffer()) : text->Draw(g_game->GetBackBuffer());
+		(bFlagDialogue) ? dialogue->Draw(g_game->GetBackBuffer()) : text->Draw(g_game->GetBackBuffer());
 
 		//draw socket gui
 		static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
 		static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
-		//masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
-        draw_trans_sprite(img_socket, g_game->GetBackBuffer(), gsx, gsy);
+		masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
 
 		// draw the aux gui
 		static int gax = (int)g_game->getGlobalNumber("GUI_AUX_POS_X");
 		static int gay = (int)g_game->getGlobalNumber("GUI_AUX_POS_Y");
-		//masked_blit(img_aux, g_game->GetBackBuffer(), 0, 0, gax, gay, img_aux->w, img_aux->h);
-        draw_trans_sprite(img_aux, g_game->GetBackBuffer(), gax, gay);
+		masked_blit(img_aux, g_game->GetBackBuffer(), 0, 0, gax, gay, img_aux->w, img_aux->h);
 	}
 
     if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
