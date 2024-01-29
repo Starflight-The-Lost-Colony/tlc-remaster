@@ -7,40 +7,46 @@ GAME_TITLE = "Starflight-The Lost Colony"
 GAME_VERSION = "2.0"
 --STARTUPMODULE = "STARTUP"
 --STARTUPMODULE = "SETTINGS"
-STARTUPMODULE = "TITLESCREEN"
 --STARTUPMODULE = "PLANETORBIT"
 --STARTUPMODULE = "STARPORT"
+STARTUPMODULE = "TITLESCREEN"
 ESCAPEMODULE = "TITLESCREEN"
 
 DEBUG_MODE = true
+DEBUG_CORE = true
+DEBUG_MOUSE = false
 
 --acceleration increases velocity per FRAME
---this adds up FAST (like 40x per sec) so don't go too high
-ENGINE1_ACCEL = 0.03	-- base
-ENGINE2_ACCEL = 0.06	-- +.03
-ENGINE3_ACCEL = 0.09	-- +.03
-ENGINE4_ACCEL = 0.12	-- +.03
-ENGINE5_ACCEL = 0.15	-- +.03
-ENGINE6_ACCEL = 0.18	-- +.03
---ENGINE7_ACCEL = 0.25
+--this adds up FAST (40x per sec) so don't go too high
+ENGINE1_ACCEL = 0.04	-- base
+ENGINE2_ACCEL = 0.06	-- + .02
+ENGINE3_ACCEL = 0.08	-- + .02
+ENGINE4_ACCEL = 0.10	-- + .02
+ENGINE5_ACCEL = 0.12	-- + .02
+ENGINE6_ACCEL = 0.14	-- + .02
+--ENGINE7_ACCEL = 0.0
 
---at speeds over 5.0 it is too fast to see what's coming
-ENGINE1_TOPSPEED = 1.2 -- base
-ENGINE2_TOPSPEED = 1.6 -- + .4
-ENGINE3_TOPSPEED = 2.1 -- + .5
-ENGINE4_TOPSPEED = 2.7 -- + .6
-ENGINE5_TOPSPEED = 3.4 -- + .7
-ENGINE6_TOPSPEED = 4.2 -- + .8
---ENGINE7_TOPSPEED = 5.8    
+--this should stay between 2.0 to 3.0
+--speeds < 2.0 are too tediously slow to be fun
+--speeds > 3.0 are too fast to be realistic or practical
+ENGINE1_TOPSPEED = 2.0 -- base
+ENGINE2_TOPSPEED = 2.2 -- + .2
+ENGINE3_TOPSPEED = 2.4 -- + .2
+ENGINE4_TOPSPEED = 2.6 -- + .2
+ENGINE5_TOPSPEED = 2.8 -- + .2
+ENGINE6_TOPSPEED = 3.0 -- + .2
+--ENGINE7_TOPSPEED = 0.0
 
--- affects ship maneuverability
-ENGINE1_TURNRATE = 1.2	-- base
-ENGINE2_TURNRATE = 1.4	-- +.2
-ENGINE3_TURNRATE = 1.7	-- +.3
-ENGINE4_TURNRATE = 2.1	-- +.4
-ENGINE5_TURNRATE = 2.6	-- +.5
-ENGINE6_TURNRATE = 3.2	-- +.6
---ENGINE7_TURNRATE = 3.0	
+--affects ship maneuverability, probably the MOST important feature of the ship engines
+--this alone will compel player to upgrade their ship so don't make it too quick early on
+--testing revealed a fun range between 2.0 and 4.0
+ENGINE1_TURNRATE = 1.8	-- base
+ENGINE2_TURNRATE = 2.2	-- + .4
+ENGINE3_TURNRATE = 2.6	-- + .4
+ENGINE4_TURNRATE = 3.0	-- + .4
+ENGINE5_TURNRATE = 3.4	-- + .4
+ENGINE6_TURNRATE = 3.8	-- + .4
+--ENGINE7_TURNRATE = 0.0
 
 --these should be proportional to weapon damage per second (dps)
 --a shield should hold up for at least 3 seconds (see class 1 weaps)
@@ -50,7 +56,7 @@ SHIELD3_STRENGTH = 350 	-- +110
 SHIELD4_STRENGTH = 470 	-- +120
 SHIELD5_STRENGTH = 600 	-- +130
 SHIELD6_STRENGTH = 740  -- +140
---SHIELD7_STRENGTH = 740
+--SHIELD7_STRENGTH = 0
 
 --these should be the same as shield strengths
 ARMOR1_STRENGTH = 140 	-- (at least 3 seconds of missile-1 hits)
@@ -62,28 +68,28 @@ ARMOR6_STRENGTH = 740 	-- +140
 
 
 --weapon speed/range (milliseconds)
-LASER_DURATION   = 500	 -- range in ms
-LASER_SPEED      = 20	 -- firing rate (1000 / 20 = 50 ms)
-MISSILE_DURATION = 4000  -- range in ms
-MISSILE_SPEED    = 10 	 -- firing rate (1000 / 10 = 100 ms)
+LASER_DURATION   = 1000	 -- range in ms
+LASER_SPEED      = 30	 -- weapon speed in pixels/frame
+MISSILE_DURATION = 8000  -- range in ms
+MISSILE_SPEED    = 15 	 -- weapon speed in pixels/frame
 
 -- alien weapon ranges
-ALIEN_MISSILE_RANGE = 3000
-ALIEN_LASER_RANGE   = 400
+ALIEN_MISSILE_RANGE = 6000
+ALIEN_LASER_RANGE   = 1000
 ALIEN_SAFETY_DISTANCE = 400	--not used. "flee" code is commented out. 
 
 
 --laser fires at same rate always but higher classes do more damage 
 --laser 1 can do 40 pts of dmg per second with direct hits
-LASER1_FIRERATE = 100 --milliseconds
-LASER2_FIRERATE = 100 
-LASER3_FIRERATE = 100 
-LASER4_FIRERATE = 100 
-LASER5_FIRERATE = 100 
-LASER6_FIRERATE = 100 
-LASER7_FIRERATE = 100
-LASER8_FIRERATE = 100
-LASER9_FIRERATE = 100 
+LASER1_FIRERATE = 200 --milliseconds
+LASER2_FIRERATE = 200 
+LASER3_FIRERATE = 200 
+LASER4_FIRERATE = 200 
+LASER5_FIRERATE = 200 
+LASER6_FIRERATE = 200 
+LASER7_FIRERATE = 200
+LASER8_FIRERATE = 200
+LASER9_FIRERATE = 200 
 LASER1_DAMAGE = 4  	-- base
 LASER2_DAMAGE = 8  	-- +4
 LASER3_DAMAGE = 14 	-- +6
@@ -95,15 +101,15 @@ LASER8_DAMAGE = 72	-- Thrynn special case upgrade (freelance)
 LASER9_DAMAGE = 86	-- Thrynn special case upgrade (military)
 
 --missile damage will always be much higher than lasers
-MISSILE1_FIRERATE = 700  -- (500 = 1/2 second)
-MISSILE2_FIRERATE = 700 
-MISSILE3_FIRERATE = 700 
-MISSILE4_FIRERATE = 700 
-MISSILE5_FIRERATE = 700 
-MISSILE6_FIRERATE = 700 
-MISSILE7_FIRERATE = 700 
-MISSILE8_FIRERATE = 700 
-MISSILE9_FIRERATE = 700 
+MISSILE1_FIRERATE = 900  -- (500 = 1/2 second)
+MISSILE2_FIRERATE = 900 
+MISSILE3_FIRERATE = 900 
+MISSILE4_FIRERATE = 900 
+MISSILE5_FIRERATE = 900 
+MISSILE6_FIRERATE = 900 
+MISSILE7_FIRERATE = 900 
+MISSILE8_FIRERATE = 900 
+MISSILE9_FIRERATE = 900 
 MISSILE1_DAMAGE = 40	-- base
 MISSILE2_DAMAGE = 60 	-- +20
 MISSILE3_DAMAGE = 90	-- +30

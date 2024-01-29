@@ -13,6 +13,7 @@
 #include <sstream>
 #include "Game.h"
 #include "Sprite.h"
+using namespace std;
 
 #define PI 3.1415926535
 #define PI_div_180 0.017453292519444
@@ -72,7 +73,8 @@ Sprite::~Sprite()
     }
 }
 
-bool Sprite::load(const char *filename) {
+bool Sprite::load(const char *filename) 
+{
 	this->image = load_bitmap(filename, NULL);
 	if (!this->image) 
 	{
@@ -134,8 +136,13 @@ void Sprite::draw(BITMAP *dest) {
 }
 
 //draw normally with optional alpha channel support
-void Sprite::drawframe(BITMAP *dest, bool UseAlpha)  {
-    if (!image) return;
+void Sprite::drawframe(BITMAP *dest, bool UseAlpha)  
+{
+    if (!image) 
+    {
+        debug << "Sprite::drawframe: source image is null" << endl;
+        return;
+    }
 
 	int fx = animStartX + (currFrame % animColumns) * frameWidth;
 	int fy = animStartY + (currFrame / animColumns) * frameHeight;

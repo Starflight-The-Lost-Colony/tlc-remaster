@@ -25,12 +25,12 @@
 
 using namespace std;
 
-#define GUI_AUX_BMP                      0        /* BMP  */
-#define GUI_VIEWER_BMP                   1        /* BMP  */
-#define IP_TILES_BMP                     2        /* BMP  */
-#define IS_TILES_BMP                     3        /* BMP  */
-#define SHIELD_TGA                       4        /* BMP  */
-#define STARFIELD_BMP                    5        /* BMP  */
+//#define GUI_AUX_BMP                      0        /* BMP  */
+//#define GUI_VIEWER_BMP                   1        /* BMP  */
+//#define IP_TILES_BMP                     2        /* BMP  */
+//#define IS_TILES_BMP                     3        /* BMP  */
+//#define SHIELD_TGA                       4        /* BMP  */
+//#define STARFIELD_BMP                    5        /* BMP  */
 
 
 //scroller properties
@@ -273,21 +273,14 @@ void ModuleInterPlanetaryTravel::Close()
 	debug << "*** Interplanetary Closing" << endl << endl;
 
 	try {
-		if (text != NULL){
-		  delete text;
-		  text = NULL;
-		}
-		delete scroller;
-		delete ship;
-
-		if (planet_label != NULL){
-			delete planet_label;
-			planet_label = NULL;
-		}
+		if (text!=NULL) { delete text; text = NULL;}
+        if (scroller!=NULL) { delete scroller; scroller=NULL; }
+        if (ship!=NULL) { delete ship; ship=NULL; }
+		if (planet_label!=NULL) { delete planet_label; planet_label = NULL; }
 
 		//unload the data file (thus freeing all resources at once)
-		unload_datafile(ipdata);
-		ipdata = NULL;
+		//unload_datafile(ipdata);
+		//ipdata = NULL;
 	}
 	catch(std::exception e) {
 		debug << e.what() << endl;
@@ -304,17 +297,16 @@ bool ModuleInterPlanetaryTravel::Init()
 
 	debug << "  Interplanetary Initialize" << endl;
 
-
 	//enable the Pause Menu
 	g_game->pauseMenu->setEnabled(true);
 
 
 	//load the datafile
-	ipdata = load_datafile("data/spacetravel/spacetravel.dat");
-	if (!ipdata) {
-		g_game->message("Interplanetary: Error loading datafile");
-		return false;
-	}
+	//ipdata = load_datafile("data/spacetravel/spacetravel.dat");
+	//if (!ipdata) {
+	//	g_game->message("Interplanetary: Error loading datafile");
+	//	return false;
+	//}
 
 
 	//reset flags
@@ -353,9 +345,10 @@ bool ModuleInterPlanetaryTravel::Init()
 	scroller->setTileImageColumns(9);
 	scroller->setRegionSize(PLANETTILESACROSS,PLANETTILESDOWN);
 
-	BITMAP *tileImage = (BITMAP*)ipdata[IP_TILES_BMP].dat;
+	//BITMAP *tileImage = (BITMAP*)ipdata[IP_TILES_BMP].dat;
+    BITMAP *tileImage = (BITMAP*)load_bitmap("data/spacetravel/ip_tiles.bmp",NULL);
 	if (!tileImage) {
-		g_game->message("***Interplanetary: Error loading ip_tiles.bmp");
+		g_game->message("Interplanetary: Error loading ip_tiles.bmp");
 		return false;
 	}
 	scroller->setTileImage(tileImage);
@@ -388,12 +381,12 @@ bool ModuleInterPlanetaryTravel::Init()
 	g_game->questMgr->raiseEvent(10, g_game->gameState->player->currentStar);
 
 	//shortcuts to crew last names to simplify code
-	com = "Com. Off. " + g_game->gameState->getCurrentCom()->getLastName() + "-> ";
-	sci = "Sci. Off. " + g_game->gameState->getCurrentSci()->getLastName() + "-> ";
-	nav = "Nav. Off. " + g_game->gameState->getCurrentNav()->getLastName() + "-> ";
-	tac = "Tac. Off. " + g_game->gameState->getCurrentTac()->getLastName() + "-> ";
-	eng = "Eng. Off. " + g_game->gameState->getCurrentEng()->getLastName() + "-> ";
-	doc = "Med. Off. " + g_game->gameState->getCurrentDoc()->getLastName() + "-> ";
+	com = g_game->gameState->getCurrentCom()->getLastName() + "-> ";
+	sci = g_game->gameState->getCurrentSci()->getLastName() + "-> ";
+	nav = g_game->gameState->getCurrentNav()->getLastName() + "-> ";
+	tac = g_game->gameState->getCurrentTac()->getLastName() + "-> ";
+	eng = g_game->gameState->getCurrentEng()->getLastName() + "-> ";
+	doc = g_game->gameState->getCurrentDoc()->getLastName() + "-> ";
 
 	return true;
 }
@@ -649,16 +642,16 @@ void ModuleInterPlanetaryTravel::Draw()
 	//same mod in ModuleInterstellarTravel and some changes in PlayerShipSprite.  
 	g_game->CrossModuleAngle = ship->getRotationAngle();	
 
-    if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+    if (g_game->getGlobalBoolean("DEBUG_MODE") && g_game->getGlobalBoolean("DEBUG_CORE"))
     {
-	    int y = 90;
-	    g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "flag_nav: " + Util::ToString(flag_nav));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "flag_thrusting: " + Util::ToString(flag_thrusting));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "velocity: " + Util::ToString(ship->getVelocityX()) + "," + Util::ToString(ship->getVelocityY()));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "speed: " + Util::ToString(ship->getCurrentSpeed()));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "planetFound: " + Util::ToString(planetFound));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "navcounter: " + Util::ToString(g_game->gameState->getCurrentNav()->attributes.extra_variable));
-		y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "angle: " + Util::ToString(ship->getRotationAngle()));   
+	    int x = 910, y = 90;
+	    g_game->Print12(g_game->GetBackBuffer(), x, y, "flag_nav: " + Util::ToString(flag_nav), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "flag_thrusting: " + Util::ToString(flag_thrusting), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "velocity: " + Util::ToString(ship->getVelocityX()) + "," + Util::ToString(ship->getVelocityY()), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "speed: " + Util::ToString(ship->getCurrentSpeed()), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "planetFound: " + Util::ToString(planetFound), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "navcounter: " + Util::ToString(g_game->gameState->getCurrentNav()->attributes.extra_variable), GRAY1);
+		y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "angle: " + Util::ToString(ship->getRotationAngle()), GRAY1);   
     }
 }
 

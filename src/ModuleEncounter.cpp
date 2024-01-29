@@ -327,31 +327,31 @@ bool ModuleEncounter::Init()
 	}
 
 	//re-load images used in scroller
-	scroller->loadTileImage("data/encounter/IP_TILES.bmp");
+	scroller->loadTileImage("data/spacetravel/ip_tiles.bmp");
     
     //load the message gui
-	img_messages = (BITMAP*)load_bitmap("data/encounter/gui_messagewindow.bmp",NULL);
+	img_messages = (BITMAP*)load_bitmap("data/messagegui/gui_messagewindow.bmp",NULL);
 	if (!img_messages) {
 		g_game->message("Encounter: error loading img_messages");
 		return false;
 	}
 
 	//load the socket gui
-	img_socket = (BITMAP*)load_bitmap("data/encounter/gui_socket.bmp",NULL);
+	img_socket = (BITMAP*)load_bitmap("data/messagegui/gui_socket.bmp",NULL);
 	if (!img_socket) {
 		g_game->message("Encounter: error loading img_socket");
 		return false;
 	}
 
 	//load the aux gui
-	img_aux = (BITMAP*)load_bitmap("data/encounter/gui_aux.bmp",NULL);
+	img_aux = (BITMAP*)load_bitmap("data/messagegui/gui_aux.bmp",NULL);
 	if (!img_aux) {
 		g_game->message("error loading img_aux");
 		return false;
 	}
 
 	//load the gui viewer screen
-	img_viewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer.bmp",NULL);
+	img_viewer = (BITMAP*)load_bitmap("data/messagegui/gui_viewer.bmp",NULL);
 	if (!img_viewer) {
 		g_game->message("error loading gui_viewer");
 		return false;
@@ -462,7 +462,7 @@ bool ModuleEncounter::Encounter_Init()
 	dialogCensor.insert( make_pair("[ALIEN]", alienName) );
 
 	//load the right gui viewer
-	img_rightviewer = (BITMAP*)load_bitmap("data/encounter/gui_viewer_right.bmp",NULL);
+	img_rightviewer = (BITMAP*)load_bitmap("data/messagegui/gui_viewer_right.bmp",NULL);
 	if (!img_rightviewer) {
 		g_game->message("Encounter: error loading gui_viewer_right");
 		return false;

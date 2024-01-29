@@ -141,7 +141,7 @@ bool ModuleAuxiliaryDisplay::Init()
 
 
 	//load the aux gui
-	img_aux = (BITMAP*)load_bitmap("data/spacetravel/GUI_AUX.BMP",NULL);
+	img_aux = (BITMAP*)load_bitmap("data/messagegui/gui_aux.bmp",NULL);
 	if (!img_aux) {
 		g_game->message("Aux: Error loading gui_aux");
 		return false;

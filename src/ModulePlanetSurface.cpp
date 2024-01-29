@@ -77,8 +77,8 @@ using namespace std;
 #define FUEL_BAR_BMP                     18       /* BMP  */
 //#define GUI_AUX_BMP                      19       /* BMP  */
 //#define GUI_CONTROLPANEL_BMP             20       /* BMP  */
-#define GUI_GAUGES_BMP                   21       /* BMP  */
-#define GUI_MESSAGEWINDOW_BMP            22       /* BMP  */
+//#define GUI_GAUGES_BMP                   21       /* BMP  */
+//#define GUI_MESSAGEWINDOW_BMP            22       /* BMP  */
 //#define GUI_SOCKET_BMP                   23       /* BMP  */
 #define HULL_BAR_BMP                     24       /* BMP  */
 #define STATIC_TGA                       25       /* BMP  */
@@ -377,7 +377,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 				panCamera = false;
 
 				if (!g_game->gameState->getShip().getHasTV()){
-					g_game->printout(g_game->g_scrollbox, "But sir, we can't land without a Terrain Vehicle!");
+					g_game->printout(g_game->g_scrollbox, "But sir, we can't land without a Terrain Vehicle!",YELLOW,-1);
                     
 					return;
 				}
@@ -388,7 +388,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 					!IsValidTile((int)(playerShip->getX() + playerShip->getFrameWidth()), (int)(playerShip->getY()+ playerShip->getFrameHeight())) ||
 					!IsValidTile((int)playerShip->getX(), (int)(playerShip->getY()+ playerShip->getFrameHeight())))
 				{
-					g_game->printout(g_game->g_scrollbox, "Sir, we can't land at that location!");
+					g_game->printout(g_game->g_scrollbox, "Sir, we can't land at that location!", YELLOW, -1);
 					return;
 				}
 
@@ -398,7 +398,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 					int number_of_endurium = g_game->gameState->m_ship.getEnduriumOnBoard();
 					if(number_of_endurium <= 0)
                     {
-						g_game->printout(g_game->g_scrollbox, "But sir, we can't land--not enough fuel!");
+						g_game->printout(g_game->g_scrollbox, "But sir, we can't land--not enough fuel!",YELLOW,-1);
 						return;
 					}					
 					else g_game->gameState->getShip().injectEndurium();
@@ -478,7 +478,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 				}
 				else
 				{
-					g_game->printout(g_game->g_scrollbox, "We are not close enough to the ship to dock!");
+					g_game->printout(g_game->g_scrollbox, "We are not close enough to the ship to dock!",YELLOW,-1);
 				}
 			}
 
@@ -516,7 +516,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 				}
 				else
 				{
-					g_game->printout(g_game->g_scrollbox, "Sir, we are not close enough to pick up the Terrain Vehicle.");
+					g_game->printout(g_game->g_scrollbox, "Sir, we are not close enough to pick up the Terrain Vehicle.",YELLOW,-1);
 				}
 			}
 			break;
@@ -560,7 +560,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 			}
 			else
 			{
-				g_game->printout(g_game->g_scrollbox, "Sir, please select an object to scan.");
+				g_game->printout(g_game->g_scrollbox, "Sir, please select an object to scan.",YELLOW,-1);
 			}
 		}
 		else if (vessel_mode == 2)
@@ -596,7 +596,7 @@ void ModulePlanetSurface::OnEvent(Event *event)
 			}
 			else
 			{
-				g_game->printout(g_game->g_scrollbox, "But sir, we are not close enough to pick up the Terrain Vehicle!");
+				g_game->printout(g_game->g_scrollbox, "But sir, we are not close enough to pick up the Terrain Vehicle!",YELLOW,-1);
 			}
 		}
 		break;
@@ -613,11 +613,13 @@ void ModulePlanetSurface::Close()
 {
 	debug << "PlanetSurface Destroy" << endl;
 
-	try {
-
-        destroy_bitmap(img_aux);
-        destroy_bitmap(img_control);
-
+	try 
+    {
+        if (img_messages!=NULL) { delete img_messages; img_messages=NULL; }
+	    if (img_socket!=NULL)   { delete img_socket; img_socket=NULL; }
+	    if (img_gauges!=NULL)   { delete img_gauges; img_gauges=NULL; }
+	    if (img_aux!=NULL)      { delete img_aux; img_aux=NULL; }
+	    if (img_control!=NULL)  { delete img_control; img_control=NULL; }
 
 		//unload the data file (thus freeing all resources at once)
 		unload_datafile(psdata);
@@ -625,11 +627,7 @@ void ModulePlanetSurface::Close()
 
 		PlanetSurfaceObject::EmptyGraphics();
 
-		if (messages != NULL)
-		{
-			delete messages;
-			messages = NULL;
-		}
+		if (messages != NULL) {	delete messages;messages = NULL; }
 
 		if (BigBtns[0] != NULL)
 		{
@@ -659,29 +657,10 @@ void ModulePlanetSurface::Close()
 			lua_close(LuaVM);
 		}
 
-		if (playerTV != NULL)
-		{
-			delete playerTV;
-			playerTV = NULL;
-		}
-
-		if (playerShip != NULL)
-		{
-			delete playerShip;
-			playerShip = NULL;
-		}
-
-		if (cinematicShip != NULL)
-		{
-			delete cinematicShip;
-			cinematicShip = NULL;
-		}
-
-		if (scroller != NULL)
-		{
-			delete scroller;
-			scroller = NULL;
-		}
+		if (playerTV != NULL) {	delete playerTV; playerTV = NULL; }
+		if (playerShip != NULL) { delete playerShip; playerShip = NULL;	}
+		if (cinematicShip != NULL) { delete cinematicShip; cinematicShip = NULL; }
+		if (scroller != NULL) { delete scroller; scroller = NULL; }
 
 		for (objectIt = surfaceObjects.begin(); objectIt != surfaceObjects.end(); ++objectIt)
 		{
@@ -857,7 +836,8 @@ bool ModulePlanetSurface::Init()
 	rectfill(g_game->GetBackBuffer(), 0, 0, SCREEN_W-1, SCREEN_H-1, BLACK);
 
     //load the message gui
-    img_messages = (BITMAP*)psdata[GUI_MESSAGEWINDOW_BMP].dat;
+    //img_messages = (BITMAP*)psdata[GUI_MESSAGEWINDOW_BMP].dat;
+    img_messages = (BITMAP*)load_bitmap("data/messagegui/gui_messagewindow.bmp",NULL);
     if (!img_messages) {
 		g_game->message("Planet: Error loading messagewindow");
 		return false;
@@ -865,27 +845,30 @@ bool ModulePlanetSurface::Init()
 
 	//load the socket gui
 	//img_socket = (BITMAP*)psdata[GUI_SOCKET_BMP].dat;
-	//if (!img_socket) {
-	//	g_game->message("Planet: Error loading gui_socket");
-	//	return false;
-	//}
+    img_socket = (BITMAP*)load_bitmap("data/messagegui/gui_socket.bmp",NULL);
+	if (!img_socket) {
+		g_game->message("Planet: Error loading gui_socket");
+		return false;
+	}
 
 	//load the gauges gui
-	img_gauges = (BITMAP*)psdata[GUI_GAUGES_BMP].dat;
+	//img_gauges = (BITMAP*)psdata[GUI_GAUGES_BMP].dat;
+    img_gauges = (BITMAP*)load_bitmap("data/messagegui/gui_gauges.bmp",NULL);
 	if (!img_gauges) {
 		g_game->message("Planet: Error loading gui_gauges");
 		return false;
 	}
 
 	//load the aux gui
-	img_aux = (BITMAP*)load_bitmap("data/spacetravel/GUI_AUX.BMP",NULL);
+	img_aux = (BITMAP*)load_bitmap("data/messagegui/gui_aux.bmp",NULL);
 	if (!img_aux) {
 		g_game->message("Planet: Error loading gui_aux");
 		return false;
 	}
 
 	//load the control gui
-	img_control = (BITMAP*)load_bitmap("data/controlpanel/GUI_CONTROLPANEL.BMP",NULL);
+	//img_control = (BITMAP*)load_bitmap("data/controlpanel/GUI_CONTROLPANEL.BMP",NULL);
+    img_control = (BITMAP*)load_bitmap("data/controlpanel/gui_controlpanel.bmp",NULL);
 	if (!img_control) {
 		g_game->message("Planet: Error loading gui_controlpanel");
 		return false;
@@ -1745,7 +1728,7 @@ void ModulePlanetSurface::Update()
             }
             else {
                 //ship damaged
-                g_game->printout(g_game->g_scrollbox, "The heavy gravity of this planet has damaged your ship!", RED);
+                g_game->printout(g_game->g_scrollbox, "Sir, yhe heavy gravity of this planet has damaged our ship!", RED, -1);
 				//key events won't be processed while the message window is shown
 				//so, we force release of all keys here otherwise confusing things will happen
 				activeVessel->TurnLeft(false);
@@ -1766,7 +1749,7 @@ void ModulePlanetSurface::Update()
     {
 		if (deathState == 0) {
 			deathState++;
-			g_game->printout(g_game->g_scrollbox,"The heavy gravity of this planet has CRUSHED your ship!", RED);
+			g_game->printout(g_game->g_scrollbox,"Arghhhh, the gravity is CRUSHING usssss...!", RED, -1);
 		}
 		else {
 			//show pause menu since player has died
@@ -1991,10 +1974,10 @@ void ModulePlanetSurface::Draw()
 	blit(img_messages, g_game->GetBackBuffer(), 0, 0, gmx, gmy, img_messages->w, img_messages->h);
 	messages->Draw(g_game->GetBackBuffer());
 
-	//draw socket gui
-	//static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
-	//static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
-	//masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
+	//draw socket gui (mainly used for the loading bar)
+	static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
+	static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
+	masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
 
 
 	static int gcpx = (int)g_game->getGlobalNumber("GUI_CONTROLPANEL_POS_X");

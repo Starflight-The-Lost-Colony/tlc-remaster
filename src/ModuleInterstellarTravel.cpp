@@ -24,12 +24,12 @@ const int ITEM_ENDURIUM			= 54;
 
 using namespace std;
 
-#define GUI_AUX_BMP                      0        /* BMP  */
-#define GUI_VIEWER_BMP                   1        /* BMP  */
-#define IP_TILES_BMP                     2        /* BMP  */
-#define IS_TILES_BMP                     3        /* BMP  */
-#define SHIELD_TGA                       4        /* BMP  */
-#define STARFIELD_BMP                    5        /* BMP  */
+//#define GUI_AUX_BMP                      0        /* BMP  */
+//#define GUI_VIEWER_BMP                   1        /* BMP  */
+//#define IP_TILES_BMP                     2        /* BMP  */
+//#define IS_TILES_BMP                     3        /* BMP  */
+//#define SHIELD_TGA                       4        /* BMP  */
+//#define STARFIELD_BMP                    5        /* BMP  */
 
 //scroller properties
 #define GALAXY_SCROLL_X		0
@@ -45,7 +45,6 @@ const int FlyingHoursBeforeSkillUp = 168;
 /* In the interest of completing this game, which is a higher priority than
 being data driven and moddable, this alien race data is being hard coded.
 A good improvement would be to move it into a data file and use an editor.
-http://starflightgame.com/smf/index.php?topic=233.msg1682#msg1682
 */
 struct PoliticalBoundary
 {
@@ -126,16 +125,16 @@ void ModuleInterstellarTravel::Draw()
 	//same mod in ModuleInterplanetaryTravel and some changes in PlayerShipSprite.  
 	g_game->CrossModuleAngle = ship->getRotationAngle();
 
-    if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
+    if (g_game->getGlobalBoolean("DEBUG_MODE") && g_game->getGlobalBoolean("DEBUG_CORE"))
     {
 	    //DEBUG CODE -- do not delete
-	    int y = 90;
-	    g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "flag_nav: " + Util::ToString(flag_nav));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "flag_thrusting: " + Util::ToString(flag_thrusting));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "velocity: " + Util::ToString(ship->getVelocityX()) + "," + Util::ToString(ship->getVelocityY()));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "speed: " + Util::ToString(ship->getCurrentSpeed()));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "navcounter: " + Util::ToString(g_game->gameState->getCurrentNav()->attributes.extra_variable));
-		y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "angle:      " + Util::ToString(ship->getRotationAngle())); 
+	    int x=910, y = 90;
+	    g_game->Print12(g_game->GetBackBuffer(), x, y, "flag_nav: " + Util::ToString(flag_nav), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "flag_thrusting: " + Util::ToString(flag_thrusting), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "velocity: " + Util::ToString(ship->getVelocityX()) + "," + Util::ToString(ship->getVelocityY()), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "speed: " + Util::ToString(ship->getCurrentSpeed()), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "navcounter: " + Util::ToString(g_game->gameState->getCurrentNav()->attributes.extra_variable), GRAY1);
+		y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "angle:      " + Util::ToString(ship->getRotationAngle()), GRAY1); 
     }
 }
 
@@ -388,11 +387,11 @@ bool ModuleInterstellarTravel::Init()
 	g_game->pauseMenu->setEnabled(true);
 
 	//load the datafile
-	isdata = load_datafile("data/spacetravel/spacetravel.dat");
-	if (!isdata) {
-		g_game->message("Hyperspace: Error loading datafile");
-		return false;
-	}
+	//isdata = load_datafile("data/spacetravel/spacetravel.dat");
+	//if (!isdata) {
+	//	g_game->message("Hyperspace: Error loading datafile");
+	//	return false;
+	//}
 
 	//load sound effects
 	if (!g_game->audioSystem->Load("data/spacetravel/klaxon.wav","klaxon")) {
@@ -409,7 +408,6 @@ bool ModuleInterstellarTravel::Init()
 	static int asw = (int)g_game->getGlobalNumber("AUX_SCREEN_WIDTH");
 	static int ash = (int)g_game->getGlobalNumber("AUX_SCREEN_HEIGHT");
 
-
 	flag_DoNormalSpace = false;
 
    //create the ScrollBox for message window
@@ -417,8 +415,7 @@ bool ModuleInterstellarTravel::Init()
 	int gmy = (int)g_game->getGlobalNumber("GUI_MESSAGE_POS_Y");
 	int gmw = (int)g_game->getGlobalNumber("GUI_MESSAGE_WIDTH");
 	int gmh = (int)g_game->getGlobalNumber("GUI_MESSAGE_HEIGHT");
-	text = new ScrollBox::ScrollBox(g_game->font20, ScrollBox::SB_TEXT,
-		gmx + 38, gmy + 18, gmw - 38, gmh - 32, 999);
+	text = new ScrollBox::ScrollBox(g_game->font20, ScrollBox::SB_TEXT,	gmx + 38, gmy + 18, gmw - 38, gmh - 32, 999);
 	text->DrawScrollBar(false);
 
     //point global scrollbox to local one in this module for sub-module access
@@ -434,8 +431,10 @@ bool ModuleInterstellarTravel::Init()
 	createGalaxy();
 	loadGalaxyData();
 	load_flux();
-	for (flux_iter i = g_game->dataMgr->flux.begin(); (i != g_game->dataMgr->flux.end()); i++){
-		if((*i)->VISIBLE_SPACE() == true){
+	for (flux_iter i = g_game->dataMgr->flux.begin(); (i != g_game->dataMgr->flux.end()); i++)
+    {
+		if((*i)->VISIBLE_SPACE() == true)
+        {
 			scroller->setTile((*i)->TILE().X, (*i)->TILE().Y, 8);
 		}
 	}
@@ -470,13 +469,13 @@ void ModuleInterstellarTravel::Close()
 
 	try {
 		//delete shield;
-		delete text;
-		delete scroller;
-		delete ship;
+        if (text!=NULL) { delete text; text=NULL; }
+        if (scroller!=NULL) { delete scroller; scroller=NULL; }
+        if (ship!=NULL) { delete ship; ship=NULL; }
 
 		//unload the data file (thus freeing all resources at once)
-		unload_datafile(isdata);
-		isdata = NULL;
+		//unload_datafile(isdata);
+		//isdata = NULL;
 	}
 	catch(std::exception e) {
 		debug << e.what() << endl;
@@ -1010,8 +1009,8 @@ void ModuleInterstellarTravel::Update()
 	//increase navigation skill every FlyingHoursBeforeSkillUp hours spent in space (the speed check is there to prevent the obvious abuse)
 	//NOTE: this must be after the flux detection and isLost() check; they will always fail in CanSkillCheck() otherwise
 	Officer *currentNav = g_game->gameState->getCurrentNav();
-	if (currentNav->CanSkillCheck() && ship->getCurrentSpeed() > 0.0 ){
-
+	if (currentNav->CanSkillCheck() && ship->getCurrentSpeed() > 0.0 )
+    {
 		currentNav->FakeSkillCheck();
 		currentNav->attributes.extra_variable++;
 
@@ -1283,11 +1282,10 @@ void ModuleInterstellarTravel::identifyStar()
 		starFound = 1;
 		currentStar = starSystem->id;
 	}
-
 }
 
 
- void ModuleInterstellarTravel::createGalaxy()
+ bool ModuleInterstellarTravel::createGalaxy()
 {
 	//create tile scroller object for interstellar space
 	scroller = new TileScroller();
@@ -1298,22 +1296,23 @@ void ModuleInterstellarTravel::identifyStar()
 
 	if (!scroller->createScrollBuffer(GALAXY_SCROLL_WIDTH, GALAXY_SCROLL_HEIGHT)) {
 		g_game->message("Hyperspace: Error creating scroll buffer");
-		return;
+		return false;
 	}
 
-	BITMAP *img = (BITMAP*)isdata[IS_TILES_BMP].dat;
+	//BITMAP *img = (BITMAP*)isdata[IS_TILES_BMP].dat;
+    BITMAP *img = (BITMAP*)load_bitmap("data/spacetravel/is_tiles.bmp",NULL);
 	if (!img) {
 		g_game->message("InterstellarTravel: Error loading is_tiles");
-		return;
+		return false;
 	}
 	scroller->setTileImage(img);
-
 	scroller->setScrollPosition(g_game->gameState->player->posHyperspace);
+    return true;
 }
 
 
 
- void ModuleInterstellarTravel::loadGalaxyData()
+ bool ModuleInterstellarTravel::loadGalaxyData()
 {
 	debug << "  Loading galaxy data..." << endl;
 	Star *star;
@@ -1324,7 +1323,7 @@ void ModuleInterstellarTravel::identifyStar()
 	{
 		star = g_game->dataMgr->GetStar(i);
 
-		//these numbers match the ordering of the images in is_tiles.bmp and are not in astronomical order
+		//these numbers match the ordering of the images in is_tiles.bmp (not in astronomical order)
 		switch (star->spectralClass ) {
 			case SC_O: spectral = 7; break;		//blue
 			case SC_M: spectral = 6; break;		//red
@@ -1333,12 +1332,15 @@ void ModuleInterstellarTravel::identifyStar()
 			case SC_F: spectral = 3; break;		//lt yellow
 			case SC_B: spectral = 2; break;		//lt blue
 			case SC_A: spectral = 1; break;		//white
-			default: ASSERT(0); break;
+			default: 
+                debug << "loadGalaxyData: star " << i << " has invalid data" << endl;
+                return false;
 		}
 
 		//set tile number in tile scroller to star sprite number
 		scroller->setTile(star->x, star->y, spectral);
 	}
+    return true;
 }
 
 
@@ -1346,10 +1348,6 @@ void ModuleInterstellarTravel::identifyStar()
 {
 	ship->allstop();
 	g_game->gameState->player->currentStar = currentStar;
-
-	// THIS SEEMS TO NOT WORK
-	// NEED TO DROP PLAYER OUT OF HYPERSPACE INTO SOME RANDOM LOCATION
-	// IN THE STAR SYSTEM BUT THIS JUST GOES TO THE SAME PLACE EVERY TIME
 
 	//set starting location for player
 	int w = 100 * 256; // planet tiles across x planet tile width

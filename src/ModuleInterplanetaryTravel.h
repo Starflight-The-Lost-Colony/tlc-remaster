@@ -23,13 +23,11 @@
 class ModuleInterPlanetaryTravel : public Module
 {
 private:
-	PlayerShipSprite		*ship;
-	TileScroller	*scroller;
-	float			acceleration;
-
-	int				planetFound;
-	bool			distressSignal;
-
+	PlayerShipSprite *ship;
+	TileScroller *scroller;
+	float acceleration;
+	int planetFound;
+	bool distressSignal;
 	BITMAP *miniMap; 
 	ScrollBox::ScrollBox *text;
 
@@ -50,7 +48,7 @@ private:
 
 	planet_t planets[10];
 
-	DATAFILE *ipdata;
+	//DATAFILE *ipdata;
 	int tilex, tiley, tilenum;
 	bool flag_DoOrbit;
 	bool flag_DoDock;

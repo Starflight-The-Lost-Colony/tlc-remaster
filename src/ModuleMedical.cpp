@@ -310,29 +310,29 @@ bool ModuleMedical::Init()
 
 
     //CREW LIST VIEWER (right side)
-	img_crewlist_viewer = load_bitmap("data/medical/gui_viewer_right.bmp",NULL);
+	img_crewlist_viewer = load_bitmap("data/medical/medical_gui_viewer_right.bmp",NULL);
 	if (!img_crewlist_viewer) {
-		debug << "Medical: Error loading gui_viewer_right image" << endl;
+		debug << "Medical: Error loading medical_gui_viewer_right image" << endl;
 		return false;
 	}
 
 
 
     //CREW HEALTH VIEWER (left side)
-	img_crewhealth_viewer = load_bitmap("data/medical/gui_viewer_left.bmp",NULL);
+	img_crewhealth_viewer = load_bitmap("data/medical/medical_gui_viewer_left.bmp",NULL);
 	if (!img_crewhealth_viewer) 
     {
-		g_game->message("Medical: Error loading gui_viewer_left image");
+		g_game->message("Medical: Error loading medical_gui_viewer_left image");
 		return false;
 	}
 
 
 
     //CREW SKILLS VIEWER (left side)
-	img_crewskills_viewer = load_bitmap("data/medical/gui_viewer.bmp",NULL);
+	img_crewskills_viewer = load_bitmap("data/medical/medical_gui_viewer.bmp",NULL);
 	if (!img_crewskills_viewer) 
     {
-		g_game->message("Medical: Error loading gui_viewer image");
+		g_game->message("Medical: Error loading medical_gui_viewer image");
 		return false;
 	}
 

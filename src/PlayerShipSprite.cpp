@@ -1,6 +1,6 @@
 /*
 	STARFLIGHT - THE LOST COLONY
-	PlayerShipSprite.cpp
+    PLAYERSHIPSPRITE CLASS
 */
 
 #include "env.h"
@@ -12,11 +12,8 @@
 
 using namespace std;
 
-/*  
- *  PLAYERSHIPSPRITE CLASS
- */
-
-const int TIMER_RATE = 20;
+//slow down ship movements to 60 fps
+const int TIMER_RATE = 16;
 
 PlayerShipSprite::PlayerShipSprite()
 {
@@ -25,32 +22,33 @@ PlayerShipSprite::PlayerShipSprite()
 	switch(g_game->gameState->getProfession())
 	{
 		case PROFESSION_FREELANCE:
-			ship->load("data/spacetravel/ship_freelance.bmp");
+			ship->load("data/spacetravel/freelance_128.bmp");
 			break;
 		
 		case PROFESSION_MILITARY:
-			ship->load("data/spacetravel/ship_military.bmp");
+			ship->load("data/spacetravel/military_128.bmp");
 			break;
 		
 		case PROFESSION_SCIENTIFIC:
 		default:
-			ship->load("data/spacetravel/ship_science.bmp");
-			break;
+            ship->load("data/spacetravel/science_128.bmp");
+            break;
 	}
 	if (!ship) {
 		g_game->message("Error loading player ship image");
 		return;
 	}
-	ship->setFrameWidth(64);
-	ship->setFrameHeight(64);
-	ship->setAnimColumns(8);
-	ship->setTotalFrames(8);
+	ship->setFrameWidth(128);
+	ship->setFrameHeight(128);
+	ship->setAnimColumns(1);
+	ship->setTotalFrames(1);
 	ship->setCurrFrame(0);
 	ship->setX(SCREEN_WIDTH/2 - ship->getFrameWidth()/2);
-	ship->setY(SCREEN_HEIGHT/2 - 128 - ship->getFrameHeight()/2);
+	ship->setY(SCREEN_HEIGHT/2 - ship->getFrameHeight()/2 - 64);
 
 // keekping the rotation angle consistent - JJH
-	if (g_game->CrossModuleAngle == 0) {
+	if (g_game->CrossModuleAngle == 0) 
+    {
 		ship->setFaceAngle( Util::Random(1,359) );	 
 	}
 	else {
@@ -78,26 +76,28 @@ void PlayerShipSprite::destroy() {
 	delete ship;
 }
 
+#pragma region MOVEMENT
+
 void PlayerShipSprite::turnleft()
 {
-	//slow down ship rotation to 60 fps
-	if (timer.stopwatch(TIMER_RATE)) {
-		ship->setFaceAngle(ship->getFaceAngle() - turnrate);
-		if (ship->getFaceAngle() < 0) ship->setFaceAngle(360+ship->getFaceAngle());
-	}
+	if (!timer.stopwatch(TIMER_RATE)) return;
 
-	ship->setCurrFrame(4);
+    double angle = ship->getFaceAngle() - turnrate;
+	ship->setFaceAngle(angle);
+	if (ship->getFaceAngle() < 0) 
+        ship->setFaceAngle(360+ship->getFaceAngle());
+
+    ship->setCurrFrame(4);
 }
 
 void PlayerShipSprite::turnright()
 {
-	//slow down ship rotation to 60 fps
-	if (timer.stopwatch(TIMER_RATE)) {
-		ship->setFaceAngle(ship->getFaceAngle() + turnrate);
-		if (ship->getFaceAngle() > 359) ship->setFaceAngle(360-ship->getFaceAngle());
-	}
+	if (!timer.stopwatch(TIMER_RATE)) return;
 
-	ship->setCurrFrame(3);
+    ship->setFaceAngle(ship->getFaceAngle() + turnrate);
+	if (ship->getFaceAngle() > 359) ship->setFaceAngle(360-ship->getFaceAngle());
+
+    //ship->setCurrFrame(3);
 }
 
 // Retrieve maximum_velocity variable 
@@ -149,13 +149,13 @@ double PlayerShipSprite::getForwardThrust()
 // Read reverse thrust from script
 double PlayerShipSprite::getReverseThrust()
 {
-	return getForwardThrust() * 0.5;
+	return getForwardThrust() * 0.75;
 }
 
 // Read lateral thrust from script
 double PlayerShipSprite::getLateralThrust()
 {
-	return getForwardThrust() * 0.5;
+	return getForwardThrust() * 0.75;
 }
 
 // Read turning rate from script
@@ -164,7 +164,8 @@ double PlayerShipSprite::getTurnRate()
 	double turnrate = 1.0;
 
 	int engine = g_game->gameState->getShip().getEngineClass();
-	if (engine < 1 || engine > 6) {
+	if (engine < 1 || engine > 6) 
+    {
 		engine = 1;
 		debug << "*** Error in PlayerShipSprite::getTurnRate: Engine class is invalid" << endl;
 	}
@@ -213,15 +214,14 @@ void PlayerShipSprite::limitvelocity()
  */
 void PlayerShipSprite::starboard()
 {
-	//slow down ship movement to 60 fps
-	if (timer.stopwatch(TIMER_RATE)) {
-		ship->setMoveAngle(ship->getFaceAngle() );
-		ship->setVelX(ship->getVelX() + ship->calcAngleMoveX( ship->getMoveAngle() ) * lateral_thrust);
-		ship->setVelY(ship->getVelY() + ship->calcAngleMoveY( ship->getMoveAngle() ) * lateral_thrust);
-		limitvelocity();
-	}
+	if (!timer.stopwatch(TIMER_RATE)) return
 
-	ship->setCurrFrame(5);
+    ship->setMoveAngle(ship->getFaceAngle() );
+	ship->setVelX(ship->getVelX() + ship->calcAngleMoveX( ship->getMoveAngle() ) * lateral_thrust);
+	ship->setVelY(ship->getVelY() + ship->calcAngleMoveY( ship->getMoveAngle() ) * lateral_thrust);
+	limitvelocity();
+
+    //ship->setCurrFrame(5);
 }
 
 /*
@@ -229,44 +229,35 @@ void PlayerShipSprite::starboard()
  */
 void PlayerShipSprite::port()
 {
-	//slow down ship movement to 60 fps
-	if (timer.stopwatch(TIMER_RATE)) {
-		//move angle should be 180 degrees clockwise from face angle
-		ship->setMoveAngle(ship->getFaceAngle() - 180);
-		ship->setVelX(ship->getVelX() + ship->calcAngleMoveX( ship->getMoveAngle() ) * lateral_thrust);
-		ship->setVelY(ship->getVelY() + ship->calcAngleMoveY( ship->getMoveAngle() ) * lateral_thrust);
-		limitvelocity();
-	}
-
-	ship->setCurrFrame(6);
+	if (!timer.stopwatch(TIMER_RATE)) return;
+	//move angle should be 180 degrees clockwise from face angle
+	ship->setMoveAngle(ship->getFaceAngle() - 180);
+	ship->setVelX(ship->getVelX() + ship->calcAngleMoveX( ship->getMoveAngle() ) * lateral_thrust);
+	ship->setVelY(ship->getVelY() + ship->calcAngleMoveY( ship->getMoveAngle() ) * lateral_thrust);
+	limitvelocity();
+	//ship->setCurrFrame(6);
 }
 
 void PlayerShipSprite::applythrust()
 {
-	//slow down ship thrust to 60 fps
-	if (timer.stopwatch(TIMER_RATE)) {
-		ship->setMoveAngle(ship->getFaceAngle() - 90); 
-		if (ship->getMoveAngle() < 0) ship->setMoveAngle(359 + ship->getMoveAngle() );
-		ship->setVelX(ship->getVelX() + ship->calcAngleMoveX( ship->getMoveAngle() )  * forward_thrust);
-		ship->setVelY(ship->getVelY() + ship->calcAngleMoveY( ship->getMoveAngle() ) * forward_thrust);
-		limitvelocity();
-	}
-
-	ship->setCurrFrame(1);
+	if (!timer.stopwatch(TIMER_RATE)) return;
+	ship->setMoveAngle(ship->getFaceAngle() - 90); 
+	if (ship->getMoveAngle() < 0) ship->setMoveAngle(359 + ship->getMoveAngle() );
+	ship->setVelX(ship->getVelX() + ship->calcAngleMoveX( ship->getMoveAngle() )  * forward_thrust);
+	ship->setVelY(ship->getVelY() + ship->calcAngleMoveY( ship->getMoveAngle() ) * forward_thrust);
+	limitvelocity();
+	//ship->setCurrFrame(1);
 }
 
 void PlayerShipSprite::reversethrust()
 {
-	//slow down ship thrust to 60 fps
-	if (timer.stopwatch(TIMER_RATE)) {
-		ship->setMoveAngle(ship->getFaceAngle() - 270);
-		if (ship->getMoveAngle() < 0) ship->setMoveAngle(359 + ship->getMoveAngle() );
-		ship->setVelX(ship->getVelX() + ship->calcAngleMoveX( ship->getMoveAngle() ) * reverse_thrust);
-		ship->setVelY(ship->getVelY() + ship->calcAngleMoveY( ship->getMoveAngle() ) * reverse_thrust);
-		limitvelocity();
-	}
-
-	ship->setCurrFrame(2);
+	if (!timer.stopwatch(TIMER_RATE)) return;
+	ship->setMoveAngle(ship->getFaceAngle() - 270);
+	if (ship->getMoveAngle() < 0) ship->setMoveAngle(359 + ship->getMoveAngle() );
+	ship->setVelX(ship->getVelX() + ship->calcAngleMoveX( ship->getMoveAngle() ) * reverse_thrust);
+	ship->setVelY(ship->getVelY() + ship->calcAngleMoveY( ship->getMoveAngle() ) * reverse_thrust);
+	limitvelocity();
+	//ship->setCurrFrame(2);
 }
 
 void PlayerShipSprite::cruise() 
@@ -283,7 +274,6 @@ void PlayerShipSprite::allstop()
 
 void PlayerShipSprite::applybraking()
 {
-	//slow down ship braking to 60 fps
 	if (!braking_timer.stopwatch(TIMER_RATE)) return;
 
 	//get current velocity
@@ -296,11 +286,11 @@ void PlayerShipSprite::applybraking()
 		return;
 	}
 
-    double stop_threshold = 0.02;
-    double brake_value = 0.08;
+    //this minimum speed will stop the ship if it's "drifting" slowly
+    double drift_threshold = 0.05;
+    double brake_value = 0.04;
     double speed =  sqrt(velx*velx + vely*vely);
-    double dir = atan2(vely,velx);
-    if (fabs(speed) < stop_threshold)
+    if (fabs(speed) < drift_threshold)
 		speed = 0.0;
     else {
         if (speed > 0.0)
@@ -308,6 +298,9 @@ void PlayerShipSprite::applybraking()
         else
             speed += brake_value;
     }
+
+    //get x,y velocity based on ship's direction
+    double dir = atan2(vely,velx);
     velx = speed * cos(dir);
     vely = speed * sin(dir);
 	
@@ -315,12 +308,24 @@ void PlayerShipSprite::applybraking()
 	ship->setVelX(velx);
 	ship->setVelY(vely);
 	ship->setCurrFrame(0);
-
 }
+
+#pragma endregion
+
+
 
 void PlayerShipSprite::draw(BITMAP *dest) 
 {
 	ship->drawframe_rotate(dest, (int)ship->getFaceAngle() ); 
+
+    //for 16-frame pre-rotated images
+    //float angle = ship->getFaceAngle();
+
+    //we actually do want to truncate the decimal value to get an integer frame #
+
+    //int frame = (int)( angle / 22.5f );
+    //ship->setCurrFrame( frame );
+    //ship->drawframe( g_game->GetBackBuffer() );
 }
 
 float PlayerShipSprite::getVelocityX() 

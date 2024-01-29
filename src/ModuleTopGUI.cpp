@@ -38,17 +38,44 @@ bool ModuleTopGUI::Init()
 	img_shield_gauge = load_bitmap("data/topgui/Element_Gauge_Blue.bmp", NULL);
 	img_armor_gauge = load_bitmap("data/topgui/Element_Gauge_Red.bmp", NULL);
 
+    if (!img_gauges || !img_fuel_gauge || !img_hull_gauge || !img_shield_gauge || !img_armor_gauge)
+    {
+        debug << "topgui: error loading images" << endl;
+        return false;
+    }
+
 	return true;
 }
 
 void ModuleTopGUI::Close()
 {
-	try {
-		destroy_bitmap(img_gauges);
-		destroy_bitmap(img_fuel_gauge);
-		destroy_bitmap(img_armor_gauge);
-		destroy_bitmap(img_hull_gauge);
-		destroy_bitmap(img_shield_gauge);
+	try 
+    {
+        if (img_gauges!=NULL)
+        {
+		    delete img_gauges;
+            img_gauges=NULL;
+        }
+        if (img_fuel_gauge!=NULL)
+        {
+            delete img_fuel_gauge;
+            img_fuel_gauge=NULL;
+        }
+        if (img_armor_gauge!=NULL)
+        {
+            delete img_armor_gauge;
+            img_armor_gauge=NULL;
+        }
+        if (img_hull_gauge!=NULL)
+        {
+            delete img_hull_gauge;
+            img_hull_gauge=NULL;
+        }
+        if (img_shield_gauge!=NULL)
+        {
+            delete img_shield_gauge;
+            img_shield_gauge=NULL;
+        }
 	}
 	catch(std::exception e) {
 		debug << e.what() << endl;

@@ -34,15 +34,15 @@ class ModuleInterstellarTravel : public Module
 {
 private:
 
-	TileScroller	*scroller;
+	TileScroller *scroller;
 
-	int				controlKey;
-	int				shiftKey;
-	int				starFound;
+	int controlKey;
+	int	shiftKey;
+	int	starFound;
 
 	Officer* tempOfficer;
 
-	DATAFILE *isdata;
+	//DATAFILE *isdata;
 	Flux* flux;
 	Sprite *shield;
 
@@ -79,8 +79,8 @@ private:
 
 	BITMAP *img_gui;
 
-	void loadGalaxyData();
-	void createGalaxy();
+	bool loadGalaxyData();
+	bool createGalaxy();
 	void identifyStar();
 	void calculateEnemyFleetSize();
 	int getFleetSizeByRace( bool small_fleet );

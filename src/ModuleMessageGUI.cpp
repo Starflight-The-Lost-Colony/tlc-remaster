@@ -20,8 +20,8 @@ using namespace std;
 
 int gmx,gmy,gmw,gmh,gsx,gsy;
 
-#define GUI_MESSAGEWINDOW_BMP            0        /* BMP  */
-#define GUI_SOCKET_BMP                   1        /* BMP  */
+//#define GUI_MESSAGEWINDOW_BMP            0        /* BMP  */
+//#define GUI_SOCKET_BMP                   1        /* BMP  */
 
 
 
@@ -31,15 +31,22 @@ ModuleMessageGUI::~ModuleMessageGUI(){}
 bool ModuleMessageGUI::Init()
 {
 	//load the datafile
-	data = load_datafile("data/messagegui/messagegui.dat");
-	if (!data) {
-		g_game->message("MessageGUI: Error loading datafile");
-		return false;
-	}
+	//data = load_datafile("data/messagegui/messagegui.dat");
+	//if (!data) {
+	//	g_game->message("MessageGUI: Error loading datafile");
+	//	return false;
+	//}
 
 	//load the gauges gui
-	img_message = (BITMAP*)data[GUI_MESSAGEWINDOW_BMP].dat;
-	img_socket = (BITMAP*)data[GUI_SOCKET_BMP].dat;
+	//img_message = (BITMAP*)data[GUI_MESSAGEWINDOW_BMP].dat;
+	//img_socket = (BITMAP*)data[GUI_SOCKET_BMP].dat;
+    img_message = (BITMAP*)load_bitmap("data/messagegui/gui_messagewindow.bmp",NULL);
+    img_socket = (BITMAP*)load_bitmap("data/messagegui/gui_socket.bmp",NULL);
+    if (!img_message || !img_socket)
+    {
+        debug << "messagegui: error loading bitmaps" << endl;
+        return false;
+    }
 
 
 	gmx = (int)g_game->getGlobalNumber("GUI_MESSAGE_POS_X");
@@ -54,9 +61,21 @@ bool ModuleMessageGUI::Init()
 
 void ModuleMessageGUI::Close()
 {
-	try {
-		unload_datafile(data);
-		data = NULL;
+	try 
+    {
+		//unload_datafile(data);
+		//data = NULL;
+
+        if (img_message!=NULL)
+        {
+            delete img_message;
+            img_message=NULL;
+        }
+        if (img_socket!=NULL)
+        {
+            delete img_socket;
+            img_socket=NULL;
+        }
 	}
 	catch(std::exception e) {
 		debug << e.what() << endl;
@@ -66,9 +85,7 @@ void ModuleMessageGUI::Close()
 	}
 }
 	
-void ModuleMessageGUI::Update()
-{
-}
+void ModuleMessageGUI::Update(){}
 
 void ModuleMessageGUI::Draw()
 {

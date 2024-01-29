@@ -17,7 +17,7 @@ private:
 	BITMAP *img_message;
 	BITMAP *img_socket;
 
-	DATAFILE *data;
+	//DATAFILE *data;
 
 public:
 	ModuleMessageGUI();

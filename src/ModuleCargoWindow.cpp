@@ -25,12 +25,11 @@
 using namespace std;
 
 //borders for the jettison button from data/cargohold/cargohold.dat
-//NOTE: static.tga is not used anymore.
-#define CARGO_BTN_BMP                 0         /* BMP  */
-#define CARGO_BTN_MO_BMP              1         /* BMP  */
+//#define CARGO_BTN_BMP                 0         /* BMP  */
+//#define CARGO_BTN_MO_BMP              1         /* BMP  */
 
 //the cargo window "skin" from data/cargohold/sideviewer.dat
-#define GUI_VIEWER_BMP                0         /* BMP  */
+//#define GUI_VIEWER_BMP                0         /* BMP  */
 
 //gui elements positioning, fonts settings...
 #define PLAYERLIST_X                108
@@ -69,19 +68,16 @@ ModuleCargoWindow::ModuleCargoWindow()
 
 	initialized = false;
 
-	cwdata                  = NULL;
-	svdata                  = NULL;
+	//cwdata                  = NULL;
+	//svdata                  = NULL;
 	img_viewer              = NULL;
-
 	m_items                 = NULL;
 	m_playerItemsFiltered   = NULL;
 	m_playerList            = NULL;
 	m_playerListNumItems    = NULL;
 	m_playerListValue       = NULL;
-
 	m_jettisonButton        = NULL;
 	m_sndButtonClick        = NULL;
-
 	spaceStatus             = NULL;
 }
 
@@ -92,30 +88,30 @@ bool ModuleCargoWindow::Init()
 	debug << "  ModuleCargoWindow: initializing..." << endl;
 
 	//load the window "skin"
-	svdata = load_datafile("data/cargohold/sideviewer.dat");
-	if (!svdata) {
-		g_game->message("CargoWindow: Error loading data/cargohold/sideviewer.dat");
-		return false;
-	}
+	//svdata = load_datafile("data/cargohold/sideviewer.dat");
+	//if (!svdata) {
+	//	g_game->message("CargoWindow: Error loading data/cargohold/sideviewer.dat");
+	//	return false;
+	//}
 
-	img_viewer = (BITMAP*)svdata[GUI_VIEWER_BMP].dat;
+	//img_viewer = (BITMAP*)svdata[GUI_VIEWER_BMP].dat;
+    img_viewer = (BITMAP*)load_bitmap("data/messagegui/gui_viewer.bmp",NULL);
 	if (img_viewer == NULL) {
-		g_game->message("CargoWindow: Error loading gui_viewer.bmp from data/cargohold/sideviewer.dat");
+		g_game->message("CargoWindow: Error loading gui_viewer");
 		return false;
 	}
 
 	//jettison button
-	cwdata = load_datafile("data/cargohold/cargohold.dat");
-	if (!cwdata) {
-		g_game->message("CargoWindow: Error loading data/cargohold/cargohold.dat");
-		return false;
-	}
+	//cwdata = load_datafile("data/cargohold/cargohold.dat");
+	//if (!cwdata) {
+	//	g_game->message("CargoWindow: Error loading data/cargohold/cargohold.dat");
+	//	return false;
+	//}
 
-	BITMAP *btnNorm, *btnOver;
-	btnNorm = (BITMAP*)cwdata[CARGO_BTN_BMP].dat;
-	btnOver = (BITMAP*)cwdata[CARGO_BTN_MO_BMP].dat;
-	if (btnNorm == NULL || btnOver == NULL) {
-		g_game->message("CargoWindow: Error loading button borders from data/cargohold/cargohold.dat");
+	BITMAP *btnNorm = (BITMAP*)load_bitmap("data/cargohold/cargo_btn.bmp",NULL);
+    BITMAP *btnOver = (BITMAP*)load_bitmap("data/cargohold/cargo_btn_mo.bmp",NULL);
+    if (btnNorm == NULL || btnOver == NULL) {
+		g_game->message("CargoWindow: Error loading button images");
 		return false;
 	}
 
@@ -464,17 +460,16 @@ void ModuleCargoWindow::Close()
 	//will tell UpdateLists() the data it needs are not available.
 	initialized = false;
 
-	if (svdata != NULL) {
-		//unload the data file (thus freeing all resources at once)
-		unload_datafile(svdata);
-		svdata = NULL;
-	}
-
-	if (cwdata != NULL) {
-		//unload the data file (thus freeing all resources at once)
-		unload_datafile(cwdata);
-		cwdata = NULL;
-	}
+	//if (svdata != NULL) {
+	//	//unload the data file (thus freeing all resources at once)
+	//	unload_datafile(svdata);
+	//	svdata = NULL;
+	//}
+	//if (cwdata != NULL) {
+	//	//unload the data file (thus freeing all resources at once)
+	//	unload_datafile(cwdata);
+	//	cwdata = NULL;
+	//}
 
 	m_items = NULL;
 
@@ -499,7 +494,7 @@ void ModuleCargoWindow::Close()
 		m_sndButtonClick = NULL;
 	}
 
-	if ( spaceStatus != NULL) {
+	if (spaceStatus != NULL) {
 		delete spaceStatus;
 		spaceStatus = NULL;
 	}

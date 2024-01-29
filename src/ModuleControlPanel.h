@@ -108,7 +108,6 @@ private:
 		void SetEnabled(bool enabled);
 		bool GetEnabled();
 
-		//JH 5/05
 		int getEventID() { return eventID; }
 		void setEventID(int value) { eventID = value; }
 
@@ -123,8 +122,6 @@ private:
 		int					posY;
 		BITMAP				*imgCmdIcon;
 		bool				enabled;
-
-		//JH 5/05
 		int					eventID;
 
 		static BITMAP		*imgBackground;
