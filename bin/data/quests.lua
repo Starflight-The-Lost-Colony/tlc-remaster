@@ -49,52 +49,13 @@ function init_training_missions()
 -- quest 1
 	addQuest( "Welcome to the Starport!",
 		"Visit the Docking Bay",
-		"Welcome to the Starport, Captain.  Although the Starport is a large facility and it's resources are at your disposal, it can be a bit overwhelming to a new captain. So, to help you get familiar with the Starport's resources, we're going to take a quick tour of the facility and help you to configure your ship to ready it for the maiden voyage.  Let's begin at the Docking Bay, where your ship is berthed. Go take a look, then come back here for further instructions.",
-		"You follow orders well, captain. Now, let's continue.",
-		22, 0, 0,
-		1, 0, 1000 )
+		"Welcome to the Starport, Captain.  Although the Starport is a large facility and it's resources are at your disposal, it can be a bit overwhelming to a new captain. Go visit the Personnel department. There you will need to assign your ship's crew.  Hire a crew member for each station that your ship requires, and then highlight each crew member and assign them to a station.  Return here after you're done and we will give you enough resources for you to to purchase a set of engines, several cargo pods, and a few units of Endurium. ",
+		"Did you assign a crew member to each ship station? If not, you'll need to do that before you can leave the Docking Bay.",
+		18, 0, 0,
+		1, 0, 12000 )
+
 
 -- quest 2
-	addQuest ( "Personalized Banking",
-		"Visit the Bank",
-		"Now let's introduce you to the bank. This is where you can quickly see your balance of Monetary Units (MUs). The banker can also give you a loan if you are ever strapped for credits. A word of caution, though: if you fail to repay a loan, your hyperspace license could be suspended.  Go visit the Bank, then return here.",
-		"Great. Continuing onward...",
-		24, 0, 0,
-		1, 0, 1000 )
-
--- quest 3
-	addQuest( "Capitalism Du Jour",
-		"Visit the Trade Depot",
-		"Next stop on our tour of the Starport is the Trade Depot. This is where you will sell the ores and lifeforms gathered on planets or acquired from, ahem, alien 'interaction', so to speak.  Most importantly, this is where you will go to buy more fuel for your ship.  Go to the Trade Depot then return here.",
-		"Great! Now, let's continue with your tour.",
-		20, 0, 0,
-		1, 0, 1500 )
-
--- quest 4
-	addQuest( "Human Resources",
-		"Visit the Personnel department",
-		"You're almost ready to take your ship out for your first starflight. Before you can exit the Starport in your new ship, you will need to familiarize yourself with the Starport's crew support facility. Go visit the Personnel department. There you will need to assign your ship's crew.  Hire a crew member for each station that your ship requires, and then highlight each crew member and assign them to a station.",
-		"Did you assign a crew member to each ship station? If not, you'll need to do that before you can leave the Docking Bay. Now let's continue your tour.",
-		18, 0, 0,
-		1, 0, 2000 )
-
--- quest 5
-	addQuest( "Engine Test",
-		"Orbit the homeworld of Myrrdan, then return to the Starport",
-		"Now that you're familiar with the Starport and what is required of a captain, I think it's time for a flight test. As the captain of one of the earliest ships constructed at the Myrrdan Starport Shipyard, we need you to give her a good shakedown cruise prior to her maiden voyage. You should now have enough resources now to purchase a set of engines, a cargo pod, and a unit of Endurium.  Your first mission is a simple engine fire-up test: Take her out of the Starport, run a few orbits around Myrrdan, then return. You can depart from the Starport via the Docking Bay. After completing the orbital maneuver, your navigation officer will be able to dock with the starport again.",
-		"Great, you survived! I mean... er... We have the utmost faith in our ships, of course. Now, let's proceed.",
-		12, 8, 0, --orbit Myrrdan
-		1, 0, 2000 )
-
--- quest 6
-	addQuest( "Sensor Test",
-		"Go to the planet Islay and test the ship's planetary scanner",
-		"It's time to log some more star hours!  Are you ready for another flight? Another vital ship component is the sensor system. It is your eyes and ears in space.  We need to test the sensors to ensure they are functioning within normal parameters.  Go to the nearby planet Islay and establish orbit, then perform a full planetary scan.  Your science officer will be able to perform this function.  Note that the most fuel-efficient 'thrust' consists of intermittently holding the thrust key, not holding it continuously. Return here when complete.",
-		"The ship's sensors performed above expectations.",
-		14, 2, 0,
-		1, 0, 2000 )
-
--- quest 7
 	addQuest( "Critical Mineral Shortage",
 		"Bring back at least five cubic meters of Antimony ore from Senlabor.",
 		"A critical Antimony shortage on Myrrdan has delayed the launch of many of your co-explorers. A number of durable ship components require that metal.  Instead of playing exorbitant prices planet side, we have divided up the chore of obtaining this mineral between all of the operational ships in the area. Your task is to mine 5 cubic meters of Antimony ore from Senlabor.  Mining is one of the most effective ways of raising capital for ship upgrades and fuel costs, so feel free to pick up any additional ore to keep your fuel tanks full, but do not delay in bringing back this essential shipment.",
@@ -102,16 +63,7 @@ function init_training_missions()
 		2, 42, 5,
 		1, 0, 2000 )
 
--- quest 8
-	addQuest( "Zoological Expedition",
-		"Capture an Humanoid Hopper lifeform from the planet Ildathach and return it to Starport",
-		"You've demonstrated your skill at mining for ores with the terrain vehicle, but ores are relatively easy to find and pick up.  A local collector has offered to fund a sizable amount of your ship's construction in exchange for an exotic life form that our probes have recently picked up.  Your Terrain Vehicle is equipped with a stun weapon that is capable of taking down even the largest and most violent of lifeforms, but you have to be fast and furious in the Terrain Vehicle to keep from becoming lunch for some of the more dangerous varieties.  Your mission is to capture a Humanoid Hopper and return it to the Starport.  This lifeform can be found on the planet Ildathach.",
-		"Great! The Capital Petting Zoo appreciates your donation of this strange creature.",
-		2, 70, 1, --humanoid hopper
-		1, 0, 1000 )
-
-
--- quest 9: Return the Hypercube from Ciuin in the Faidh system, 96N X 31E
+-- quest 3: Return the Hypercube from Ciuin in the Faidh system, 96N X 31E
 	addQuest( "Artifacts",
 		"Find an artifact located at the northern edge of a deep valley on Ciuin in the Faidh system",
 		"The age-old myths about our origins have become our heroic stories of legend, and there is no greater legend than that of Captain Meriwether who guided our ancestors aboard the Noah 3 colony ship, which was launched from our native homeworld of Earth over a millennia ago. During the urgent struggle to find a habitable world in this system, a single technologically advanced probe was sent and retrieved from each planet to obtain more detailed readings on possible life sustaining environments beyond what the ship sensors were able to discern at first glance.  The Hypercube, as we now call it, was lost in space just before the fortuitous last-minute discovery of Myrrdan.  A signal from the device has been triangulated from a nearby system, on the northern edge of a deep valley on Ciuin in the Faidh system, near the 'center' of the Northern Hemisphere.  Pick it up and return this historical treasure to Myrrdan as soon as possible.  (Note: to skip the training missions in future games, simply collect the hypercube at any time)",
@@ -119,13 +71,17 @@ function init_training_missions()
 		2, 2, 1, --hypercube artifact
 		1, 0, 10000 )
 
--- quest 10: Return the Hypercube from Ciuin in the Faidh system, 96N X 31E
-	addQuest( "Artifacts",
-		"Find an artifact located at the northern edge of a deep valley on Ciuin in the Faidh system",
-		"The age-old myths about our origins have become our heroic stories of legend, and there is no greater legend than that of Captain Meriwether who guided our ancestors aboard the Noah 3 colony ship, which was launched from our native homeworld of Earth over a millennia ago. During the urgent struggle to find a habitable world in this system, a single technologically advanced probe was sent and retrieved from each planet to obtain more detailed readings on possible life sustaining environments beyond what the ship sensors were able to discern at first glance.  The Hypercube, as we now call it, was lost in space just before the fortuitous last-minute discovery of Myrrdan.  A signal from the device has been triangulated from a nearby system, on the northern edge of a deep valley on Ciuin in the Faidh system, near the 'center' of the Northern Hemisphere.  Pick it up and return this historical treasure to Myrrdan as soon as possible.  (Note: to skip the training missions in future games, simply collect the hypercube at any time)",
-		"This is a wonderful find! Absolutely marvelous! Good work, captain. Your training is now complete.",
-		2, 2, 1, --hypercube artifact
-		1, 0, 10000 )
+
+--[[
+Missions #4-10:  Unused
+]]--
+	addQuest( "Unused Training Mission","",	"",	"",	0, 0, 0, 0, 0, 0 )
+	addQuest( "Unused Training Mission","",	"",	"",	0, 0, 0, 0, 0, 0 )
+	addQuest( "Unused Training Mission","",	"",	"",	0, 0, 0, 0, 0, 0 )
+	addQuest( "Unused Training Mission","",	"",	"",	0, 0, 0, 0, 0, 0 )
+	addQuest( "Unused Training Mission","",	"",	"",	0, 0, 0, 0, 0, 0 )
+	addQuest( "Unused Training Mission","",	"",	"",	0, 0, 0, 0, 0, 0 )
+	addQuest( "Unused Training Mission","",	"",	"",	0, 0, 0, 0, 0, 0 )
 
 --[[
 Missions #11-25:  Unused
