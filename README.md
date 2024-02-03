@@ -1,4 +1,3 @@
-# starflightt-tlc
 Starflight: The Lost Colony
 
 Development started in 2006 between Jon Harbour and Dave Calkins and quickly grew from there (see credits). In 2007, Jon was teaching game dev at UAT (uat.edu) and recruited a team of students to build a game demo for a job hunting trip to GDC in 2008. Students used the game while job hunting. After GDC, the game was an unplayable demo with key systems barely functional. During the next two years, there were only a few of us off campus working on it, and Steve Wirsz came on to do encounters and dialogue. During 2009-2010, we released the first complete beta and then the final release. A major, stable version was released in 2012 but gameplay was always unpolished. All the while, Steve was keeping the torch lit on his starflt.com web site.
