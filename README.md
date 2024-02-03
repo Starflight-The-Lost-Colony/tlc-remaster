@@ -1,25 +1,14 @@
 # starflightt-tlc
 Starflight: The Lost Colony
 
-Development started in 2006 between Jon Harbour and Dave Calkins and quickly grew from there (see credits and we need a contributors file). In 2007, I was teaching game dev at UAT (uat.edu) and recruited a team of students to quickly build the game for a demo trip to GDC, and we went in 2008. Students used the game while job seeking. After GDC, the game was an unplayable demo with key systems barely functional. During the next two years, there were only a few of us still working on it, and Steve Wirsz came on to do encounters and dialogue. During 2009-2010, we released the first complete beta and then the final build of the game and then moved on to other things. 
+Development started in 2006 between Jon Harbour and Dave Calkins and quickly grew from there (see credits). In 2007, Jon was teaching game dev at UAT (uat.edu) and recruited a team of students to build a game demo for a job hunting trip to GDC in 2008. Students used the game while job hunting. After GDC, the game was an unplayable demo with key systems barely functional. During the next two years, there were only a few of us off campus working on it, and Steve Wirsz came on to do encounters and dialogue. During 2009-2010, we released the first complete beta and then the final release. A major, stable version was released in 2012 but gameplay was always unpolished. All the while, Steve was keeping the torch lit on his starflt.com web site.
 
-In 2015, I opened the sources again and then in 2017, began a major revision in an attempt to support multiple resolutions. The game was hard coded to 1024x768, either windowed or FS. At the time that was the norm. Now, after the updates, any res can be selected in the Settings screen, but note that the art is scaled and will remain 4:3. Even in a widescreen mode, the game renders to 4:3 with bars. 
+In 2017-18, we worked on a major revision in an attempt to support multiple resolutions and fix old bugs and removed OpenGL (which was only used for planet orbit). The game was hard coded to 1024x768, either windowed or FS. At the time that was the norm. After the updates, any res can be selected in the Settings screen, but the screen is scaled and will remain 4:3. Even in a widescreen mode, the game renders to 4:3 with bars. It's a reasonable solution to the old problem. 
 
-Rendering is 100% software. During the 2017 revision, I removed OpenGL via AllegroGL for rendering planets as it required a second frame buffer and interfered with the rest of the game. A software planet renderer does a decent enough job using the same textures (generated with Perlin and buffered for future use). A 256x256 texture is used for planet orbit, and a 500x500 is generated for the planet surface tilemap system (which is very fragile and divided between C++ and LUA, so be careful when working on planet surface code). In summary, no 3D hardware is used at all.
+*We recommend running the game in 1600x1200. This is the same 4:3 aspect ratio as the original 1024x768 and will result in perfectly scaled art and GUI.*
 
-Project requires Visual C++ 2010 (web installer located in \misc). To upgrade this to the latest Visual Studio, someone will have to build all of the libraries, and I do not believe the "latest" versions of libraries are compatible with the game. If you rebuild libs, get the same versions and just build them with the latest compiler, don't try to upgrade the libs. This is a very old game. I recommend not updating the libs until you have it building with the latest VS. For the time being, 2010 is required. Smarter people than myself will be able to update it. :) Speaking of which, would some *very* experienced and talented programmer please volunteer to manage the repo? I'm too busy. 
+Rendering is 100% software. During the 2018 revision, we removed AllegroGL for rendering planets as it required a second frame buffer and interfered with the rest of the game (such as hiding the mouse cursor). We came up with a software planet renderer that does a decent enough job with pixels. A 256x256 texture is used for planet orbit, and a 500x500 is generated for the planet surface. In summary, no 3D hardware is used at all.
 
+*The new remastered edition has higher-resolution planet textures.*
 
-Major dependencies (included):
-* LUA 5.1
-* Allegro 4.2
-* AllegroGL
-* ALFont
-* FMOD
-* Perlin (libnoise)
-
-
-Note about assets (.\bin\data):
-The game does not load the individual asset files under bin\data despite these files being present. I extracted them from the Allegro datafiles before uploading to the repo. We need to revise the game modules to load these assets directly and do away with the .dat files. Use the Allegro dat tool to manage them. I've gone down this road before and it's messy. Allegro de-allocates the assets when you close a datafile, so ALL of the allocation/deallocation code has to be written to load assets and destroy them. This should be done carefully, one module at a time, with testing to ensure no memory leaks are introduced. I've had to scrap weeks of work due to this very issue. Recommend caution.
-
-Feel free to edit.
+The sources are compiled with Visual C++ 2010. To upgrade this to the latest Visual Studio, we would have to rebuild all of the libraries and the latest versions of libraries are probably not compatible with the game. This is a very old game. Strongly recommend not trying to update it. Updating the dev environment will introduce new bugs because the compiler binary format changed after 2013.
