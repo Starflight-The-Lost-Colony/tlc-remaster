@@ -1,4 +1,4 @@
-# Starflight: The Lost Colony
+# Starflight: The Lost Colony (Remastered Edition)
 
 Development started in 2006 between Jon Harbour and Dave Calkins and quickly grew from there (see credits). During the next few years there were only a few of us working on it and Steve Wirsz came on to do encounters and dialogue. During 2009-2010, we released the first complete beta and then the first official release. A bug fix release was done in 2012 but gameplay was always unpolished. All the while, Steve was keeping the torch lit on his starflt.com web site.
 
