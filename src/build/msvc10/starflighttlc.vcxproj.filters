@@ -16,175 +16,118 @@
     <Filter Include="gameplay">
       <UniqueIdentifier>{f5b93c0f-b922-48b1-b17d-b8f34cb70670}</UniqueIdentifier>
     </Filter>
-    <Filter Include="gameplay\modules">
-      <UniqueIdentifier>{136209ef-88ff-42b3-9b89-d02fc49c447a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gameplay\modules\ModuleEncounter">
-      <UniqueIdentifier>{6ea563cb-3307-42d0-b46f-a9e9de2d7b44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gameplay\modules\ModuleStarmap">
-      <UniqueIdentifier>{e18d596e-accd-45e7-8530-d672ad512d5d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gameplay\modules\ModulePlanetSurface">
-      <UniqueIdentifier>{91b029cc-50b2-4af4-bcd8-3895e48fbfa6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gameplay\main">
-      <UniqueIdentifier>{efc0bcb3-f996-4a3c-bf60-771f34334413}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gameplay\gui">
-      <UniqueIdentifier>{2a2d9d62-6f4c-4f71-8284-4d4f04dc4d2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gameplay\lua settings files">
-      <UniqueIdentifier>{e751ef89-c40e-41f0-ad24-fa02f4ed9071}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gameplay\data files">
+    <Filter Include="gameplay\data/settings files">
       <UniqueIdentifier>{2567dd0d-38af-4f39-bc60-d0880c391f2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="gameplay\modules\ModuleStarport">
+    <Filter Include="gameplay\main menu">
+      <UniqueIdentifier>{efc0bcb3-f996-4a3c-bf60-771f34334413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\player ship">
+      <UniqueIdentifier>{321d808b-47e3-4fb5-914a-89a8257e56b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\planets">
+      <UniqueIdentifier>{84c985f7-2273-4320-a0fb-e13b2c7129e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\quest manager">
+      <UniqueIdentifier>{c75aa4d2-5850-4e03-9c62-d3ab155bd358}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\core engine">
+      <UniqueIdentifier>{385d4b52-48d5-4024-8679-75bfeb7eccbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\core gameplay">
+      <UniqueIdentifier>{136209ef-88ff-42b3-9b89-d02fc49c447a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\core gameplay\encounter">
+      <UniqueIdentifier>{6ea563cb-3307-42d0-b46f-a9e9de2d7b44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\core gameplay\Starmap">
+      <UniqueIdentifier>{e18d596e-accd-45e7-8530-d672ad512d5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\core gameplay\planet surface">
+      <UniqueIdentifier>{91b029cc-50b2-4af4-bcd8-3895e48fbfa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\core gameplay\Starport">
       <UniqueIdentifier>{120054de-f745-475a-99d6-e05470ec62c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\rendering">
+      <UniqueIdentifier>{cb00ea74-aa3d-4bd5-908e-307e96fe35e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\core gameplay\space travel">
+      <UniqueIdentifier>{2bd74483-5a8d-4acc-9fb8-71d41dfa56ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gameplay\main screen">
+      <UniqueIdentifier>{2a2d9d62-6f4c-4f71-8284-4d4f04dc4d2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ModuleMessageGUI.cpp">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleTopGUI.cpp">
-      <Filter>gameplay\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ModuleQuestLog.cpp">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleSettings.cpp">
-      <Filter>gameplay\main</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleAuxiliaryDisplay.cpp">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleControlPanel.cpp">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleCargoWindow.cpp">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleCredits.cpp">
-      <Filter>gameplay\main</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleEngineer.cpp">
-      <Filter>gameplay\modules</Filter>
+      <Filter>gameplay\core gameplay</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleShipConfig.cpp">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleStarport.cpp">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleTradeDepot.cpp">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleBank.cpp">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleCantina.cpp">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleCaptainCreation.cpp">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleCaptainsLounge.cpp">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleCrewHire.cpp">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleGameOver.cpp">
-      <Filter>gameplay\main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ModuleInterplanetaryTravel.cpp">
-      <Filter>gameplay\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ModuleInterstellarTravel.cpp">
-      <Filter>gameplay\modules</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleMedical.cpp">
-      <Filter>gameplay\modules</Filter>
+      <Filter>gameplay\core gameplay</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModulePlanetOrbit.cpp">
-      <Filter>gameplay\modules</Filter>
+      <Filter>gameplay\core gameplay</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleEncounter.cpp">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleStarmap.cpp">
-      <Filter>gameplay\modules\ModuleStarmap</Filter>
+      <Filter>gameplay\core gameplay\Starmap</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModulePlanetSurface.cpp">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClCompile>
     <ClCompile Include="..\..\PlanetTileScroller.cpp">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Archive.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\AudioSystem.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DataMgr.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Game.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GameState.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\LogFile.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\main.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Math.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ModeMgr.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Module.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\QuestMgr.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Script.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Stardate.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Timer.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Util.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Vector3.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Flux.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\PlayerShipSprite.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Sprite.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\TexturedSphere.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\TileScroller.cpp">
-      <Filter>engine</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClCompile>
     <ClCompile Include="..\..\noiseutils.cpp">
       <Filter>engine\Perlin</Filter>
@@ -205,10 +148,10 @@
       <Filter>engine\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="..\..\PlanetSurfaceObject.cpp">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClCompile>
     <ClCompile Include="..\..\PlanetSurfacePlayerVessel.cpp">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Label.cpp">
       <Filter>engine\gui</Filter>
@@ -219,169 +162,166 @@
     <ClCompile Include="..\..\MessageBoxWindow.cpp">
       <Filter>engine\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\PauseMenu.cpp">
-      <Filter>engine\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ScrollBox.cpp">
       <Filter>engine\gui</Filter>
     </ClCompile>
-    <ClCompile Include="env.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ModuleStartup.cpp">
-      <Filter>gameplay\main</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleTitleScreen.cpp">
-      <Filter>gameplay\main</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CombatObject.cpp">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PauseMenu.cpp">
+      <Filter>gameplay\main screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PlayerShipSprite.cpp">
+      <Filter>gameplay\player ship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\QuestMgr.cpp">
+      <Filter>gameplay\quest manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ModuleQuestLog.cpp">
+      <Filter>gameplay\quest manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TexturedSphere.cpp">
+      <Filter>gameplay\planets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ModeMgr.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Module.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\main.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AudioSystem.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="env.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GameState.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Archive.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DataMgr.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\LogFile.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Script.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Timer.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TileScroller.cpp">
+      <Filter>engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sprite.cpp">
+      <Filter>engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vector3.cpp">
+      <Filter>engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Util.cpp">
+      <Filter>engine\core engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Math.cpp">
+      <Filter>engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ModuleInterplanetaryTravel.cpp">
+      <Filter>gameplay\core gameplay\space travel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ModuleInterstellarTravel.cpp">
+      <Filter>gameplay\core gameplay\space travel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Game.cpp">
+      <Filter>engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Flux.cpp">
+      <Filter>gameplay\core gameplay\space travel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Stardate.cpp">
+      <Filter>gameplay\main screen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ModuleMessageGUI.h">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleTopGUI.h">
-      <Filter>gameplay\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ModuleQuestLog.h">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleSettings.h">
-      <Filter>gameplay\main</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleAuxiliaryDisplay.h">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleControlPanel.h">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleCargoWindow.h">
-      <Filter>gameplay\gui</Filter>
+      <Filter>gameplay\main screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleCredits.h">
-      <Filter>gameplay\main</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleEngineer.h">
-      <Filter>gameplay\modules</Filter>
+      <Filter>gameplay\core gameplay</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleShipConfig.h">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleStarport.h">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleTradeDepot.h">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleBank.h">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleCantina.h">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleCaptainCreation.h">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleCaptainsLounge.h">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleCrewHire.h">
-      <Filter>gameplay\modules\ModuleStarport</Filter>
+      <Filter>gameplay\core gameplay\Starport</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleGameOver.h">
-      <Filter>gameplay\main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ModuleInterplanetaryTravel.h">
-      <Filter>gameplay\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ModuleInterstellarTravel.h">
-      <Filter>gameplay\modules</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleMedical.h">
-      <Filter>gameplay\modules</Filter>
+      <Filter>gameplay\core gameplay</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModulePlanetOrbit.h">
-      <Filter>gameplay\modules</Filter>
+      <Filter>gameplay\core gameplay</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleEncounter.h">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleStarmap.h">
-      <Filter>gameplay\modules\ModuleStarmap</Filter>
+      <Filter>gameplay\core gameplay\Starmap</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModulePlanetSurface.h">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PlanetTileScroller.h">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Vector3.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Archive.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\AudioSystem.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DataMgr.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\EventMgr.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Events.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Game.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GameState.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\LogFile.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ModeMgr.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Module.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\QuestMgr.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Script.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Stardate.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Timer.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Util.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\TileScroller.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Flux.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\PlayerShipSprite.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Point2D.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Sprite.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\TexturedSphere.h">
-      <Filter>engine</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\noiseutils.h">
       <Filter>engine\Perlin</Filter>
@@ -396,10 +336,10 @@
       <Filter>engine\tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PlanetSurfacePlayerVessel.h">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PlanetSurfaceObject.h">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Label.h">
       <Filter>engine\gui</Filter>
@@ -410,202 +350,277 @@
     <ClInclude Include="..\..\MessageBoxWindow.h">
       <Filter>engine\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PauseMenu.h">
-      <Filter>engine\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ScrollBox.h">
       <Filter>engine\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\env.h">
-      <Filter>engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ModuleStartup.h">
-      <Filter>gameplay\main</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleTitleScreen.h">
-      <Filter>gameplay\main</Filter>
+      <Filter>gameplay\main menu</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CombatObject.h">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PauseMenu.h">
+      <Filter>gameplay\main screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PlayerShipSprite.h">
+      <Filter>gameplay\player ship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\QuestMgr.h">
+      <Filter>gameplay\quest manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ModuleQuestLog.h">
+      <Filter>gameplay\quest manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TexturedSphere.h">
+      <Filter>gameplay\planets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ModeMgr.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Module.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AudioSystem.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\EventMgr.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\env.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GameState.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Archive.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DataMgr.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Events.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LogFile.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Script.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Timer.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TileScroller.h">
+      <Filter>engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sprite.h">
+      <Filter>engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Point2D.h">
+      <Filter>engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vector3.h">
+      <Filter>engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Util.h">
+      <Filter>engine\core engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ModuleInterplanetaryTravel.h">
+      <Filter>gameplay\core gameplay\space travel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ModuleInterstellarTravel.h">
+      <Filter>gameplay\core gameplay\space travel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Game.h">
+      <Filter>engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Flux.h">
+      <Filter>gameplay\core gameplay\space travel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Stardate.h">
+      <Filter>gameplay\main screen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\bin\data\Functions.lua">
-      <Filter>gameplay\lua settings files</Filter>
-    </None>
-    <None Include="..\..\..\bin\data\globals.lua">
-      <Filter>gameplay\lua settings files</Filter>
-    </None>
-    <None Include="..\..\..\bin\data\playership.lua">
-      <Filter>gameplay\lua settings files</Filter>
-    </None>
-    <None Include="..\..\..\bin\data\quests.lua">
-      <Filter>gameplay\lua settings files</Filter>
-    </None>
-    <None Include="..\..\..\bin\data\config.lua">
-      <Filter>gameplay\lua settings files</Filter>
-    </None>
     <None Include="..\..\..\bin\data\encounter\encounter_barzhon.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\encounter\encounter_coalition.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\encounter\encounter_common.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\encounter\encounter_elowan.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\encounter\encounter_minex.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\encounter\encounter_nyssian.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\encounter\encounter_pirate.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\encounter\encounter_spemin.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\encounter\encounter_tafel.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\encounter\encounter_thrynn.lua">
-      <Filter>gameplay\modules\ModuleEncounter</Filter>
+      <Filter>gameplay\core gameplay\encounter</Filter>
     </None>
     <None Include="..\..\..\bin\data\starmap\starmap.lua">
-      <Filter>gameplay\modules\ModuleStarmap</Filter>
+      <Filter>gameplay\core gameplay\Starmap</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\2.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\8.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\22.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\26.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\440.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\442.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\AfrywiogPrison.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\artifact.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\basicLifeForm.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\basicProjectile.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\DereonMine.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\Functions.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\InitializeOceanic.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\KelvynCo.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\MetnebFactory.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\MilitaryOutpost.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\mineral.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\PlanetSurfacePlayerShip.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\PlanetSurfacePlayerTV.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\PopAcidicPlanet.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\PopAsteriod.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\PopFrozenPlanet.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\PopMoltenPlanet.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\PopOceanicPlanet.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\PopRockyPlanet.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_2.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_8.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_22.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_26.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_440.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_442.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_AfrywiogPrison.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_DereonMine.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_KelvynCo.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_MetnebFactory.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\quest_MilitaryOutpost.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\ruin.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\planetsurface\stunprojectile.lua">
-      <Filter>gameplay\modules\ModulePlanetSurface</Filter>
+      <Filter>gameplay\core gameplay\planet surface</Filter>
     </None>
     <None Include="..\..\..\bin\data\galaxy.xml">
-      <Filter>gameplay\data files</Filter>
+      <Filter>gameplay\data/settings files</Filter>
     </None>
     <None Include="..\..\..\bin\data\human.xml">
-      <Filter>gameplay\data files</Filter>
-    </None>
-    <None Include="..\..\..\bin\data\QuestLog.xml">
-      <Filter>gameplay\data files</Filter>
+      <Filter>gameplay\data/settings files</Filter>
     </None>
     <None Include="..\..\..\bin\data\ships.xml">
-      <Filter>gameplay\data files</Filter>
+      <Filter>gameplay\data/settings files</Filter>
     </None>
     <None Include="..\..\..\bin\data\strfltitems.xml">
-      <Filter>gameplay\data files</Filter>
+      <Filter>gameplay\data/settings files</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\config.lua">
+      <Filter>gameplay\data/settings files</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\Functions.lua">
+      <Filter>gameplay\data/settings files</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\globals.lua">
+      <Filter>gameplay\data/settings files</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\playership.lua">
+      <Filter>gameplay\player ship</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\QuestLog.xml">
+      <Filter>gameplay\quest manager</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\quests.lua">
+      <Filter>gameplay\quest manager</Filter>
     </None>
   </ItemGroup>
 </Project>
