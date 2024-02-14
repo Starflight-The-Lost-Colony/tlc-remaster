@@ -94,9 +94,7 @@ void ModuleInterPlanetaryTravel::OnKeyPress(int keyCode)
 }
 
 
-void ModuleInterPlanetaryTravel::OnKeyPressed(int keyCode)
-{
-}
+void ModuleInterPlanetaryTravel::OnKeyPressed(int keyCode){}
 
 void ModuleInterPlanetaryTravel::OnKeyReleased(int keyCode)
 {

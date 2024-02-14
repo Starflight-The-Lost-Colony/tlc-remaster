@@ -114,6 +114,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Archive.cpp" />
+    <ClCompile Include="..\..\AudioSystem.cpp" />
+    <ClCompile Include="..\..\Button.cpp" />
+    <ClCompile Include="..\..\CombatObject.cpp" />
+    <ClCompile Include="..\..\DataMgr.cpp" />
+    <ClCompile Include="..\..\Flux.cpp" />
+    <ClCompile Include="..\..\Game.cpp" />
+    <ClCompile Include="..\..\GameState.cpp" />
+    <ClCompile Include="..\..\Label.cpp" />
+    <ClCompile Include="..\..\LogFile.cpp" />
+    <ClCompile Include="..\..\main.cpp" />
+    <ClCompile Include="..\..\Math.cpp" />
+    <ClCompile Include="..\..\MessageBoxWindow.cpp" />
+    <ClCompile Include="..\..\ModeMgr.cpp" />
+    <ClCompile Include="..\..\Module.cpp" />
+    <ClCompile Include="..\..\noiseutils.cpp" />
+    <ClCompile Include="..\..\PauseMenu.cpp" />
+    <ClCompile Include="..\..\Perlin.cpp" />
+    <ClCompile Include="..\..\PlanetSurfaceObject.cpp" />
+    <ClCompile Include="..\..\PlanetSurfacePlayerVessel.cpp" />
+    <ClCompile Include="..\..\PlanetTileScroller.cpp" />
+    <ClCompile Include="..\..\PlayerShipSprite.cpp" />
+    <ClCompile Include="..\..\QuestMgr.cpp" />
+    <ClCompile Include="..\..\Script.cpp" />
+    <ClCompile Include="..\..\ScrollBox.cpp" />
+    <ClCompile Include="..\..\Sprite.cpp" />
+    <ClCompile Include="..\..\Stardate.cpp" />
+    <ClCompile Include="..\..\TexturedSphere.cpp" />
+    <ClCompile Include="..\..\TileScroller.cpp" />
+    <ClCompile Include="..\..\Timer.cpp" />
+    <ClCompile Include="..\..\tinyxml\tinystr.cpp" />
+    <ClCompile Include="..\..\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\..\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="..\..\Util.cpp" />
+    <ClCompile Include="..\..\Vector3.cpp" />
     <ClCompile Include="env.cpp" />
     <ClCompile Include="..\..\ModuleAuxiliaryDisplay.cpp" />
     <ClCompile Include="..\..\ModuleBank.cpp" />
@@ -144,6 +180,27 @@
     <ClCompile Include="..\..\ModuleTradeDepot.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Archive.h" />
+    <ClInclude Include="..\..\AudioSystem.h" />
+    <ClInclude Include="..\..\Button.h" />
+    <ClInclude Include="..\..\CombatObject.h" />
+    <ClInclude Include="..\..\DataMgr.h" />
+    <ClInclude Include="..\..\EventMgr.h" />
+    <ClInclude Include="..\..\Events.h" />
+    <ClInclude Include="..\..\Flux.h" />
+    <ClInclude Include="..\..\Game.h" />
+    <ClInclude Include="..\..\GameState.h" />
+    <ClInclude Include="..\..\Label.h" />
+    <ClInclude Include="..\..\LogFile.h" />
+    <ClInclude Include="..\..\MessageBoxWindow.h" />
+    <ClInclude Include="..\..\ModeMgr.h" />
+    <ClInclude Include="..\..\Module.h" />
+    <ClInclude Include="..\..\noiseutils.h" />
+    <ClInclude Include="..\..\PauseMenu.h" />
+    <ClInclude Include="..\..\Perlin.h" />
+    <ClInclude Include="..\..\PlanetSurfaceObject.h" />
+    <ClInclude Include="..\..\PlanetSurfacePlayerVessel.h" />
+    <ClInclude Include="..\..\PlanetTileScroller.h" />
     <ClInclude Include="..\..\env.h" />
     <ClInclude Include="..\..\ModuleAuxiliaryDisplay.h" />
     <ClInclude Include="..\..\ModuleBank.h" />
@@ -172,12 +229,20 @@
     <ClInclude Include="..\..\ModuleTitleScreen.h" />
     <ClInclude Include="..\..\ModuleTopGUI.h" />
     <ClInclude Include="..\..\ModuleTradeDepot.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="EngineCore.vcxproj">
-      <Project>{2fcf30b6-c79a-4a75-bc07-b30a5b271e78}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
+    <ClInclude Include="..\..\PlayerShipSprite.h" />
+    <ClInclude Include="..\..\Point2D.h" />
+    <ClInclude Include="..\..\QuestMgr.h" />
+    <ClInclude Include="..\..\Script.h" />
+    <ClInclude Include="..\..\ScrollBox.h" />
+    <ClInclude Include="..\..\Sprite.h" />
+    <ClInclude Include="..\..\Stardate.h" />
+    <ClInclude Include="..\..\TexturedSphere.h" />
+    <ClInclude Include="..\..\TileScroller.h" />
+    <ClInclude Include="..\..\Timer.h" />
+    <ClInclude Include="..\..\tinyxml\tinystr.h" />
+    <ClInclude Include="..\..\tinyxml\tinyxml.h" />
+    <ClInclude Include="..\..\Util.h" />
+    <ClInclude Include="..\..\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\bin\data\config.lua" />

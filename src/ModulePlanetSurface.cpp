@@ -50,7 +50,7 @@
 #include "ModuleCargoWindow.h"
 #include "Button.h"
 #include "Label.h"
-#include "AdvancedTileScroller.h"
+#include "PlanetTileScroller.h"
 #include "PauseMenu.h"
 #include "ModuleControlPanel.h"
 
@@ -1334,7 +1334,7 @@ bool ModulePlanetSurface::fabTilemap()
 
 	//create tile scroller
 	//these parameters CANNOT CHANGE despite being passed
-	scroller = new AdvancedTileScroller(500, 500, 64, 64); 
+	scroller = new PlanetTileScroller(500, 500, 64, 64); 
 
 	star = g_game->dataMgr->GetStarByID(g_game->gameState->player->currentStar);
 

@@ -28,7 +28,7 @@ class Label;
 class Button;
 class ModuleCargoWindow;
 class Items;
-class AdvancedTileScroller;
+class PlanetTileScroller;
 
 
 const int MAPW = 31936;
@@ -44,7 +44,7 @@ private:
 
 	void SetupLua();
 
-	AdvancedTileScroller	*scroller;
+	PlanetTileScroller	*scroller;
 
 	/* the Lua interpreter */
 	lua_State *LuaVM;

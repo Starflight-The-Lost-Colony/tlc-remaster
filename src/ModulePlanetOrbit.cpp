@@ -806,8 +806,8 @@ void ModulePlanetOrbit::Draw()
     if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
     {
 	    int y = 0;
-	    g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "planetScan: " + Util::ToString(planetScan));
-	    y+=10;g_game->PrintDefault(g_game->GetBackBuffer(), 850, y, "planetAnalysis: " + Util::ToString(planetAnalysis));
+	    g_game->Print12(g_game->GetBackBuffer(), 850, y, "planetScan: " + Util::ToString(planetScan));
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), 850, y, "planetAnalysis: " + Util::ToString(planetAnalysis));
     }
 
 }
