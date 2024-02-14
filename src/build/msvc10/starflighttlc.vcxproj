@@ -163,8 +163,8 @@
     <ClCompile Include="..\..\ModuleEncounter.cpp" />
     <ClCompile Include="..\..\ModuleEngineer.cpp" />
     <ClCompile Include="..\..\ModuleGameOver.cpp" />
-    <ClCompile Include="..\..\ModuleInterplanetaryTravel.cpp" />
-    <ClCompile Include="..\..\ModuleInterstellarTravel.cpp" />
+    <ClCompile Include="..\..\ModuleSolarSystem.cpp" />
+    <ClCompile Include="..\..\ModuleInterstellar.cpp" />
     <ClCompile Include="..\..\ModuleMedical.cpp" />
     <ClCompile Include="..\..\ModuleMessageGUI.cpp" />
     <ClCompile Include="..\..\ModulePlanetOrbit.cpp" />
@@ -214,8 +214,8 @@
     <ClInclude Include="..\..\ModuleEncounter.h" />
     <ClInclude Include="..\..\ModuleEngineer.h" />
     <ClInclude Include="..\..\ModuleGameOver.h" />
-    <ClInclude Include="..\..\ModuleInterplanetaryTravel.h" />
-    <ClInclude Include="..\..\ModuleInterstellarTravel.h" />
+    <ClInclude Include="..\..\ModuleSolarSystem.h" />
+    <ClInclude Include="..\..\ModuleInterstellar.h" />
     <ClInclude Include="..\..\ModuleMedical.h" />
     <ClInclude Include="..\..\ModuleMessageGUI.h" />
     <ClInclude Include="..\..\ModulePlanetOrbit.h" />

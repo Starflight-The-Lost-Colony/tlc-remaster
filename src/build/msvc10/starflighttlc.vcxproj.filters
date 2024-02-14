@@ -10,9 +10,6 @@
     <Filter Include="engine\tinyxml">
       <UniqueIdentifier>{2065b5c1-6978-4e47-bc28-1d44e76c48b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\gui">
-      <UniqueIdentifier>{cb307128-b04b-4f20-948c-97bf4181d38a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="gameplay">
       <UniqueIdentifier>{f5b93c0f-b922-48b1-b17d-b8f34cb70670}</UniqueIdentifier>
     </Filter>
@@ -114,9 +111,6 @@
     <ClCompile Include="..\..\ModuleMedical.cpp">
       <Filter>gameplay\core gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ModulePlanetOrbit.cpp">
-      <Filter>gameplay\core gameplay</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ModuleEncounter.cpp">
       <Filter>gameplay\core gameplay\encounter</Filter>
     </ClCompile>
@@ -152,18 +146,6 @@
     </ClCompile>
     <ClCompile Include="..\..\PlanetSurfacePlayerVessel.cpp">
       <Filter>gameplay\core gameplay\planet surface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Label.cpp">
-      <Filter>engine\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Button.cpp">
-      <Filter>engine\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MessageBoxWindow.cpp">
-      <Filter>engine\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ScrollBox.cpp">
-      <Filter>engine\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleStartup.cpp">
       <Filter>gameplay\main menu</Filter>
@@ -237,12 +219,6 @@
     <ClCompile Include="..\..\Math.cpp">
       <Filter>engine\rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ModuleInterplanetaryTravel.cpp">
-      <Filter>gameplay\core gameplay\space travel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ModuleInterstellarTravel.cpp">
-      <Filter>gameplay\core gameplay\space travel</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Game.cpp">
       <Filter>engine\rendering</Filter>
     </ClCompile>
@@ -251,6 +227,27 @@
     </ClCompile>
     <ClCompile Include="..\..\Stardate.cpp">
       <Filter>gameplay\main screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Button.cpp">
+      <Filter>engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Label.cpp">
+      <Filter>engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MessageBoxWindow.cpp">
+      <Filter>engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ScrollBox.cpp">
+      <Filter>engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ModulePlanetOrbit.cpp">
+      <Filter>gameplay\planets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ModuleSolarSystem.cpp">
+      <Filter>gameplay\core gameplay\space travel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ModuleInterstellar.cpp">
+      <Filter>gameplay\core gameplay\space travel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,9 +305,6 @@
     <ClInclude Include="..\..\ModuleMedical.h">
       <Filter>gameplay\core gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ModulePlanetOrbit.h">
-      <Filter>gameplay\core gameplay</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ModuleEncounter.h">
       <Filter>gameplay\core gameplay\encounter</Filter>
     </ClInclude>
@@ -340,18 +334,6 @@
     </ClInclude>
     <ClInclude Include="..\..\PlanetSurfaceObject.h">
       <Filter>gameplay\core gameplay\planet surface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Label.h">
-      <Filter>engine\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Button.h">
-      <Filter>engine\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MessageBoxWindow.h">
-      <Filter>engine\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ScrollBox.h">
-      <Filter>engine\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleStartup.h">
       <Filter>gameplay\main menu</Filter>
@@ -428,12 +410,6 @@
     <ClInclude Include="..\..\Util.h">
       <Filter>engine\core engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ModuleInterplanetaryTravel.h">
-      <Filter>gameplay\core gameplay\space travel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ModuleInterstellarTravel.h">
-      <Filter>gameplay\core gameplay\space travel</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Game.h">
       <Filter>engine\rendering</Filter>
     </ClInclude>
@@ -442,6 +418,27 @@
     </ClInclude>
     <ClInclude Include="..\..\Stardate.h">
       <Filter>gameplay\main screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ScrollBox.h">
+      <Filter>engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Button.h">
+      <Filter>engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Label.h">
+      <Filter>engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MessageBoxWindow.h">
+      <Filter>engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ModulePlanetOrbit.h">
+      <Filter>gameplay\planets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ModuleSolarSystem.h">
+      <Filter>gameplay\core gameplay\space travel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ModuleInterstellar.h">
+      <Filter>gameplay\core gameplay\space travel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -598,9 +595,6 @@
     <None Include="..\..\..\bin\data\human.xml">
       <Filter>gameplay\data/settings files</Filter>
     </None>
-    <None Include="..\..\..\bin\data\ships.xml">
-      <Filter>gameplay\data/settings files</Filter>
-    </None>
     <None Include="..\..\..\bin\data\strfltitems.xml">
       <Filter>gameplay\data/settings files</Filter>
     </None>
@@ -621,6 +615,9 @@
     </None>
     <None Include="..\..\..\bin\data\quests.lua">
       <Filter>gameplay\quest manager</Filter>
+    </None>
+    <None Include="..\..\..\bin\data\ships.xml">
+      <Filter>gameplay\player ship</Filter>
     </None>
   </ItemGroup>
 </Project>

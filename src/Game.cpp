@@ -31,8 +31,8 @@
 #include "ModuleShipConfig.h"
 #include "ModuleTitleScreen.h"
 #include "ModuleCredits.h"
-#include "ModuleInterstellarTravel.h"
-#include "ModuleInterplanetaryTravel.h"
+#include "ModuleInterstellar.h"
+#include "ModuleSolarSystem.h"
 #include "ModulePlanetOrbit.h"
 #include "ModulePlanetSurface.h"
 #include "ModuleControlPanel.h"
@@ -1469,7 +1469,7 @@ bool Game::InitializeModules()
 
 	// INTERSTELLAR (HYPERSPACE) TRAVEL GAME MODE
 	Module *mode_hyperspace = new Module();
-	mode_hyperspace->AddChildModule(new ModuleInterstellarTravel);
+	mode_hyperspace->AddChildModule(new ModuleInterstellar);
 	mode_hyperspace->AddChildModule(new ModuleAuxiliaryDisplay);
 	mode_hyperspace->AddChildModule(new ModuleControlPanel);
 	mode_hyperspace->AddChildModule(new ModuleStarmap);
@@ -1483,7 +1483,7 @@ bool Game::InitializeModules()
 
 	// INTERPLANETARY TRAVEL GAME MODE
 	Module *mode_interplanetaryTravel = new Module();
-	mode_interplanetaryTravel->AddChildModule(new ModuleInterPlanetaryTravel);
+	mode_interplanetaryTravel->AddChildModule(new ModuleSolarSystem);
 	mode_interplanetaryTravel->AddChildModule(new ModuleAuxiliaryDisplay);
 	mode_interplanetaryTravel->AddChildModule(new ModuleControlPanel);
 	mode_interplanetaryTravel->AddChildModule(new ModuleStarmap);
