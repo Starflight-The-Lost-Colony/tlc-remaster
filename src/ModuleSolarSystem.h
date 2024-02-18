@@ -5,8 +5,7 @@
 	Date: Feb, 2007
 */
 
-#ifndef INTERPLANETARYTRAVEL_H
-#define INTERPLANETARYTRAVEL_H
+#pragma once
 
 #include "env.h"
 #include <math.h>
@@ -19,6 +18,7 @@
 #include "GameState.h"
 #include "DataMgr.h"
 #include "Label.h"
+#include "PlanetaryBody.h"
 
 class ModuleSolarSystem : public Module
 {
@@ -31,7 +31,7 @@ private:
 	BITMAP *miniMap; 
 	ScrollBox::ScrollBox *text;
 
-	int loadStarSystem(int id);
+	bool LoadStarSystem(int id);
 	void updateMiniMap();
 	void checkShipPosition();
 	bool checkSystemBoundary(int x,int y);
@@ -44,9 +44,11 @@ private:
 		int tilenum;
 		int planetid;
 		int radius;
+        PlanetaryBody *pbody;
 	};
 
-	planet_t planets[10];
+    static const int MAX_PLANETS=10;
+	planet_t planets[MAX_PLANETS];
 
 	//DATAFILE *ipdata;
 	int tilex, tiley, tilenum;
@@ -90,4 +92,3 @@ public:
 	void Close();
 };
 
-#endif

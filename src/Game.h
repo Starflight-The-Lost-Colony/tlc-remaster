@@ -31,7 +31,6 @@
 #define SCREEN_HEIGHT 768 //960
 
 //COMMON RGB COLORS
-//here's a good source of rgb colors: http://www.pitt.edu/~nisg/cis/web/cgi/rgb.html
 #define BLACK			makecol(0,0,0)
 #define GRAY1			makecol(232,232,232)
 #define DGRAY           makecol(120,120,120)

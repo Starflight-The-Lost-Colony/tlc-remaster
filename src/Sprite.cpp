@@ -60,14 +60,17 @@ Sprite::Sprite()
 Sprite::~Sprite()  
 {
 	//prevent destroying bitmap if it was passed as a pointer rather than loaded
-	if (bLoaded) {
-		if (this->image != NULL) {
+	if (bLoaded) 
+    {
+		if (this->image != NULL) 
+        {
 			destroy_bitmap(this->image);
 			this->image = NULL;
 		}
 	}
 			
-	if (this->frame != NULL) {
+	if (this->frame != NULL) 
+    {
         destroy_bitmap(this->frame);
         this->frame = NULL;
     }
@@ -95,7 +98,8 @@ bool Sprite::load(const char *filename)
     return true;
 }
 
-bool Sprite::load(std::string filename) {
+bool Sprite::load(std::string filename) 
+{
     return load(filename.c_str());
 }
 
@@ -112,7 +116,8 @@ bool Sprite::setImage(BITMAP *source)
 	if (!source) return false;
 	
 	//if old image exists, it must be freed first
-	if (this->image && bLoaded) {
+	if (this->image && bLoaded) 
+    {
 		destroy_bitmap(this->image);
 		this->image = NULL;
 	}
@@ -130,7 +135,8 @@ bool Sprite::setImage(BITMAP *source)
 }
 
 
-void Sprite::draw(BITMAP *dest) {
+void Sprite::draw(BITMAP *dest) 
+{
     if (this->image)
 	    draw_trans_sprite(dest, this->image, (int)this->x, (int)this->y);
 }
@@ -147,7 +153,8 @@ void Sprite::drawframe(BITMAP *dest, bool UseAlpha)
 	int fx = animStartX + (currFrame % animColumns) * frameWidth;
 	int fy = animStartY + (currFrame / animColumns) * frameHeight;
 
-	if (!UseAlpha) {
+	if (!UseAlpha) 
+    {
 		//draw normally
 		masked_blit(this->image, dest, fx, fy, (int)x, (int)y, frameWidth, frameHeight);
 	} 
@@ -159,32 +166,37 @@ void Sprite::drawframe(BITMAP *dest, bool UseAlpha)
 		destroy_bitmap(temp);
 	}
 	
-	if (DebugOutline) {
+	if (DebugOutline) 
+    {
 		rect(dest, (int)x, (int)y, (int)x + frameWidth, (int)y + frameHeight, BLUE);
 	}
 }
 
 
 //draw with scaling
-void Sprite::drawframe_scale(BITMAP *dest, int dest_w, int dest_h)  {
+void Sprite::drawframe_scale(BITMAP *dest, int dest_w, int dest_h)  
+{
     if (!image) return;
 
     int fx = animStartX + (currFrame % animColumns) * frameWidth;
     int fy = animStartY + (currFrame / animColumns) * frameHeight;
     masked_stretch_blit(image, dest, fx, fy, frameWidth, frameHeight, (int)x, (int)y, dest_w, dest_h);
 
-	if (DebugOutline) {
+	if (DebugOutline) 
+    {
 		rect(dest, (int)x, (int)y, (int)x + dest_w, (int)y + dest_h, BLUE);
 	}
 }
 
 
 //draw with rotation
-void Sprite::drawframe_rotate(BITMAP *dest, int angle)  {
+void Sprite::drawframe_rotate(BITMAP *dest, int angle)  
+{
     if (!image) return;
 
     //create scratch frame if necessary
-    if (!frame) {
+    if (!frame) 
+    {
         frame = create_bitmap(frameWidth, frameHeight);
     }
 
@@ -197,7 +209,8 @@ void Sprite::drawframe_rotate(BITMAP *dest, int angle)  {
     //adjust for Allegro's 16.16 fixed trig (256 / 360 = 0.7) then divide by 2 radians
     rotate_sprite(dest, frame, (int)x, (int)y, itofix((int)(angle / 0.7f / 2.0f)));
 
-	if (DebugOutline) {
+	if (DebugOutline) 
+    {
 		rect(dest, (int)x, (int)y, (int)x + frameWidth, (int)y + frameHeight, BLUE);
 	}
 }
@@ -205,13 +218,15 @@ void Sprite::drawframe_rotate(BITMAP *dest, int angle)  {
 void Sprite::move()
 {
     //update x position
-    if (++countX > delayX)  {
+    if (++countX > delayX)  
+    {
         countX = 0;
         x += velX;
     }
 
     //update y position
-    if (++countY > delayY)  {
+    if (++countY > delayY)  
+    {
         countY = 0;
         y += velY;
     }
@@ -225,14 +240,17 @@ void Sprite::animate()
 void Sprite::animate(int low, int high) 
 {
     //update frame based on animdir
-    if (++frameCount > frameDelay)  {
+    if (++frameCount > frameDelay)  
+    {
         frameCount = 0;
 		currFrame += animDir;
 
-		if (currFrame < low) {
+		if (currFrame < low) 
+        {
             currFrame = high;
 		}
-		if (currFrame > high) {
+		if (currFrame > high) 
+        {
             currFrame = low;
         }
     }
@@ -299,16 +317,16 @@ bool Sprite::collidedD(Sprite *other)
 
 	//return distance comparison
 	return (dist < radius1 + radius2);
-
-
 }
 
-double Sprite::calcAngleMoveX(int angle) {
+double Sprite::calcAngleMoveX(int angle) 
+{
    //calculate X movement value based on direction angle
     return (double) cos(angle * PI_div_180);
 }
 
 //calculate Y movement value based on direction angle
-double Sprite::calcAngleMoveY(int angle) {
+double Sprite::calcAngleMoveY(int angle) 
+{
     return (double) sin(angle * PI_div_180);
 }

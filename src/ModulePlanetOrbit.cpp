@@ -387,35 +387,35 @@ bool ModulePlanetOrbit::Init()
 
 			switch(planet->size) {
 				case PS_HUGE:
-					pbody->setPlanetRadius(240);
+					pbody->setPlanetRadius(220);
                     planetRotationSpeed = 0.14;
                     pbody->lightmapOffsetX = -250;
                     pbody->lightmapOffsetY = -250;
                     pbody->lightmapFilename = "lightmap_planet_500.tga";
 					break;
 				case PS_LARGE:
-					pbody->planetRadius = 192;
+					pbody->planetRadius = 172;
                     planetRotationSpeed = 0.17;
                     pbody->lightmapOffsetX = -200;
                     pbody->lightmapOffsetY = -200;
                     pbody->lightmapFilename = "lightmap_planet_400.tga";
 					break;
 				case PS_MEDIUM:
-					pbody->planetRadius = 144;
+					pbody->planetRadius = 124;
                     planetRotationSpeed = 0.20;
                     pbody->lightmapOffsetX = -150;
                     pbody->lightmapOffsetY = -150;
                     pbody->lightmapFilename = "lightmap_planet_300.tga";
 					break;
 				case PS_SMALL:
-					pbody->planetRadius = 96;
+					pbody->planetRadius = 76;
                     planetRotationSpeed = 0.23;
                     pbody->lightmapOffsetX = -100;
                     pbody->lightmapOffsetY = -100;
                     pbody->lightmapFilename = "lightmap_planet_200.tga";
 					break;
 				default: //asteroid
-					pbody->planetRadius = 48;
+					pbody->planetRadius = 28;
                     planetRotationSpeed = 0.26;
                     pbody->lightmapOffsetX = -50;
                     pbody->lightmapOffsetY = -50;

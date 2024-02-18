@@ -276,9 +276,15 @@ void ModuleSolarSystem::Close()
         if (ship!=NULL) { delete ship; ship=NULL; }
 		if (planet_label!=NULL) { delete planet_label; planet_label = NULL; }
 
-		//unload the data file (thus freeing all resources at once)
-		//unload_datafile(ipdata);
-		//ipdata = NULL;
+        for (int i=0; i<MAX_PLANETS; i++)
+        {
+            if (this->planets[i].pbody)
+            {
+                delete this->planets[i].pbody;
+                this->planets[i].pbody = NULL;
+            }
+        }
+
 	}
 	catch(std::exception e) {
 		debug << e.what() << endl;
@@ -293,18 +299,10 @@ bool ModuleSolarSystem::Init()
 {
 	g_game->SetTimePaused(false);	//game-time normal in this module.
 
-	debug << "  Interplanetary Initialize" << endl;
+	debug << "  SolarSystem Initialize" << endl;
 
 	//enable the Pause Menu
 	g_game->pauseMenu->setEnabled(true);
-
-
-	//load the datafile
-	//ipdata = load_datafile("data/spacetravel/spacetravel.dat");
-	//if (!ipdata) {
-	//	g_game->message("Interplanetary: Error loading datafile");
-	//	return false;
-	//}
 
 
 	//reset flags
@@ -338,41 +336,54 @@ bool ModuleSolarSystem::Init()
 
 
 	//create tile scroller object
-	scroller = new TileScroller();
-	scroller->setTileSize(PLANETTILESIZE,PLANETTILESIZE);
-	scroller->setTileImageColumns(9);
-	scroller->setRegionSize(PLANETTILESACROSS,PLANETTILESDOWN);
+	this->scroller = new TileScroller();
+	this->scroller->setTileSize(PLANETTILESIZE,PLANETTILESIZE);
+	this->scroller->setTileImageColumns(10); //used to be 9x1
+    this->scroller->setTileImageRows(1);
+	this->scroller->setRegionSize(PLANETTILESACROSS,PLANETTILESDOWN);
 
-	//BITMAP *tileImage = (BITMAP*)ipdata[IP_TILES_BMP].dat;
+
+    //switching to rendered planets but load ip_tiles for convenience
+    //10 planets max at 256x256, 10 columns
+
     BITMAP *tileImage = (BITMAP*)load_bitmap("data/spacetravel/ip_tiles.bmp",NULL);
-	if (!tileImage) {
-		g_game->message("Interplanetary: Error loading ip_tiles.bmp");
+    //BITMAP *tileImage = (BITMAP*)create_bitmap(256*10, 256*1);
+	if (!tileImage) 
+    {
+        g_game->fatalerror("SolarSystem: Error creating tilescroller source image");
 		return false;
 	}
-	scroller->setTileImage(tileImage);
+	this->scroller->setTileImage(tileImage);
 
-	if (!scroller->createScrollBuffer(PLANET_SCROLL_WIDTH, PLANET_SCROLL_HEIGHT)) {
+
+
+	if (!this->scroller->createScrollBuffer(PLANET_SCROLL_WIDTH, PLANET_SCROLL_HEIGHT)) {
 		g_game->message("Interplanetary: Error creating scroll buffer");
 		return false;
 	}
 
 	//create the ship sprite
-	ship = new PlayerShipSprite();
-	ship->allstop();
+	this->ship = new PlayerShipSprite();
+	this->ship->allstop();
 
 
 	//try to read star system data...
-	star = g_game->dataMgr->GetStarByID(g_game->gameState->player->currentStar);
-	if (!star) {
+	this->star = g_game->dataMgr->GetStarByID(g_game->gameState->player->currentStar);
+	if (!this->star) 
+    {
 		g_game->message("Interplanetary: Error locating star system!");
 		return false;
 	}
 
 	//create a tile map of this star system
-	loadStarSystem(g_game->gameState->player->currentStar);
+	if (!LoadStarSystem(g_game->gameState->player->currentStar)) 
+    {
+        debug << "Error loading star system: ID = " << g_game->gameState->player->currentStar << endl;
+        return false;
+    }
 
 	//set player's location
-	scroller->setScrollPosition( g_game->gameState->player->posSystem);
+	this->scroller->setScrollPosition( g_game->gameState->player->posSystem);
 
 
 	//notify questmgr that star system has been entered
@@ -701,7 +712,8 @@ void ModuleSolarSystem::checkShipPosition()
 		if (tilex == planets[i].tilex && tiley == planets[i].tiley && tilenum == planets[i].tilenum)
 		{
 			planet = star->GetPlanetByID(planets[i].planetid);
-			if (planet) {
+			if (planet) 
+            {
 				planetFound = 1;
 
 				//store current planet in global player object
@@ -731,7 +743,8 @@ void ModuleSolarSystem::updateMiniMap()
 	for (int i = 0; i < star->GetNumPlanets(); i++)  
     {
 		planet = star->GetPlanet(i);
-		if (planet) {
+		if (planet) 
+        {
 			cx = asx + asw / 2;
 			cy = asy + ash / 2;
 			rx = (int)( (2 + i) * 8.7 );
@@ -763,10 +776,13 @@ void ModuleSolarSystem::updateMiniMap()
 	//draw planets in aux window
 	color = 0;
 	int planet=-1, px=0, py=0;
-	for (int i = 0; i < star->GetNumPlanets(); i++)  {
+	for (int i = 0; i < star->GetNumPlanets(); i++)  
+    {
 			planet = planets[i].tilenum;
-			if (planet > 0) {
-				switch(planet) {
+			if (planet > 0) 
+            {
+				switch(planet) 
+                {
 					case 1: color = makecol(255,182,0);	planets[i].radius = 6;		break; //sun
 					case 2: color = makecol(100,0,100);	planets[i].radius = 4;		break; //gas giant
 					case 3: color = makecol(160,12,8);	planets[i].radius = 3;		break; //molten
@@ -784,7 +800,8 @@ void ModuleSolarSystem::updateMiniMap()
 		}
 
 	//draw text
-	if(m_bOver_Planet == true){
+	if(m_bOver_Planet == true)
+    {
 		planet_label->Refresh();
 		planet_label->Draw(g_game->GetBackBuffer());		
 	}
@@ -795,11 +812,11 @@ void ModuleSolarSystem::updateMiniMap()
 	rect(g_game->GetBackBuffer(), (int)fx-1, (int)fy-1, (int)fx+2, (int)fy+2, BLUE);
 }
 
-int ModuleSolarSystem::loadStarSystem(int id)
+bool ModuleSolarSystem::LoadStarSystem(int id)
 {
 	int i;
 
-	debug << "  Loading star system " << id << endl;
+	debug << "  Loading star system: id = " << id << endl;
 	srand(time(NULL));
 
 
@@ -807,69 +824,175 @@ int ModuleSolarSystem::loadStarSystem(int id)
 	g_game->gameState->player->currentStar = id;
 
 	//clear the temp array of planets (used to simplify searches)
-	for (i=0; i<10; i++) {
-		planets[i].tilex = -1;
-		planets[i].tiley = -1;
-		planets[i].tilenum = -1;
-		planets[i].planetid = -1;
+	for (i=0; i < this->MAX_PLANETS; i++) 
+    {
+		this->planets[i].tilex = -1;
+		this->planets[i].tiley = -1;
+		this->planets[i].tilenum = -1;
+		this->planets[i].planetid = -1;
+        this->planets[i].pbody = NULL;
 	}
 
 	//clear the tile map
-	scroller->resetTiles();
+	this->scroller->resetTiles();
 
 	//calculate center of tile map
-	int systemCenterTileX = scroller->getTilesAcross() / 2;
-	int systemCenterTileY = scroller->getTilesDown() / 2;
+	int systemCenterTileX = this->scroller->getTilesAcross() / 2;
+	int systemCenterTileY = this->scroller->getTilesDown() / 2;
 
 
 	//position star tile image at center
-	scroller->setTile(systemCenterTileX, systemCenterTileY, 1);
+	this->scroller->setTile(systemCenterTileX, systemCenterTileY, 1);
 
 	//read starid passed over by the interstellar module
-	star = g_game->dataMgr->GetStarByID(id);
-	if (!star) {
+	this->star = g_game->dataMgr->GetStarByID(id);
+	if (!this->star) 
+    {
 		g_game->message("Interplanetary: Error loading star info");
-		return 0;
+		return false;
 	}
 
-	//add planets to the solar system from the planet database
-	if (star->GetNumPlanets() == 0) return 0;
+    //are there any planets?
+	if (this->star->GetNumPlanets() == 0) return false;
 
 	//seed random number generator with star id #
 	srand(id);
 
+	//add planets to the solar system from the planet database
 	//calculate position of each planet in orbit around the star
 	float radius,angle;
 	int rx,ry;
-	for (i = 0; i < star->GetNumPlanets(); i++)  
+	for (i = 0; i < this->star->GetNumPlanets(); i++) 
     {
-		planet = star->GetPlanet(i);
-		if (planet) {
+		this->planet = this->star->GetPlanet(i);
+		if (this->planet) 
+        {
+			this->planets[i].planetid = this->planet->id;
 
-			planets[i].planetid = planet->id;
-
+            //position the planet at a random location in it's circular orbit
 			radius = (2 + i) * 4;
 			angle = rand() % 360;
 			rx = (int)( cos(angle) * radius );
 			ry = (int)( sin(angle) * radius );
-			planets[i].tilex = systemCenterTileX + rx;
-			planets[i].tiley = systemCenterTileY + ry;
+			this->planets[i].tilex = systemCenterTileX + rx;
+			this->planets[i].tiley = systemCenterTileY + ry;
 
-			switch(planet->type) {
-			case PT_GASGIANT:	planets[i].tilenum = 2;	break;
-			case PT_MOLTEN:		planets[i].tilenum = 3;	break;
-			case PT_FROZEN:		planets[i].tilenum = 4;	break;
-			case PT_OCEANIC:	planets[i].tilenum = 5;	break;
-			case PT_ROCKY:		planets[i].tilenum = 6;	break;
-			case PT_ASTEROID:	planets[i].tilenum = 7;	break;
-			case PT_ACIDIC:		planets[i].tilenum = 8;	break;
-			default:
-				planets[i].tilenum = 2; //this bug needs to be fixed
-                debug << "loadStarSystem: Unknown planet type: " << planet->type << endl;
+
+            // ********
+            // CHANGE from tiles to rendered planet images
+            // ********
+
+			switch(planet->type) 
+            {
+			    case PT_GASGIANT:	planets[i].tilenum = 2;	break;
+			    case PT_MOLTEN:		planets[i].tilenum = 3;	break;
+			    case PT_FROZEN:		planets[i].tilenum = 4;	break;
+			    case PT_OCEANIC:	planets[i].tilenum = 5;	break;
+			    case PT_ROCKY:		planets[i].tilenum = 6;	break;
+			    case PT_ASTEROID:	planets[i].tilenum = 7;	break;
+			    case PT_ACIDIC:		planets[i].tilenum = 8;	break;
+			    default:
+				    planets[i].tilenum = 2; 
+                    debug << "loadStarSystem: Unknown planet type: " << planet->type << endl;
 			}
-			scroller->setTile(planets[i].tilex, planets[i].tiley, planets[i].tilenum);
-		}
+
+            //set up the tile data for the planets rendered onto the source image...
+			this->scroller->setTile( this->planets[i].tilex, this->planets[i].tiley, this->planets[i].tilenum );
+
+
+            //and then render the planets onto that source tile image
+
+            this->planets[i].pbody = new PlanetaryBody();
+            PlanetaryBody *pb = this->planets[i].pbody; //just a pointer shortcut
+            pb->planetid = this->planets[i].planetid;
+            pb->starid = this->star->id;
+            pb->planetType = this->planet->type;
+
+
+            //set the PLANET RADIUS for sphere rendering
+
+			switch(planet->size) {
+				case PS_HUGE:
+                    pb->planetRadius = 120; //220
+                    //pbody->lightmapOffsetX = -250;
+                    //pbody->lightmapOffsetY = -250;
+                    //pbody->lightmapFilename = "lightmap_planet_500.tga";
+					break;
+				case PS_LARGE:
+					pb->planetRadius = 100; // 172;
+                    //pbody->lightmapOffsetX = -200;
+                    //pbody->lightmapOffsetY = -200;
+                    //pbody->lightmapFilename = "lightmap_planet_400.tga";
+					break;
+				case PS_MEDIUM:
+					pb->planetRadius = 80; // 124;
+                    //pbody->lightmapOffsetX = -150;
+                    //pbody->lightmapOffsetY = -150;
+                    //pbody->lightmapFilename = "lightmap_planet_300.tga";
+					break;
+				case PS_SMALL:
+					pb->planetRadius = 60; // 76;
+                    //pbody->lightmapOffsetX = -100;
+                    //pbody->lightmapOffsetY = -100;
+                    //pbody->lightmapFilename = "lightmap_planet_200.tga";
+					break;
+				default: //asteroid or error
+					pb->planetRadius = 30; // 28;
+                    //pbody->lightmapOffsetX = -50;
+                    //pbody->lightmapOffsetY = -50;
+                    //pbody->lightmapFilename = "lightmap_planet_100.tga";
+		    }
+                
+            //create the planet TEXTURE
+
+            if (!pb->CreatePlanetTexture())
+            {
+                g_game->fatalerror("Error creating planet texture: id = " + Util::ToString(this->planet->id));
+            }
+            else
+            {
+
+                //render planet onto scratch image, then copy to the tilescroller source image
+
+                BITMAP *planetImage = NULL;
+                planetImage = (BITMAP*)create_bitmap(256,256);
+                if (!planetImage) 
+                {
+                    g_game->fatalerror("LoadStarSystem: error creating planet image");
+                }
+                clear_to_color(planetImage, makecol(255,0,255));
+                
+
+                //rotate planet randomly
+                int rotation = Util::Random(0, 255);
+
+                //center the planet on the 256x256 image
+                int cx = 128, cy = 128;
+
+                //render the planet using TexturedSphere
+                pb->texSphere->Draw( planetImage, 0, 0, rotation, pb->planetRadius, cx, cy );
+
+
+                BITMAP* scratch = (BITMAP*)create_bitmap(256,256);
+                clear_to_color(scratch, makecol(255,0,255));
+                masked_blit( planetImage, scratch, 0, 0, 0, 0, 256, 256 );
+
+
+                //grab the tilescroller source image for modification
+                BITMAP* tileImage = this->scroller->getTileImage();
+
+                int tile = planets[i].tilenum;
+		        draw_sprite( tileImage, scratch, 256*tile, 0 );
+
+                destroy_bitmap(scratch);
+
+
+                //copy the source image back into the tilescroller
+                this->scroller->setTileImage( tileImage );
+                
+            }
+        }
 	}
 
-	return 1;
+	return true;
 }
