@@ -27,19 +27,24 @@
 #include "Util.h"
 #include "QuestMgr.h"
 #include "PauseMenu.h"
+#include "PlanetaryBody.h"
 using namespace std;
 
 //sprite *planetImg;
-float m_rotationAngle;
-int starid = -1;
-int planetid = -1;
-int planetRadius;
+//float m_rotationAngle;
 double planetRotationSpeed, planetRotation;
-int lightmapOffsetX, lightmapOffsetY;
-std::string lightmapFilename;
 
-BITMAP *planet_topography, *planet_scanner_map, *planet_texture;
 bool flag_DoDock = false;
+
+
+//this new class encapsulates all of the planet texture code
+PlanetaryBody *pbody;
+
+
+//the old Planet class handles the planet's properties
+Planet *planet;
+
+
 
 ModulePlanetOrbit::ModulePlanetOrbit(void)
 {
@@ -258,101 +263,12 @@ void ModulePlanetOrbit::OnEvent(Event *event)
     }
 }
 
-bool ModulePlanetOrbit::CreatePlanetTexture()
-{
-	//these cannot change: just noted for reference
-    static int TEX_SIZE_ORBIT = 256; 
-	static int TEX_SIZE_SURFACE = 500;
-	std::string orbitFilename="";
-	std::string surfaceFilename="";
-
-	//use starid and planetid for random seed
-	int randomness = starid * 1000 + planetid;
-
-	//planet textures are stored in data/planetorbit using the starid and planetid as a random seed
-	//once created they are re-used
-	//two textures are required for each planet as a result of replacing the OpenGL with a software renderer
-
-    ostringstream os;
-    os << "data/planetorbit/planet_" << randomness << "_256.bmp";
-    orbitFilename = os.str();
-    debug << "Planet orbit filename: " << orbitFilename << endl;
-
-	os.str("");
-	os << "data/planetorbit/planet_" << randomness << "_500.bmp";
-	surfaceFilename = os.str();
-	debug << "Planet surface filename: " << surfaceFilename << endl;
-
-    //try to find planet texture previously generated
-	planet_texture=NULL;
-    planet_texture = (BITMAP*)load_bitmap(orbitFilename.c_str(), NULL);
-	if (!planet_texture) 
-    {
-	    //generate planet texture for ORBIT render 256x256
-	    createPlanetSurface(TEX_SIZE_ORBIT, TEX_SIZE_ORBIT, randomness, planetType, orbitFilename);
-
-	    //generate planet texture for SURFACE tilemap 500x500 (used in ModulePlanetSurface)
-	    createPlanetSurface(TEX_SIZE_SURFACE, TEX_SIZE_SURFACE, randomness, planetType, surfaceFilename);
-
-        //load newly generated planet texture
-        planet_texture = (BITMAP*)load_bitmap(orbitFilename.c_str(), NULL);
-	    if (!planet_texture) {
-		    g_game->message("PlanetOrbit: Error loading planet texture");
-		    return false;
-	    }
-    }
-
-
-	//get AUX_SCREEN gui values from globals
-	static int asw = (int)g_game->getGlobalNumber("AUX_SCREEN_WIDTH");
-	static int ash = (int)g_game->getGlobalNumber("AUX_SCREEN_HEIGHT");
-
-    //create planet topography bitmap for minimap
-	planet_topography = create_bitmap(asw, ash);
-	clear_bitmap(planet_topography);
-
-	//scale planet texture onto topography, cutting skewed N/S poles (drop 10 pixels from top/bottom)
- 	stretch_blit(planet_texture, planet_topography, 
-        0, 10, planet_texture->w, planet_texture->h-20, 
-        1, 1, planet_topography->w-2, planet_topography->h-2);
-
-	//now create a scratch image as a duplicate of topography used for sensor scans
-	planet_scanner_map = create_bitmap(asw, ash);
-    draw_sprite(planet_scanner_map, planet_topography, 0, 0);
-
-
-    //create texture-mapped sphere of the planet
-    texsphere = new TexturedSphere(TEX_SIZE_ORBIT);
-    if (!texsphere->SetTexture(planet_texture))
-    {
-        g_game->fatalerror("PlanetOrbit: error loading planet_texture");
-        return false;
-    }
-
-    return true;
-}
 
 void ModulePlanetOrbit::Close()
 {
 	debug << "PlanetOrbit Destroy" << endl;
 
 	try {
-        if (lightmap_overlay) {
-            destroy_bitmap(lightmap_overlay);
-            lightmap_overlay=NULL;
-        }
-		if (planet_topography) {
-            destroy_bitmap(planet_topography);
-            planet_topography=NULL;
-        }
-        if (planet_scanner_map) {
-            destroy_bitmap(planet_scanner_map);
-            planet_scanner_map=NULL;
-        }
-        if (planet_texture) {
-            destroy_bitmap(planet_texture);
-            planet_texture = NULL;
-        }
         if (background) {
             destroy_bitmap(background);
             background=NULL;
@@ -389,12 +305,20 @@ bool ModulePlanetOrbit::Init()
 	g_game->SetTimePaused(false);	//game-time normal in this module.
 	debug << "  PlanetOrbit Initialize" << endl;
 
+
+    //create the new planet object to handle textures
+    pbody = new PlanetaryBody();
+
+
     if (g_game->getGlobalBoolean("DEBUG_MODE") == true)
     {
         if (g_game->getGlobalString("STARTUPMODULE") == "PLANETORBIT")
         {
-            starid = g_game->gameState->player->currentStar = 2;
-            planetid = g_game->gameState->player->currentPlanet = 8;
+            //default to Myrrdan (ID 2008)
+            g_game->gameState->player->currentStar = 2;
+            pbody->setStarID(2);
+            g_game->gameState->player->currentPlanet = 8;
+            pbody->setPlanetID(8);
         }
     }
 
@@ -410,7 +334,8 @@ bool ModulePlanetOrbit::Init()
 
     //load the background
     background = (BITMAP*)load_bitmap("data/planetorbit/STARFIELD.tga",NULL);
-    if (!background) {
+    if (!background) 
+    {
         g_game->fatalerror("PlanetOrbit: Error loading background");
         return false;
     }
@@ -436,77 +361,81 @@ bool ModulePlanetOrbit::Init()
     //point global scrollbox to local one in this module for access by sub-modules
     g_game->g_scrollbox = text;
 
-    //set default text size
-	//alfont_set_font_size(g_game->font10, 20);
+
+
+    //this class handles planet properties (not textures)
+    planet = new Planet();
+
 
 
 	//get current star data
 	Star *star = g_game->dataMgr->GetStarByID(g_game->gameState->player->currentStar);
 	if (star)
-		starid = star->id;
+        pbody->setStarID(star->id);
 	else
-		starid = -1;
+		pbody->setStarID(-1);
 
 
 	//read planet data
 	if (g_game->gameState->player->currentPlanet > -1)
 	{
 		planet = star->GetPlanetByID(g_game->gameState->player->currentPlanet);
-		if (planet) {
-			planetid = planet->id;
-			planetType = planet->type;
+		if (planet) 
+        {
+            pbody->setPlanetID(planet->id);
+			pbody->setPlanetType(planet->type);
 
 			switch(planet->size) {
 				case PS_HUGE:
-					planetRadius = 240;
+					pbody->setPlanetRadius(240);
                     planetRotationSpeed = 0.14;
-                    lightmapOffsetX = -250;
-                    lightmapOffsetY = -250;
-                    lightmapFilename = "lightmap_planet_500.tga";
+                    pbody->lightmapOffsetX = -250;
+                    pbody->lightmapOffsetY = -250;
+                    pbody->lightmapFilename = "lightmap_planet_500.tga";
 					break;
 				case PS_LARGE:
-					planetRadius = 192;
+					pbody->planetRadius = 192;
                     planetRotationSpeed = 0.17;
-                    lightmapOffsetX = -200;
-                    lightmapOffsetY = -200;
-                    lightmapFilename = "lightmap_planet_400.tga";
+                    pbody->lightmapOffsetX = -200;
+                    pbody->lightmapOffsetY = -200;
+                    pbody->lightmapFilename = "lightmap_planet_400.tga";
 					break;
 				case PS_MEDIUM:
-					planetRadius = 144;
+					pbody->planetRadius = 144;
                     planetRotationSpeed = 0.20;
-                    lightmapOffsetX = -150;
-                    lightmapOffsetY = -150;
-                    lightmapFilename = "lightmap_planet_300.tga";
+                    pbody->lightmapOffsetX = -150;
+                    pbody->lightmapOffsetY = -150;
+                    pbody->lightmapFilename = "lightmap_planet_300.tga";
 					break;
 				case PS_SMALL:
-					planetRadius = 96;
+					pbody->planetRadius = 96;
                     planetRotationSpeed = 0.23;
-                    lightmapOffsetX = -100;
-                    lightmapOffsetY = -100;
-                    lightmapFilename = "lightmap_planet_200.tga";
+                    pbody->lightmapOffsetX = -100;
+                    pbody->lightmapOffsetY = -100;
+                    pbody->lightmapFilename = "lightmap_planet_200.tga";
 					break;
 				default: //asteroid
-					planetRadius = 48;
+					pbody->planetRadius = 48;
                     planetRotationSpeed = 0.26;
-                    lightmapOffsetX = -50;
-                    lightmapOffsetY = -50;
-                    lightmapFilename = "lightmap_planet_100.tga";
+                    pbody->lightmapOffsetX = -50;
+                    pbody->lightmapOffsetY = -50;
+                    pbody->lightmapFilename = "lightmap_planet_100.tga";
 			}
 		}
 		else
-			planetid = -1;
+			pbody->planetid = -1;
 	}
 
-	if (starid != -1 && planetid != -1) 
+	if (pbody->starid != -1 && pbody->planetid != -1) 
     {
-		if (!CreatePlanetTexture()) return false;
+		if (!pbody->CreatePlanetTexture()) return false;
 	}
 
     //load planet lightmap overlay
-    lightmapFilename = "data/planetorbit/" + lightmapFilename;
-    lightmap_overlay=NULL;
-    lightmap_overlay = (BITMAP*)load_bitmap(lightmapFilename.c_str(),NULL);
-    if (!lightmap_overlay) {
+    pbody->lightmapFilename = "data/planetorbit/" + pbody->lightmapFilename;
+    pbody->lightmapOverlay=NULL;
+    pbody->lightmapOverlay = (BITMAP*)load_bitmap(pbody->lightmapFilename.c_str(),NULL);
+    if (!pbody->lightmapOverlay) {
         g_game->fatalerror("PlanetOrbit: error loading lightmap_overlay");
         return false;
     }
@@ -563,8 +492,8 @@ void ModulePlanetOrbit::Update()
 		//show scanning process for short duration
 		if ( Util::ReentrantDelay(scantime) )
 		{
-			//done scanning
-			planetScan++;
+			//done running the scan animation
+			planetScan = 2;
 		}
 	}
 	else if (planetScan == 2)
@@ -580,8 +509,16 @@ void ModulePlanetOrbit::Update()
                     g_game->printout(text, sci + "I think I'm getting the hang of this (SKILL UP).", PURPLE,1000);
                 }
             }
+        
+            //if scan succeeded, then analysis is available, otherwise scan must be repeated
+            planetScan = 3;
         }
-        planetScan++;
+        else 
+        {
+            //skillcheck failed, scan must be repeated (planetScan remains = 2)
+            g_game->printout(text, sci + "Sorry, captain, this planet is difficult to scan...", LTGREEN,1000);
+        }
+
 
 	}
 	else if (planetAnalysis == 1)
@@ -666,7 +603,7 @@ void ModulePlanetOrbit::Update()
 			if (item->itemType == IT_ARTIFACT || item->itemType == IT_RUIN)			//jjh
 			{
 				//artifact located on this planet?
-				if (item->planetid == planetid)
+				if (item->planetid == pbody->planetid)
 				{
                     //due to the -1 repeat code, this will only print once followed by one or more objects in a list
                     ostringstream os;
@@ -720,8 +657,8 @@ void ModulePlanetOrbit::Update()
 	//planet scan?
 	if (planetScan == 1) 
     {
-        int pw = planet_topography->w-7;
-        int ph = planet_topography->h-7;
+        int pw = pbody->planetTopography->w-7;
+        int ph = pbody->planetTopography->h-7;
 
         //draw a bunch of random sensor blips
         for (int n=0; n<8; n++)
@@ -732,7 +669,7 @@ void ModulePlanetOrbit::Update()
 		    r.right = r.left + 4;
 		    r.bottom = r.top + 4;
 		    int color = makecol(100+rand() % 155, 0, 100+rand() % 155);
-		    rectfill(planet_topography, r.left, r.top, r.right, r.bottom, color);
+		    rectfill(pbody->planetTopography, r.left, r.top, r.right, r.bottom, color);
         }
 
         g_game->audioSystem->Play( audio_scan );
@@ -740,13 +677,15 @@ void ModulePlanetOrbit::Update()
 	}
 	else {
 		//restore original topography
-		blit(planet_scanner_map,planet_topography,0,0,0,0,planet_topography->w,planet_topography->h);
+		blit( pbody->planetScannerMap, pbody->planetTopography,0,0,0,0, pbody->planetTopography->w, pbody->planetTopography->h);
 	}
 
 
 	//trying to dock with starport
-	if (flag_DoDock) {
-		if (Util::ReentrantDelay(2000)) {
+	if (flag_DoDock) 
+    {
+		if (Util::ReentrantDelay(2000)) 
+        {
 			g_game->modeMgr->LoadModule(MODULE_STARPORT);
 			return;
 		}
@@ -781,13 +720,15 @@ void ModulePlanetOrbit::Draw()
 	static int ash = (int)g_game->getGlobalNumber("AUX_SCREEN_HEIGHT");
 	rectfill(g_game->GetBackBuffer(), asx, asy, asx + asw, asy + ash, makecol(0,0,0));
 
-    
+    //draw message window
+    text->Draw(g_game->GetBackBuffer());
+
+
+
     //draw topography map of planet in the aux window
-    blit(planet_topography, g_game->GetBackBuffer(), 0, 0, asx, asy, planet_topography->w, planet_topography->h);
+    blit( pbody->planetTopography, g_game->GetBackBuffer(), 0, 0, asx, asy, pbody->planetTopography->w, pbody->planetTopography->h );
 
 
-	//draw message window
-	text->Draw(g_game->GetBackBuffer());
 
     //draw rotating planet as textured sphere
     static double rot = 0.0;
@@ -795,12 +736,16 @@ void ModulePlanetOrbit::Draw()
     int cx = SCREEN_WIDTH/2;
     int cy = 250;
     planetRotation += planetRotationSpeed;
-    texsphere->Draw(g_game->GetBackBuffer(), 0, 0, (int)planetRotation, planetRadius, cx, cy);
+    pbody->texSphere->Draw(g_game->GetBackBuffer(), 0, 0, (int)planetRotation, pbody->planetRadius, cx, cy);
     rot += 0.2;
     rot = Util::WrapValue(rot, 0.0, 256.0);
 
+
+
     //draw planet lightmap overlay 
-    draw_trans_sprite(g_game->GetBackBuffer(), lightmap_overlay, cx+lightmapOffsetX, cy+lightmapOffsetY);
+    draw_trans_sprite(g_game->GetBackBuffer(), pbody->lightmapOverlay, cx+pbody->lightmapOffsetX, cy+pbody->lightmapOffsetY);
+
+
 
 
     if (g_game->getGlobalBoolean("DEBUG_MODE") == true)

@@ -841,8 +841,8 @@ int ModuleSolarSystem::loadStarSystem(int id)
 	//calculate position of each planet in orbit around the star
 	float radius,angle;
 	int rx,ry;
-	for (i = 0; i < star->GetNumPlanets(); i++)  {
-
+	for (i = 0; i < star->GetNumPlanets(); i++)  
+    {
 		planet = star->GetPlanet(i);
 		if (planet) {
 

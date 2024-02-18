@@ -15,6 +15,7 @@
 #include "DataMgr.h"
 #include "AudioSystem.h"
 #include "TexturedSphere.h"
+#include "PlanetaryBody.h"
 
 const int HOMEWORLD_ID = 8;
 
@@ -47,12 +48,10 @@ private:
 	int planetScan;
 	int planetAnalysis;
 
-	PlanetType planetType;
-	Planet *planet;
+	PlanetaryBody *pbody;
 
-    BITMAP *lightmap_overlay;
+    Planet *planet;
 
-    TexturedSphere *texsphere;
 
 
 public:

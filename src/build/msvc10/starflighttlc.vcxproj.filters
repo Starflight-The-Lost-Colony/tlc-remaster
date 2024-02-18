@@ -16,9 +16,6 @@
     <Filter Include="gameplay\data/settings files">
       <UniqueIdentifier>{2567dd0d-38af-4f39-bc60-d0880c391f2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="gameplay\main menu">
-      <UniqueIdentifier>{efc0bcb3-f996-4a3c-bf60-771f34334413}</UniqueIdentifier>
-    </Filter>
     <Filter Include="gameplay\player ship">
       <UniqueIdentifier>{321d808b-47e3-4fb5-914a-89a8257e56b3}</UniqueIdentifier>
     </Filter>
@@ -55,6 +52,9 @@
     <Filter Include="gameplay\main screen">
       <UniqueIdentifier>{2a2d9d62-6f4c-4f71-8284-4d4f04dc4d2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="gameplay\title screen">
+      <UniqueIdentifier>{efc0bcb3-f996-4a3c-bf60-771f34334413}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ModuleMessageGUI.cpp">
@@ -64,7 +64,7 @@
       <Filter>gameplay\main screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleSettings.cpp">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleAuxiliaryDisplay.cpp">
       <Filter>gameplay\main screen</Filter>
@@ -76,7 +76,7 @@
       <Filter>gameplay\main screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleCredits.cpp">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleEngineer.cpp">
       <Filter>gameplay\core gameplay</Filter>
@@ -106,7 +106,7 @@
       <Filter>gameplay\core gameplay\Starport</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleGameOver.cpp">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleMedical.cpp">
       <Filter>gameplay\core gameplay</Filter>
@@ -148,10 +148,10 @@
       <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleStartup.cpp">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ModuleTitleScreen.cpp">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CombatObject.cpp">
       <Filter>gameplay\core gameplay\encounter</Filter>
@@ -249,6 +249,9 @@
     <ClCompile Include="..\..\ModuleInterstellar.cpp">
       <Filter>gameplay\core gameplay\space travel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\PlanetaryBody.cpp">
+      <Filter>gameplay\planets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ModuleMessageGUI.h">
@@ -258,7 +261,7 @@
       <Filter>gameplay\main screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleSettings.h">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleAuxiliaryDisplay.h">
       <Filter>gameplay\main screen</Filter>
@@ -270,7 +273,7 @@
       <Filter>gameplay\main screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleCredits.h">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleEngineer.h">
       <Filter>gameplay\core gameplay</Filter>
@@ -300,7 +303,7 @@
       <Filter>gameplay\core gameplay\Starport</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleGameOver.h">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleMedical.h">
       <Filter>gameplay\core gameplay</Filter>
@@ -336,10 +339,10 @@
       <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleStartup.h">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ModuleTitleScreen.h">
-      <Filter>gameplay\main menu</Filter>
+      <Filter>gameplay\title screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CombatObject.h">
       <Filter>gameplay\core gameplay\encounter</Filter>
@@ -439,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ModuleInterstellar.h">
       <Filter>gameplay\core gameplay\space travel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PlanetaryBody.h">
+      <Filter>gameplay\planets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

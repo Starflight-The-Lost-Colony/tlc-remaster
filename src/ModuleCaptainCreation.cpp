@@ -195,9 +195,7 @@ ModuleCaptainCreation::ModuleCaptainCreation(void)
 {
 }
 
-ModuleCaptainCreation::~ModuleCaptainCreation(void)
-{
-}
+ModuleCaptainCreation::~ModuleCaptainCreation(void){}
 
 bool ModuleCaptainCreation::Init()
 {
@@ -502,15 +500,9 @@ void ModuleCaptainCreation::Draw()
 				string str = "Next, you need to enter a name for your captain, and then set your attribute points: 5 points to Durability or Learning Rate, and 25 points to all the rest. You must allocate all of the points before continuing.";
 				g_game->ShowMessageBoxWindow("",  str, 400, 300, YELLOW, 10, 250, false);
 			}
-
-
 		}
-
 		break;
 	}
-
-
-
 }
 
 
@@ -532,40 +524,33 @@ void ModuleCaptainCreation::Close()
 			delete m_profInfoScientific;
 			m_profInfoScientific = NULL;
 		}
-
 		if (m_profInfoFreelance != NULL)
 		{
 			delete m_profInfoFreelance;
 			m_profInfoFreelance = NULL;
 		}
-
 		if (m_profInfoMilitary != NULL)
 		{
 			delete m_profInfoMilitary;
 			m_profInfoMilitary = NULL;
 		}
-
 		if (m_finishBtn != NULL)
 		{
 			delete m_finishBtn;
 			m_finishBtn = NULL;
 		}
-
 		if (m_sndBtnClick != NULL)
 		{
 			m_sndBtnClick = NULL;
 		}
-
 		if (m_sndClick != NULL)
 		{
 			m_sndClick = NULL;
 		}
-
 		if (m_sndErr != NULL)
 		{
 			m_sndErr = NULL;
 		}
-
 		for (int i=0; i < 8; i++){
 			delete m_minusBtns[i];
 			m_minusBtns[i] = NULL;
@@ -584,6 +569,10 @@ void ModuleCaptainCreation::Close()
 
 
 }
+
+
+#pragma region INPUT
+
 
 void ModuleCaptainCreation::OnKeyPress(int keyCode)
 {
@@ -822,217 +811,6 @@ void ModuleCaptainCreation::OnMousePressed(int button, int x, int y)
 	Module::OnMousePressed(button, x, y);
 }
 
-void ModuleCaptainCreation::chooseFreelance()
-{
-	//set freelance attributes
-	m_profession = PROFESSION_FREELANCE;
-	m_attributes.durability = BASEATT_FREELANCE_DURABILITY;
-	m_attributes.learnRate = BASEATT_FREELANCE_LEARNRATE;
-	m_attributes.science = BASEATT_FREELANCE_SCIENCE;
-	m_attributes.navigation = BASEATT_FREELANCE_NAVIGATION;
-	m_attributes.tactics = BASEATT_FREELANCE_TACTICS;
-	m_attributes.engineering = BASEATT_FREELANCE_ENGINEERING;
-	m_attributes.communication = BASEATT_FREELANCE_COMMUNICATION;
-	m_attributes.medical = BASEATT_FREELANCE_MEDICAL;
-	m_attributesInitial = m_attributes;
-
-	// set attribute max values
-	m_attributesMax.durability = MAXATT_FREELANCE_DURABILITY;
-	m_attributesMax.learnRate = MAXATT_FREELANCE_LEARNRATE;
-	m_attributesMax.science = MAXATT_FREELANCE_SCIENCE;
-	m_attributesMax.navigation = MAXATT_FREELANCE_NAVIGATION;
-	m_attributesMax.tactics = MAXATT_FREELANCE_TACTICS;
-	m_attributesMax.engineering = MAXATT_FREELANCE_ENGINEERING;
-	m_attributesMax.communication = MAXATT_FREELANCE_COMMUNICATION;
-	m_attributesMax.medical = MAXATT_FREELANCE_MEDICAL;
-
-	m_availPts = INITIAL_AVAIL_PTS;
-	m_availProfPts = INITIAL_AVAIL_PROF_PTS;
-
-	//store attributes in gamestate	
-	g_game->gameState->setProfession(m_profession);
-	g_game->gameState->officerCap->attributes = m_attributes;
-
-	//set ship name and properties based on profession
-	Ship ship = g_game->gameState->getShip();
-	ship.setName("Acquisition");
-	int value = g_game->getGlobalNumber("PROF_FREELANCE_ARMOR");
-	ship.setArmorClass(value);
-	ship.setArmorIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_FREELANCE_ENGINE");
-	ship.setEngineClass(value);
-	ship.setEngineIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_FREELANCE_SHIELD");
-	ship.setShieldClass(value);
-	ship.setShieldIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_FREELANCE_LASER");
-	ship.setLaserClass(value);
-	ship.setLaserIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_FREELANCE_MISSILE");
-	ship.setMissileLauncherClass(value);
-	ship.setMissileLauncherIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_FREELANCE_PODS");
-	ship.setCargoPodCount(value);
-
-	int maxEngineClass=0, maxShieldClass=0, maxArmorClass=0, maxMissileLauncherClass=0, maxLaserClass=0;
-	maxEngineClass          = g_game->getGlobalNumber("PROF_FREELANCE_ENGINE_MAX");
-	maxShieldClass          = g_game->getGlobalNumber("PROF_FREELANCE_SHIELD_MAX");
-	maxArmorClass           = g_game->getGlobalNumber("PROF_FREELANCE_ARMOR_MAX");
-	maxMissileLauncherClass = g_game->getGlobalNumber("PROF_FREELANCE_MISSILE_MAX");
-	maxLaserClass           = g_game->getGlobalNumber("PROF_FREELANCE_LASER_MAX");
-	ship.setMaxEngineClass(maxEngineClass);
-	ship.setMaxShieldClass(maxShieldClass);
-	ship.setMaxArmorClass(maxArmorClass);
-	ship.setMaxMissileLauncherClass(maxMissileLauncherClass);
-	ship.setMaxLaserClass(maxLaserClass);
-
-	//Roll random repair minerals and set the repair counters
-	ship.initializeRepair();
-
-	g_game->gameState->setShip(ship);
-}
-
-void ModuleCaptainCreation::chooseMilitary()
-{
-	//set military attributes
-	m_profession = PROFESSION_MILITARY;
-	m_attributes.durability = BASEATT_MILITARY_DURABILITY;
-	m_attributes.learnRate = BASEATT_MILITARY_LEARNRATE;
-	m_attributes.science = BASEATT_MILITARY_SCIENCE;
-	m_attributes.navigation = BASEATT_MILITARY_NAVIGATION;
-	m_attributes.tactics = BASEATT_MILITARY_TACTICS;
-	m_attributes.engineering = BASEATT_MILITARY_ENGINEERING;
-	m_attributes.communication = BASEATT_MILITARY_COMMUNICATION;
-	m_attributes.medical = BASEATT_MILITARY_MEDICAL;
-	m_attributesInitial = m_attributes;
-
-	// maximum attribute values
-	m_attributesMax.durability = MAXATT_MILITARY_DURABILITY;
-	m_attributesMax.learnRate = MAXATT_MILITARY_LEARNRATE;
-	m_attributesMax.science = MAXATT_MILITARY_SCIENCE;
-	m_attributesMax.navigation = MAXATT_MILITARY_NAVIGATION;
-	m_attributesMax.tactics = MAXATT_MILITARY_TACTICS;
-	m_attributesMax.engineering = MAXATT_MILITARY_ENGINEERING;
-	m_attributesMax.communication = MAXATT_MILITARY_COMMUNICATION;
-	m_attributesMax.medical = MAXATT_MILITARY_MEDICAL;
-
-	m_availPts = INITIAL_AVAIL_PTS;
-	m_availProfPts = INITIAL_AVAIL_PROF_PTS;
-
-	//store attributes in gamestate	
-	g_game->gameState->setProfession(m_profession);
-	g_game->gameState->officerCap->attributes = m_attributes;
-
-	//set ship name and properties based on profession
-	Ship ship = g_game->gameState->getShip();
-	ship.setName("Devastator");
-	int value = g_game->getGlobalNumber("PROF_MILITARY_ARMOR");
-	ship.setArmorClass(value);
-	ship.setArmorIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_MILITARY_ENGINE");
-	ship.setEngineClass(value);
-	ship.setEngineIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_MILITARY_SHIELD");
-	ship.setShieldClass(value);
-	ship.setShieldIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_MILITARY_LASER");
-	ship.setLaserClass(value);
-	ship.setLaserIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_MILITARY_MISSILE");
-	ship.setMissileLauncherClass(value);
-	ship.setMissileLauncherIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_MILITARY_PODS");
-	ship.setCargoPodCount(value);
-
-	int maxEngineClass=0, maxShieldClass=0, maxArmorClass=0, maxMissileLauncherClass=0, maxLaserClass=0;
-	maxEngineClass          = g_game->getGlobalNumber("PROF_MILITARY_ENGINE_MAX");
-	maxShieldClass          = g_game->getGlobalNumber("PROF_MILITARY_SHIELD_MAX");
-	maxArmorClass           = g_game->getGlobalNumber("PROF_MILITARY_ARMOR_MAX");
-	maxMissileLauncherClass = g_game->getGlobalNumber("PROF_MILITARY_MISSILE_MAX");
-	maxLaserClass           = g_game->getGlobalNumber("PROF_MILITARY_LASER_MAX");
-	ship.setMaxEngineClass(maxEngineClass);
-	ship.setMaxShieldClass(maxShieldClass);
-	ship.setMaxArmorClass(maxArmorClass);
-	ship.setMaxMissileLauncherClass(maxMissileLauncherClass);
-	ship.setMaxLaserClass(maxLaserClass);
-
-	//Roll random repair minerals and set the repair counters
-	ship.initializeRepair();
-
-	g_game->gameState->setShip(ship);
-}
-
-void ModuleCaptainCreation::chooseScience()
-{
-	//set science attributes
-	m_profession = PROFESSION_SCIENTIFIC;
-	m_attributes.durability = BASEATT_SCIENTIFIC_DURABILITY;
-	m_attributes.learnRate = BASEATT_SCIENTIFIC_LEARNRATE;
-	m_attributes.science = BASEATT_SCIENTIFIC_SCIENCE;
-	m_attributes.navigation = BASEATT_SCIENTIFIC_NAVIGATION;
-	m_attributes.tactics = BASEATT_SCIENTIFIC_TACTICS;
-	m_attributes.engineering = BASEATT_SCIENTIFIC_ENGINEERING;
-	m_attributes.communication = BASEATT_SCIENTIFIC_COMMUNICATION;
-	m_attributes.medical = BASEATT_SCIENTIFIC_MEDICAL;
-	m_attributesInitial = m_attributes;
-
-	// maximum attribute values
-	m_attributesMax.durability = MAXATT_SCIENTIFIC_DURABILITY;
-	m_attributesMax.learnRate = MAXATT_SCIENTIFIC_LEARNRATE;
-	m_attributesMax.science = MAXATT_SCIENTIFIC_SCIENCE;
-	m_attributesMax.navigation = MAXATT_SCIENTIFIC_NAVIGATION;
-	m_attributesMax.tactics = MAXATT_SCIENTIFIC_TACTICS;
-	m_attributesMax.engineering = MAXATT_SCIENTIFIC_ENGINEERING;
-	m_attributesMax.communication = MAXATT_SCIENTIFIC_COMMUNICATION;
-	m_attributesMax.medical = MAXATT_SCIENTIFIC_MEDICAL;
-
-	m_availPts = INITIAL_AVAIL_PTS;
-	m_availProfPts = INITIAL_AVAIL_PROF_PTS;
-
-	//store attributes in gamestate	
-	g_game->gameState->setProfession(m_profession);
-	g_game->gameState->officerCap->attributes = m_attributes;
-
-	//set ship name and properties based on profession
-	Ship ship = g_game->gameState->getShip();
-	ship.setName("Expedition");
-	int value = g_game->getGlobalNumber("PROF_SCIENCE_ARMOR");
-	ship.setArmorClass(value);
-	ship.setArmorIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_SCIENCE_ENGINE");
-	ship.setEngineClass(value);
-	ship.setEngineIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_SCIENCE_SHIELD");
-	ship.setShieldClass(value);
-	ship.setShieldIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_SCIENCE_LASER");
-	ship.setLaserClass(value);
-	ship.setLaserIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_SCIENCE_MISSILE");
-	ship.setMissileLauncherClass(value);
-	ship.setMissileLauncherIntegrity(100.0);
-	value = g_game->getGlobalNumber("PROF_SCIENCE_PODS");
-	ship.setCargoPodCount(value);
-
-	int maxEngineClass=0, maxShieldClass=0, maxArmorClass=0, maxMissileLauncherClass=0, maxLaserClass=0;
-	maxEngineClass          = g_game->getGlobalNumber("PROF_SCIENCE_ENGINE_MAX");
-	maxShieldClass          = g_game->getGlobalNumber("PROF_SCIENCE_SHIELD_MAX");
-	maxArmorClass           = g_game->getGlobalNumber("PROF_SCIENCE_ARMOR_MAX");
-	maxMissileLauncherClass = g_game->getGlobalNumber("PROF_SCIENCE_MISSILE_MAX");
-	maxLaserClass           = g_game->getGlobalNumber("PROF_SCIENCE_LASER_MAX");
-	ship.setMaxEngineClass(maxEngineClass);
-	ship.setMaxShieldClass(maxShieldClass);
-	ship.setMaxArmorClass(maxArmorClass);
-	ship.setMaxMissileLauncherClass(maxMissileLauncherClass);
-	ship.setMaxLaserClass(maxLaserClass);
-
-	//Roll random repair minerals and set the repair counters
-	ship.initializeRepair();
-
-	g_game->gameState->setShip(ship);
-}
-
-
 void ModuleCaptainCreation::OnMouseReleased(int button, int x, int y)
 {
 	Module::OnMouseReleased(button, x, y);
@@ -1255,6 +1033,225 @@ void ModuleCaptainCreation::OnMouseWheelDown(int x, int y)
 	Module::OnMouseWheelDown(x, y);
 }
 
+
+
+#pragma endregion
+
+
+void ModuleCaptainCreation::chooseFreelance()
+{
+	//set freelance attributes
+	m_profession = PROFESSION_FREELANCE;
+	m_attributes.durability = BASEATT_FREELANCE_DURABILITY;
+	m_attributes.learnRate = BASEATT_FREELANCE_LEARNRATE;
+	m_attributes.science = BASEATT_FREELANCE_SCIENCE;
+	m_attributes.navigation = BASEATT_FREELANCE_NAVIGATION;
+	m_attributes.tactics = BASEATT_FREELANCE_TACTICS;
+	m_attributes.engineering = BASEATT_FREELANCE_ENGINEERING;
+	m_attributes.communication = BASEATT_FREELANCE_COMMUNICATION;
+	m_attributes.medical = BASEATT_FREELANCE_MEDICAL;
+	m_attributesInitial = m_attributes;
+
+	// set attribute max values
+	m_attributesMax.durability = MAXATT_FREELANCE_DURABILITY;
+	m_attributesMax.learnRate = MAXATT_FREELANCE_LEARNRATE;
+	m_attributesMax.science = MAXATT_FREELANCE_SCIENCE;
+	m_attributesMax.navigation = MAXATT_FREELANCE_NAVIGATION;
+	m_attributesMax.tactics = MAXATT_FREELANCE_TACTICS;
+	m_attributesMax.engineering = MAXATT_FREELANCE_ENGINEERING;
+	m_attributesMax.communication = MAXATT_FREELANCE_COMMUNICATION;
+	m_attributesMax.medical = MAXATT_FREELANCE_MEDICAL;
+
+	m_availPts = INITIAL_AVAIL_PTS;
+	m_availProfPts = INITIAL_AVAIL_PROF_PTS;
+
+	//store attributes in gamestate	
+	g_game->gameState->setProfession(m_profession);
+	g_game->gameState->officerCap->attributes = m_attributes;
+
+	//set ship name and properties based on profession
+	Ship ship = g_game->gameState->getShip();
+	ship.setName("Acquisition");
+	int value = g_game->getGlobalNumber("PROF_FREELANCE_ARMOR");
+	ship.setArmorClass(value);
+	ship.setArmorIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_FREELANCE_ENGINE");
+	ship.setEngineClass(value);
+	ship.setEngineIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_FREELANCE_SHIELD");
+	ship.setShieldClass(value);
+	ship.setShieldIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_FREELANCE_LASER");
+	ship.setLaserClass(value);
+	ship.setLaserIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_FREELANCE_MISSILE");
+	ship.setMissileLauncherClass(value);
+	ship.setMissileLauncherIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_FREELANCE_PODS");
+	ship.setCargoPodCount(value);
+
+	int maxEngineClass=0, maxShieldClass=0, maxArmorClass=0, maxMissileLauncherClass=0, maxLaserClass=0;
+	maxEngineClass          = g_game->getGlobalNumber("PROF_FREELANCE_ENGINE_MAX");
+	maxShieldClass          = g_game->getGlobalNumber("PROF_FREELANCE_SHIELD_MAX");
+	maxArmorClass           = g_game->getGlobalNumber("PROF_FREELANCE_ARMOR_MAX");
+	maxMissileLauncherClass = g_game->getGlobalNumber("PROF_FREELANCE_MISSILE_MAX");
+	maxLaserClass           = g_game->getGlobalNumber("PROF_FREELANCE_LASER_MAX");
+	ship.setMaxEngineClass(maxEngineClass);
+	ship.setMaxShieldClass(maxShieldClass);
+	ship.setMaxArmorClass(maxArmorClass);
+	ship.setMaxMissileLauncherClass(maxMissileLauncherClass);
+	ship.setMaxLaserClass(maxLaserClass);
+
+	//Roll random repair minerals and set the repair counters
+	ship.initializeRepair();
+
+	g_game->gameState->setShip(ship);
+}
+
+
+
+void ModuleCaptainCreation::chooseMilitary()
+{
+	//set military attributes
+	m_profession = PROFESSION_MILITARY;
+	m_attributes.durability = BASEATT_MILITARY_DURABILITY;
+	m_attributes.learnRate = BASEATT_MILITARY_LEARNRATE;
+	m_attributes.science = BASEATT_MILITARY_SCIENCE;
+	m_attributes.navigation = BASEATT_MILITARY_NAVIGATION;
+	m_attributes.tactics = BASEATT_MILITARY_TACTICS;
+	m_attributes.engineering = BASEATT_MILITARY_ENGINEERING;
+	m_attributes.communication = BASEATT_MILITARY_COMMUNICATION;
+	m_attributes.medical = BASEATT_MILITARY_MEDICAL;
+	m_attributesInitial = m_attributes;
+
+	// maximum attribute values
+	m_attributesMax.durability = MAXATT_MILITARY_DURABILITY;
+	m_attributesMax.learnRate = MAXATT_MILITARY_LEARNRATE;
+	m_attributesMax.science = MAXATT_MILITARY_SCIENCE;
+	m_attributesMax.navigation = MAXATT_MILITARY_NAVIGATION;
+	m_attributesMax.tactics = MAXATT_MILITARY_TACTICS;
+	m_attributesMax.engineering = MAXATT_MILITARY_ENGINEERING;
+	m_attributesMax.communication = MAXATT_MILITARY_COMMUNICATION;
+	m_attributesMax.medical = MAXATT_MILITARY_MEDICAL;
+
+	m_availPts = INITIAL_AVAIL_PTS;
+	m_availProfPts = INITIAL_AVAIL_PROF_PTS;
+
+	//store attributes in gamestate	
+	g_game->gameState->setProfession(m_profession);
+	g_game->gameState->officerCap->attributes = m_attributes;
+
+	//set ship name and properties based on profession
+	Ship ship = g_game->gameState->getShip();
+	ship.setName("Devastator");
+	int value = g_game->getGlobalNumber("PROF_MILITARY_ARMOR");
+	ship.setArmorClass(value);
+	ship.setArmorIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_MILITARY_ENGINE");
+	ship.setEngineClass(value);
+	ship.setEngineIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_MILITARY_SHIELD");
+	ship.setShieldClass(value);
+	ship.setShieldIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_MILITARY_LASER");
+	ship.setLaserClass(value);
+	ship.setLaserIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_MILITARY_MISSILE");
+	ship.setMissileLauncherClass(value);
+	ship.setMissileLauncherIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_MILITARY_PODS");
+	ship.setCargoPodCount(value);
+
+	int maxEngineClass=0, maxShieldClass=0, maxArmorClass=0, maxMissileLauncherClass=0, maxLaserClass=0;
+	maxEngineClass          = g_game->getGlobalNumber("PROF_MILITARY_ENGINE_MAX");
+	maxShieldClass          = g_game->getGlobalNumber("PROF_MILITARY_SHIELD_MAX");
+	maxArmorClass           = g_game->getGlobalNumber("PROF_MILITARY_ARMOR_MAX");
+	maxMissileLauncherClass = g_game->getGlobalNumber("PROF_MILITARY_MISSILE_MAX");
+	maxLaserClass           = g_game->getGlobalNumber("PROF_MILITARY_LASER_MAX");
+	ship.setMaxEngineClass(maxEngineClass);
+	ship.setMaxShieldClass(maxShieldClass);
+	ship.setMaxArmorClass(maxArmorClass);
+	ship.setMaxMissileLauncherClass(maxMissileLauncherClass);
+	ship.setMaxLaserClass(maxLaserClass);
+
+	//Roll random repair minerals and set the repair counters
+	ship.initializeRepair();
+
+	g_game->gameState->setShip(ship);
+}
+
+void ModuleCaptainCreation::chooseScience()
+{
+	//set science attributes
+	m_profession = PROFESSION_SCIENTIFIC;
+	m_attributes.durability = BASEATT_SCIENTIFIC_DURABILITY;
+	m_attributes.learnRate = BASEATT_SCIENTIFIC_LEARNRATE;
+	m_attributes.science = BASEATT_SCIENTIFIC_SCIENCE;
+	m_attributes.navigation = BASEATT_SCIENTIFIC_NAVIGATION;
+	m_attributes.tactics = BASEATT_SCIENTIFIC_TACTICS;
+	m_attributes.engineering = BASEATT_SCIENTIFIC_ENGINEERING;
+	m_attributes.communication = BASEATT_SCIENTIFIC_COMMUNICATION;
+	m_attributes.medical = BASEATT_SCIENTIFIC_MEDICAL;
+	m_attributesInitial = m_attributes;
+
+	// maximum attribute values
+	m_attributesMax.durability = MAXATT_SCIENTIFIC_DURABILITY;
+	m_attributesMax.learnRate = MAXATT_SCIENTIFIC_LEARNRATE;
+	m_attributesMax.science = MAXATT_SCIENTIFIC_SCIENCE;
+	m_attributesMax.navigation = MAXATT_SCIENTIFIC_NAVIGATION;
+	m_attributesMax.tactics = MAXATT_SCIENTIFIC_TACTICS;
+	m_attributesMax.engineering = MAXATT_SCIENTIFIC_ENGINEERING;
+	m_attributesMax.communication = MAXATT_SCIENTIFIC_COMMUNICATION;
+	m_attributesMax.medical = MAXATT_SCIENTIFIC_MEDICAL;
+
+	m_availPts = INITIAL_AVAIL_PTS;
+	m_availProfPts = INITIAL_AVAIL_PROF_PTS;
+
+	//store attributes in gamestate	
+	g_game->gameState->setProfession(m_profession);
+	g_game->gameState->officerCap->attributes = m_attributes;
+
+	//set ship name and properties based on profession
+	Ship ship = g_game->gameState->getShip();
+	ship.setName("Expedition");
+	int value = g_game->getGlobalNumber("PROF_SCIENCE_ARMOR");
+	ship.setArmorClass(value);
+	ship.setArmorIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_SCIENCE_ENGINE");
+	ship.setEngineClass(value);
+	ship.setEngineIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_SCIENCE_SHIELD");
+	ship.setShieldClass(value);
+	ship.setShieldIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_SCIENCE_LASER");
+	ship.setLaserClass(value);
+	ship.setLaserIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_SCIENCE_MISSILE");
+	ship.setMissileLauncherClass(value);
+	ship.setMissileLauncherIntegrity(100.0);
+	value = g_game->getGlobalNumber("PROF_SCIENCE_PODS");
+	ship.setCargoPodCount(value);
+
+	int maxEngineClass=0, maxShieldClass=0, maxArmorClass=0, maxMissileLauncherClass=0, maxLaserClass=0;
+	maxEngineClass          = g_game->getGlobalNumber("PROF_SCIENCE_ENGINE_MAX");
+	maxShieldClass          = g_game->getGlobalNumber("PROF_SCIENCE_SHIELD_MAX");
+	maxArmorClass           = g_game->getGlobalNumber("PROF_SCIENCE_ARMOR_MAX");
+	maxMissileLauncherClass = g_game->getGlobalNumber("PROF_SCIENCE_MISSILE_MAX");
+	maxLaserClass           = g_game->getGlobalNumber("PROF_SCIENCE_LASER_MAX");
+	ship.setMaxEngineClass(maxEngineClass);
+	ship.setMaxShieldClass(maxShieldClass);
+	ship.setMaxArmorClass(maxArmorClass);
+	ship.setMaxMissileLauncherClass(maxMissileLauncherClass);
+	ship.setMaxLaserClass(maxLaserClass);
+
+	//Roll random repair minerals and set the repair counters
+	ship.initializeRepair();
+
+	g_game->gameState->setShip(ship);
+}
+
+
+
 void ModuleCaptainCreation::OnEvent(Event *event)
 {
 	bool playBtnSnd = false;
@@ -1373,6 +1370,18 @@ void ModuleCaptainCreation::OnEvent(Event *event)
 		g_game->gameState->officerCap->name = m_name;
 		g_game->gameState->officerCap->attributes = m_attributes;
 		g_game->gameState->m_captainSelected = true;
+
+        //give new player 20 Endurium (and override any prior amount added)
+        const int ITEM_ENDURIUM = 54;
+        Item endurium;
+        int amount=0;
+        g_game->gameState->m_items.Get_Item_By_ID(ITEM_ENDURIUM, endurium, amount);
+        if (amount > 20) amount = 0;
+        if (amount > 0)
+            amount = 20 - amount;
+        else
+            amount = 20;
+        g_game->gameState->m_items.AddItems(ITEM_ENDURIUM, amount);
 		g_game->gameState->SaveGame("newcaptain.dat");
 
 		creationComplete = true;

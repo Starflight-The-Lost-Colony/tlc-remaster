@@ -1660,13 +1660,16 @@ void Items::SetItemCount(ID id, int numItems)
 }
 
 
-void Items::Get_Item_By_ID(int id, Item& item, int &num_in_stack){
+void Items::Get_Item_By_ID(int id, Item& item, int &num_in_stack)
+{
    item.Reset();
    num_in_stack = 0;
 
    Item * pItem = NULL;
-   for (vector<pair<ID,int> >::iterator i = stacks.begin(); i != stacks.end(); ++i){
-      if (i->first == id){
+   for (vector<pair<ID,int> >::iterator i = stacks.begin(); i != stacks.end(); ++i)
+   {
+      if (i->first == id)
+      {
          pItem = g_game->dataMgr->GetItemByID(i->first);
 		 num_in_stack = i->second;
          break;
@@ -1678,22 +1681,23 @@ void Items::Get_Item_By_ID(int id, Item& item, int &num_in_stack){
    item = *pItem;
 }
 
-void Items::Get_Item_By_Name(std::string name, Item& item, int &num_in_stack){
+void Items::Get_Item_By_Name(std::string name, Item& item, int &num_in_stack)
+{
    item.Reset();
    num_in_stack = 0;
 
    Item * pItem = new Item();
-   for (vector<pair<ID,int> >::iterator i = stacks.begin(); i != stacks.end(); ++i){
+   for (vector<pair<ID,int> >::iterator i = stacks.begin(); i != stacks.end(); ++i)
+   {
          pItem = g_game->dataMgr->GetItemByID(i->first);
-		 if(pItem->name == name){
+		 if(pItem->name == name)
+         {
 			 num_in_stack = i->second;
 			 break;
 		 }else{
 			pItem = NULL;
 		 }
    }
-   if (pItem == NULL){
-      return;
-   }
+   if (pItem == NULL) return;
    item = *pItem;
 }
