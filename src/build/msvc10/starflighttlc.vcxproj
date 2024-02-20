@@ -300,7 +300,6 @@
     <None Include="..\..\..\bin\data\planetsurface\quest_MilitaryOutpost.lua" />
     <None Include="..\..\..\bin\data\planetsurface\ruin.lua" />
     <None Include="..\..\..\bin\data\planetsurface\stunprojectile.lua" />
-    <None Include="..\..\..\bin\data\playership.lua" />
     <None Include="..\..\..\bin\data\QuestLog.xml" />
     <None Include="..\..\..\bin\data\quests.lua" />
     <None Include="..\..\..\bin\data\ships.xml" />

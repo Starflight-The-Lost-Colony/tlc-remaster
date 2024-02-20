@@ -411,12 +411,12 @@ void ModuleStarport::drawDoors()
 				//draw left door frame
 				door->setCurrFrame(0);
 				door->setPos(doors[a].left - g_game->gameState->player->posStarport.x - 42, 348);
-				door->drawframe(g_game->GetBackBuffer());
+				door->DrawFrame(g_game->GetBackBuffer());
 
 				//draw right door frame
 				door->setCurrFrame(1);
 				door->setPos(doors[a].right - 180 - g_game->gameState->player->posStarport.x, 348);
-				door->drawframe(g_game->GetBackBuffer());
+				door->DrawFrame(g_game->GetBackBuffer());
 			}
 		}
 		else
@@ -427,12 +427,12 @@ void ModuleStarport::drawDoors()
 				//draw left door frame
 				door->setCurrFrame(0);
 				door->setPos(doors[a].left - g_game->gameState->player->posStarport.x - 42, 348);
-				door->drawframe(g_game->GetBackBuffer());
+				door->DrawFrame(g_game->GetBackBuffer());
 
 				//draw right door frame
 				door->setCurrFrame(1);
 				door->setPos(doors[a].right - 180 - g_game->gameState->player->posStarport.x, 348);
-				door->drawframe(g_game->GetBackBuffer());
+				door->DrawFrame(g_game->GetBackBuffer());
 			}
 		}
 	}
@@ -552,7 +552,7 @@ void ModuleStarport::Draw()
 
 	//draw avatar
 	avatar->setPos(playerx, playery);
-	avatar->drawframe(g_game->GetBackBuffer());
+	avatar->DrawFrame(g_game->GetBackBuffer());
 
 	//draw door over top of avatar if closing
 	if (enteringDoor || closingDoor)
@@ -560,12 +560,12 @@ void ModuleStarport::Draw()
 		//draw left door panel
 		door->setCurrFrame(0);
 		door->setPos(doors[destinationDoor].left - g_game->gameState->player->posStarport.x - doorDistance - 42, 348);
-		door->drawframe(g_game->GetBackBuffer());
+		door->DrawFrame(g_game->GetBackBuffer());
 
 		//draw right door panel
 		door->setCurrFrame(1);
 		door->setPos(doors[destinationDoor].right - 180 - g_game->gameState->player->posStarport.x + doorDistance, 348);
-		door->drawframe(g_game->GetBackBuffer());
+		door->DrawFrame(g_game->GetBackBuffer());
 
 		//draw starport center section
 		masked_blit(starport, g_game->GetBackBuffer(), g_game->gameState->player->posStarport.x, 348, 0, 348, screen->w, 237);

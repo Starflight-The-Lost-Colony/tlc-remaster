@@ -1,13 +1,18 @@
 /*
 	STARFLIGHT - THE LOST COLONY
 	Game.cpp 
+    This is the main game control source file. 
+
+    Coding standards used in the project for consistency:
+    - All variables/properties: lower first char, then upper first chars
+    - Functions/methods: upper first chars on all (or lower single word if you prefer)
+
 */
 
 #pragma region HEADER
 
 #include "env.h"
 #include <allegro.h>
-//#include <alleggl.h> //this is now only used to retrieve modes
 #include <alfont.h>
 #include <fmod.hpp>
 #include <memory.h>
@@ -1135,7 +1140,7 @@ void Game::RunGame()
             if (my > SCREEN_HEIGHT - ch) my = SCREEN_HEIGHT - ch; 
 			cursor->setX(mx); 
 			cursor->setY(my); 
-			cursor->draw(m_backbuffer); 
+			cursor->Draw(m_backbuffer); 
             
             //show mouse position
             if (g_game->getGlobalBoolean("DEBUG_MODE") && g_game->getGlobalBoolean("DEBUG_MOUSE")) 

@@ -613,9 +613,6 @@
     <None Include="..\..\..\bin\data\globals.lua">
       <Filter>gameplay\data/settings files</Filter>
     </None>
-    <None Include="..\..\..\bin\data\playership.lua">
-      <Filter>gameplay\player ship</Filter>
-    </None>
     <None Include="..\..\..\bin\data\QuestLog.xml">
       <Filter>gameplay\quest manager</Filter>
     </None>

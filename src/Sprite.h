@@ -150,10 +150,16 @@ public:
 	bool collidedD(Sprite *other = NULL); //distance based collision
     static double calcAngleMoveX(int angle);
     static double calcAngleMoveY(int angle);
-	void draw(BITMAP *dest);
-	void drawframe(BITMAP *dest, bool UseAlpha = false);
-    void drawframe_rotate(BITMAP *dest, int angle);
-    void drawframe_scale(BITMAP *dest, int dest_w, int dest_h);
+
+	void Draw(BITMAP *dest);
+    void DrawScaled(BITMAP *dest, double scaling);
+    void DrawScaled(BITMAP *dest, int dest_w, int dest_h);
+    void DrawRotated(BITMAP *dest, int angle);
+    void DrawScaledRotated(BITMAP *dest, double scaling, int angle);
+
+    void DrawFrame(BITMAP *dest, bool UseAlpha = false);
+    void DrawFrameRotated(BITMAP *dest, int angle);
+    void DrawFrameScaled(BITMAP *dest, int dest_w, int dest_h);
 
 };
 

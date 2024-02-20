@@ -59,34 +59,34 @@ void ModuleSolarSystem::OnKeyPress(int keyCode)
         case KEY_RIGHT:
         case KEY_D:
 			flag_nav = false;
-			ship->turnright();
+			ship->TurnRight();
 			break;
 		case KEY_LEFT:
         case KEY_A:
 			flag_nav = false;
-			ship->turnleft();
+			ship->TurnLeft();
 			break;
 		case KEY_DOWN:
         case KEY_S:
 			flag_nav = false;
-			ship->applybraking();
+			ship->ApplyBraking();
 			break;
 		case KEY_UP:
         case KEY_W:
 			flag_nav = flag_thrusting = true;
-			ship->applythrust();
+			ship->ApplyThrust();
 			g_game->gameState->m_ship.ConsumeFuel();
 			break;
 		case KEY_Q:
 			flag_nav = true;
-			if (!flag_thrusting) ship->applybraking();
-			ship->starboard();
+			if (!flag_thrusting) ship->ApplyBraking();
+			ship->Starboard();
 			g_game->gameState->m_ship.ConsumeFuel();
 			break;
 		case KEY_E:
 			flag_nav = true;
-			if (!flag_thrusting) ship->applybraking();
-			ship->port();
+			if (!flag_thrusting) ship->ApplyBraking();
+			ship->Port();
 			g_game->gameState->m_ship.ConsumeFuel();
 			break;
 
@@ -110,21 +110,21 @@ void ModuleSolarSystem::OnKeyReleased(int keyCode)
         case KEY_D:
         case KEY_S:
 			flag_nav = false;
-            ship->cruise();
+            ship->Cruise();
 			break;
 
 		case KEY_UP:
         case KEY_W:
 			flag_nav = flag_thrusting = false;
-			ship->applybraking();
-			ship->cruise();
+			ship->ApplyBraking();
+			ship->Cruise();
 			break;
 
 		case KEY_Q:
 		case KEY_E:
 			flag_nav = false;
-			ship->applybraking();
-			ship->cruise();	
+			ship->ApplyBraking();
+			ship->Cruise();	
 			break;
 
 	}
@@ -364,7 +364,7 @@ bool ModuleSolarSystem::Init()
 
 	//create the ship sprite
 	this->ship = new PlayerShipSprite();
-	this->ship->allstop();
+	this->ship->AllStop();
 
 
 	//try to read star system data...
@@ -421,13 +421,13 @@ void ModuleSolarSystem::Update()
 	std::ostringstream s;
 
 	//update the ship's position based on velocity
-	float fx = g_game->gameState->player->posSystem.x + (ship->getVelocityX() * 6);
-	float fy = g_game->gameState->player->posSystem.y + (ship->getVelocityY() * 6);
+	float fx = g_game->gameState->player->posSystem.x + (ship->GetVelocityX() * 6);
+	float fy = g_game->gameState->player->posSystem.y + (ship->GetVelocityY() * 6);
 
 	//exit star system when edge is reached
 	if (!checkSystemBoundary((int)fx,(int)fy))
 	{
-		ship->allstop();
+		ship->AllStop();
 		flag_DoHyperspace = true;
 		return;
 	}
@@ -468,7 +468,7 @@ void ModuleSolarSystem::Update()
 		if (burning > 240) {
 			g_game->setVibration(20);
 			g_game->printout(text, "AAARRRRRGGGGHHHHH!!!", YELLOW,500);
-			ship->allstop();
+			ship->AllStop();
 			if ( Util::ReentrantDelay(2000)) {
 				g_game->setVibration(0);
 				g_game->modeMgr->LoadModule(MODULE_GAMEOVER);
@@ -603,7 +603,7 @@ void ModuleSolarSystem::Update()
 
 	//increase navigation skill every FlyingHoursBeforeSkillUp hours spent in space (the speed check is there to prevent the obvious abuse)
 	Officer *currentNav = g_game->gameState->getCurrentNav();
-	if (currentNav->CanSkillCheck() && ship->getCurrentSpeed() > 0.0){
+	if (currentNav->CanSkillCheck() && ship->GetCurrentSpeed() > 0.0){
 
 		currentNav->FakeSkillCheck();
 		currentNav->attributes.extra_variable++;
@@ -616,7 +616,7 @@ void ModuleSolarSystem::Update()
 	}
 
 	//slow down the ship automatically
-	if (!flag_nav)	ship->applybraking();
+	if (!flag_nav)	ship->ApplyBraking();
 
 	//refresh messages
 	text->ScrollToBottom();
@@ -631,7 +631,7 @@ void ModuleSolarSystem::Draw()
 	scroller->drawScrollWindow(g_game->GetBackBuffer(), PLANET_SCROLL_X, PLANET_SCROLL_Y, PLANET_SCROLL_WIDTH, PLANET_SCROLL_HEIGHT);
 
 	//draw the ship
-	ship->draw(g_game->GetBackBuffer());
+	ship->Draw(g_game->GetBackBuffer());
 
 	//draw message window gui
 	text->Draw(g_game->GetBackBuffer());
@@ -649,18 +649,18 @@ void ModuleSolarSystem::Draw()
 	}
 	//JJH - added CrossModuleAngle so that ship's heading stays consistent between entering/leaving systems. 
 	//same mod in ModuleInterstellar and some changes in PlayerShipSprite.  
-	g_game->CrossModuleAngle = ship->getRotationAngle();	
+	g_game->CrossModuleAngle = ship->GetRotationAngle();	
 
     if (g_game->getGlobalBoolean("DEBUG_MODE") && g_game->getGlobalBoolean("DEBUG_CORE"))
     {
 	    int x = 910, y = 90;
 	    g_game->Print12(g_game->GetBackBuffer(), x, y, "flag_nav: " + Util::ToString(flag_nav), GRAY1);
 	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "flag_thrusting: " + Util::ToString(flag_thrusting), GRAY1);
-	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "velocity: " + Util::ToString(ship->getVelocityX()) + "," + Util::ToString(ship->getVelocityY()), GRAY1);
-	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "speed: " + Util::ToString(ship->getCurrentSpeed()), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "velocity: " + Util::ToString(ship->GetVelocityX()) + "," + Util::ToString(ship->GetVelocityY()), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "speed: " + Util::ToString(ship->GetCurrentSpeed()), GRAY1);
 	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "planetFound: " + Util::ToString(planetFound), GRAY1);
 	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "navcounter: " + Util::ToString(g_game->gameState->getCurrentNav()->attributes.extra_variable), GRAY1);
-		y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "angle: " + Util::ToString(ship->getRotationAngle()), GRAY1);   
+		y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "angle: " + Util::ToString(ship->GetRotationAngle()), GRAY1);   
     }
 }
 

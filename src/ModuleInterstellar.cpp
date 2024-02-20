@@ -115,7 +115,7 @@ void ModuleInterstellar::Draw()
 	scroller->drawScrollWindow(g_game->GetBackBuffer(), GALAXY_SCROLL_X, GALAXY_SCROLL_Y, GALAXY_SCROLL_WIDTH, GALAXY_SCROLL_HEIGHT);
 
 	//draw the ship
-	ship->draw(g_game->GetBackBuffer());
+	ship->Draw(g_game->GetBackBuffer());
 
 	//draw message window gui
 	//blit(img_messages, g_game->GetBackBuffer(), 0, 0, gmx, gmy, gmw, gmh);
@@ -123,7 +123,7 @@ void ModuleInterstellar::Draw()
 
 	//JJH - added CrossModuleAngle so that ship's heading stays consistent between entering/leaving systems.  Checking Encounters next :-)... 
 	//same mod in ModuleSolarSystem and some changes in PlayerShipSprite.  
-	g_game->CrossModuleAngle = ship->getRotationAngle();
+	g_game->CrossModuleAngle = ship->GetRotationAngle();
 
     if (g_game->getGlobalBoolean("DEBUG_MODE") && g_game->getGlobalBoolean("DEBUG_CORE"))
     {
@@ -131,10 +131,10 @@ void ModuleInterstellar::Draw()
 	    int x=910, y = 90;
 	    g_game->Print12(g_game->GetBackBuffer(), x, y, "flag_nav: " + Util::ToString(flag_nav), GRAY1);
 	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "flag_thrusting: " + Util::ToString(flag_thrusting), GRAY1);
-	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "velocity: " + Util::ToString(ship->getVelocityX()) + "," + Util::ToString(ship->getVelocityY()), GRAY1);
-	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "speed: " + Util::ToString(ship->getCurrentSpeed()), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "velocity: " + Util::ToString(ship->GetVelocityX()) + "," + Util::ToString(ship->GetVelocityY()), GRAY1);
+	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "speed: " + Util::ToString(ship->GetCurrentSpeed()), GRAY1);
 	    y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "navcounter: " + Util::ToString(g_game->gameState->getCurrentNav()->attributes.extra_variable), GRAY1);
-		y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "angle:      " + Util::ToString(ship->getRotationAngle()), GRAY1); 
+		y+=10;g_game->Print12(g_game->GetBackBuffer(), x, y, "angle:      " + Util::ToString(ship->GetRotationAngle()), GRAY1); 
     }
 }
 
@@ -149,42 +149,42 @@ void ModuleInterstellar::OnKeyPress(int keyCode)
         case KEY_D:
 		case KEY_RIGHT:
 			flag_nav = false;
-			ship->turnright();
-			if (!flag_thrusting) ship->applybraking();
+			ship->TurnRight();
+			if (!flag_thrusting) ship->ApplyBraking();
 			break;
 
         case KEY_A:
 		case KEY_LEFT:
 			flag_nav = false;
-			ship->turnleft();
-			if (!flag_thrusting) ship->applybraking();
+			ship->TurnLeft();
+			if (!flag_thrusting) ship->ApplyBraking();
 			break;
 
         case KEY_S:
 		case KEY_DOWN:
 			flag_nav = false;
-			ship->applybraking();
+			ship->ApplyBraking();
         	g_game->gameState->m_ship.ConsumeFuel(2);
 			break;
 
         case KEY_W:
 		case KEY_UP:
 			flag_nav = flag_thrusting = true;
-			ship->applythrust();
+			ship->ApplyThrust();
 			g_game->gameState->m_ship.ConsumeFuel(4);
 			break;
 
 		case KEY_Q:
 			flag_nav = true;
-			if (!flag_thrusting) ship->applybraking();
-			ship->starboard();
+			if (!flag_thrusting) ship->ApplyBraking();
+			ship->Starboard();
 			g_game->gameState->m_ship.ConsumeFuel(2);
 			break;
 
 		case KEY_E:
 			flag_nav = true;
-			if (!flag_thrusting) ship->applybraking();
-			ship->port();
+			if (!flag_thrusting) ship->ApplyBraking();
+			ship->Port();
 			g_game->gameState->m_ship.ConsumeFuel(2);
 			break;
 			
@@ -285,21 +285,21 @@ void ModuleInterstellar::OnKeyReleased(int keyCode)
         case KEY_S:
         case KEY_DOWN:
 			flag_nav = false;
-			ship->cruise();
+			ship->Cruise();
 			break;
 
         case KEY_W:
         case KEY_UP:
 			flag_nav = flag_thrusting = false;
-			ship->applybraking();
-			ship->cruise();
+			ship->ApplyBraking();
+			ship->Cruise();
 			break;
 
 		case KEY_Q:
         case KEY_E:
 			flag_nav = false;
-			ship->applybraking();
-			ship->cruise();	
+			ship->ApplyBraking();
+			ship->Cruise();	
             break;
 
 		case KEY_PGUP:
@@ -445,7 +445,7 @@ bool ModuleInterstellar::Init()
 	shiftKey = 0;
 	starFound = 0;
 	flag_launchEncounter = false;
-	ship->allstop();
+	ship->AllStop();
 
 
 	//shortcuts to crew last names to simplify code
@@ -877,8 +877,8 @@ void ModuleInterstellar::Update()
 	//if (controlKey) multiplier = 10.0;
 	//if (shiftKey)	multiplier = 20.0;
 
-	float fx = getPlayerGalacticX() + (ship->getVelocityX() * multiplier);
-	float fy = getPlayerGalacticY() + (ship->getVelocityY() * multiplier);
+	float fx = getPlayerGalacticX() + (ship->GetVelocityX() * multiplier);
+	float fy = getPlayerGalacticY() + (ship->GetVelocityY() * multiplier);
 
 	//keep ship position within the bounds of the galaxy
 	//account for negative position since ship is in center of viewport
@@ -894,7 +894,7 @@ void ModuleInterstellar::Update()
 	/*
 	 * Important: Store ship's velocity in gamestate for use in other modules (particularly the aux window)
 	 */
-	g_game->gameState->player->setCurrentSpeed( ship->getCurrentSpeed() );
+	g_game->gameState->player->setCurrentSpeed( ship->GetCurrentSpeed() );
 
 
 	//update scroll position and buffer
@@ -1009,7 +1009,7 @@ void ModuleInterstellar::Update()
 	//increase navigation skill every FlyingHoursBeforeSkillUp hours spent in space (the speed check is there to prevent the obvious abuse)
 	//NOTE: this must be after the flux detection and isLost() check; they will always fail in CanSkillCheck() otherwise
 	Officer *currentNav = g_game->gameState->getCurrentNav();
-	if (currentNav->CanSkillCheck() && ship->getCurrentSpeed() > 0.0 )
+	if (currentNav->CanSkillCheck() && ship->GetCurrentSpeed() > 0.0 )
     {
 		currentNav->FakeSkillCheck();
 		currentNav->attributes.extra_variable++;
@@ -1022,7 +1022,7 @@ void ModuleInterstellar::Update()
 	}
 
 	//slow ship down automatically
-	if (!flag_nav) ship->applybraking();
+	if (!flag_nav) ship->ApplyBraking();
 
 	//refresh text list
 	text->ScrollToBottom();
@@ -1346,7 +1346,7 @@ void ModuleInterstellar::identifyStar()
 
  void ModuleInterstellar::EnterStarSystem()
 {
-	ship->allstop();
+	ship->AllStop();
 	g_game->gameState->player->currentStar = currentStar;
 
 	//set starting location for player

@@ -314,7 +314,7 @@ void ModuleAuxiliaryDisplay::updateAll()
 
 		//ship icon image
 		ship_icon_sprite->setPos(asx+18,asy+45);
-		ship_icon_sprite->drawframe(g_game->GetBackBuffer(),true);
+		ship_icon_sprite->DrawFrame(g_game->GetBackBuffer(),true);
 
 		//shield bar is 48 pixels tall
 		int shield = ship.getShieldClass();

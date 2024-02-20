@@ -266,7 +266,7 @@ bool ModuleStarmap::Init()
 		stars->setCurrFrame(spectral);
 		stars->setX(star->x * ratioX - 3);//-4 due to the star's width, and +1 for compensation reasons
 		stars->setY(star->y * ratioY - 3);//-4 due to the star's width, and +1 for compensation reasons
-		stars->drawframe(starview); 
+		stars->DrawFrame(starview); 
 	}
 	delete stars;
 	return true;
@@ -350,7 +350,7 @@ void ModuleStarmap::Draw()
 				if((*i)->DRAWN() == false){
 					flux_sprite.setX((*i)->TILE().X * ratioX - 4);
 					flux_sprite.setY((*i)->TILE().Y * ratioY - 4);
-					flux_sprite.drawframe(flux_view);
+					flux_sprite.DrawFrame(flux_view);
 					(*i)->rDRAWN() = true;
 				}
 			}
@@ -377,7 +377,7 @@ void ModuleStarmap::Draw()
 			float distance = Point2D::Distance( playerPos, cursorPos );
 
 			if(dest_active == true){distance = Point2D::Distance( playerPos, m_destPos );}
-			float max_vel = shipSprite.getMaximumVelocity();
+			float max_vel = shipSprite.GetMaximumVelocity();
 			float fuel = distance * max_vel / 100 / g_game->gameState->getShip().getEngineClass();
 			
 			// position

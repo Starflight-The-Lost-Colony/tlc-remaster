@@ -5,8 +5,7 @@
 	Date: ?
 */
 
-#ifndef UTIL_H
-#define UTIL_H
+#pragma once
 
 #include "env.h"
 #include <allegro.h>
@@ -31,6 +30,12 @@ public:
     * methods in this class
     */
    static void Init();
+
+   static std::string Left(std::string s, int chars)
+   {
+       std::string ls = s.substr(0, chars);
+       return ls;
+   }
 
 	template <class T> static std::string ToString(const T & t, int width = 1, int precision = 2)
 	{
@@ -233,4 +238,3 @@ public:
 };
 
 
-#endif

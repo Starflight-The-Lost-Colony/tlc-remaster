@@ -16,6 +16,12 @@ DEBUG_MODE = true
 DEBUG_CORE = true
 DEBUG_MOUSE = false
 
+--SHIP SCALE VALUE (1.00 = 128x128)
+--MUST BE 4 CHARACTERS
+--only recognizes: 0.25, 0.50, 0.75, 1.00
+--any other values will result in 0.50
+SHIP_SPRITE_SCALE = 0.25
+
 --acceleration increases velocity per FRAME
 --this adds up FAST (40x per sec) so don't go too high
 ENGINE1_ACCEL = 0.04	-- base
@@ -80,8 +86,8 @@ ALIEN_SAFETY_DISTANCE = 400	--not used. "flee" code is commented out.
 
 
 --laser fires at same rate always but higher classes do more damage 
---laser 1 can do 40 pts of dmg per second with direct hits
-LASER1_FIRERATE = 200 --milliseconds
+--laser 1 can do 20 pts of dps with direct hits
+LASER1_FIRERATE = 200 --milliseconds: 200 = 1/5 second
 LASER2_FIRERATE = 200 
 LASER3_FIRERATE = 200 
 LASER4_FIRERATE = 200 

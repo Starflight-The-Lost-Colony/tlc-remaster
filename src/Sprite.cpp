@@ -135,14 +135,73 @@ bool Sprite::setImage(BITMAP *source)
 }
 
 
-void Sprite::draw(BITMAP *dest) 
+void Sprite::Draw(BITMAP *dest) 
 {
     if (this->image)
 	    draw_trans_sprite(dest, this->image, (int)this->x, (int)this->y);
 }
 
+void Sprite::DrawScaled(BITMAP *dest, double scaling)  
+{
+    int w = (int)(this->getWidth() * scaling);
+    int h = (int)(this->getHeight() * scaling);
+    this->DrawScaled(dest,w,h);
+}
+
+void Sprite::DrawScaled(BITMAP *dest, int dest_w, int dest_h) 
+{
+    if (!this->image) return;
+
+    masked_stretch_blit( this->image, dest, 0, 0, this->getWidth(), this->getHeight(), (int)this->x, (int)this->y, dest_w, dest_h );
+    
+	if (this->DebugOutline) 
+    {
+		rect( dest, (int)this->x, (int)this->y, (int)this->x + dest_w, (int)y + dest_h, BLUE );
+	}
+}
+
+void Sprite::DrawRotated(BITMAP *dest, int angle)
+{
+    if (!image) return;
+
+    //adjust for Allegro's 16.16 fixed trig (256 / 360 = 0.7) then divide by 2 radians
+    rotate_sprite( dest, this->image, (int)this->x, (int)this->y, itofix((int)(angle / 0.7f / 2.0f)));
+
+	if (this->DebugOutline) 
+    {
+        rect( dest, (int)this->x, (int)this->y, (int)this->x + this->getWidth(), (int)this->y + this->getHeight(), BLUE);
+	}
+}
+
+void Sprite::DrawScaledRotated(BITMAP *dest, double scaling, int angle)
+{
+    if (!this->image) return;
+
+    BITMAP* temp = create_bitmap(this->getWidth(), this->getHeight());
+    clear_to_color(temp, makecol(255,0,255));
+
+
+    //draw SCALED image onto temp image
+    //adjust for Allegro's 16.16 fixed trig (256 / 360 = 0.7) then divide by 2 radians
+    rotate_sprite( temp, this->image, 0, 0, itofix((int)(angle / 0.7f / 2.0f)));
+
+    //draw ROTATED image to dest 
+    int w = (int)(temp->w * scaling);
+    int h = (int)(temp->h * scaling);
+    masked_stretch_blit( temp, dest, 0, 0, temp->w, temp->h, (int)this->x, (int)this->y, w, h );
+
+
+	if (this->DebugOutline) 
+    {
+		rect( dest, (int)this->x, (int)this->y, (int)this->x + temp->w, (int)y + temp->h, BLUE );
+	}
+
+    destroy_bitmap(temp);
+}
+
+
 //draw normally with optional alpha channel support
-void Sprite::drawframe(BITMAP *dest, bool UseAlpha)  
+void Sprite::DrawFrame(BITMAP *dest, bool UseAlpha)  
 {
     if (!image) 
     {
@@ -174,14 +233,14 @@ void Sprite::drawframe(BITMAP *dest, bool UseAlpha)
 
 
 //draw with scaling
-void Sprite::drawframe_scale(BITMAP *dest, int dest_w, int dest_h)  
+void Sprite::DrawFrameScaled(BITMAP *dest, int dest_w, int dest_h)  
 {
     if (!image) return;
 
     int fx = animStartX + (currFrame % animColumns) * frameWidth;
     int fy = animStartY + (currFrame / animColumns) * frameHeight;
     masked_stretch_blit(image, dest, fx, fy, frameWidth, frameHeight, (int)x, (int)y, dest_w, dest_h);
-
+    
 	if (DebugOutline) 
     {
 		rect(dest, (int)x, (int)y, (int)x + dest_w, (int)y + dest_h, BLUE);
@@ -190,7 +249,7 @@ void Sprite::drawframe_scale(BITMAP *dest, int dest_w, int dest_h)
 
 
 //draw with rotation
-void Sprite::drawframe_rotate(BITMAP *dest, int angle)  
+void Sprite::DrawFrameRotated(BITMAP *dest, int angle)  
 {
     if (!image) return;
 

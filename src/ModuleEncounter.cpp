@@ -104,33 +104,33 @@ void ModuleEncounter::OnKeyPress(int keyCode)
 		{
 			case KEY_RIGHT:		
             case KEY_D:
-                playerShip->turnright();	
+                playerShip->TurnRight();	
                 break;
 
 			case KEY_LEFT:		
             case KEY_A:
-                playerShip->turnleft();		
+                playerShip->TurnLeft();		
                 break;
 
 			case KEY_DOWN:		
             case KEY_S:
-                playerShip->applybraking();	
+                playerShip->ApplyBraking();	
 				break;
 
 			case KEY_UP:			
             case KEY_W:
-                playerShip->applythrust();	
+                playerShip->ApplyThrust();	
                 flag_thrusting = true;
                 break;
 
 			case KEY_Q:	
                 //if (!flag_thrusting) playerShip->applybraking();
-                playerShip->starboard();	
+                playerShip->Starboard();	
                 break;
 
 			case KEY_E:	
                 //if (!flag_thrusting) playerShip->applybraking();
-                playerShip->port();			
+                playerShip->Port();			
                 break;
 
 			case KEY_ALT:
@@ -155,7 +155,7 @@ void ModuleEncounter::OnKeyPress(int keyCode)
 				break;
 		}
 	}
-   g_game->CrossModuleAngle = playerShip->getRotationAngle();	//JJH
+   g_game->CrossModuleAngle = playerShip->GetRotationAngle();	//JJH
 }
 
 void ModuleEncounter::OnKeyPressed(int keyCode){}
@@ -173,20 +173,20 @@ void ModuleEncounter::OnKeyReleased(int keyCode)
         case KEY_A:
         case KEY_D:
         case KEY_S:
-			playerShip->cruise();
+			playerShip->Cruise();
 			break;
 
 		case KEY_UP:
         case KEY_W:
             flag_thrusting = false;
-			playerShip->applybraking();
-			playerShip->cruise();
+			playerShip->ApplyBraking();
+			playerShip->Cruise();
 			break;
 
 		case KEY_Q:
 		case KEY_E:
             //playerShip->applybraking();
-			playerShip->cruise();
+			playerShip->Cruise();
 			break;
 
 		case KEY_PGUP:		
@@ -1600,8 +1600,8 @@ void ModuleEncounter::Update()
 	ostringstream os;
 
 	//update scrolling and draw tiles on the scroll buffer
-	playerGlobal.x = g_game->gameState->player->posCombat.x + playerShip->getVelocityX();
-	playerGlobal.y = g_game->gameState->player->posCombat.y + playerShip->getVelocityY();
+	playerGlobal.x = g_game->gameState->player->posCombat.x + playerShip->GetVelocityX();
+	playerGlobal.y = g_game->gameState->player->posCombat.y + playerShip->GetVelocityY();
 	g_game->gameState->player->posCombat.x = playerGlobal.x;
 	g_game->gameState->player->posCombat.y = playerGlobal.y;
 
@@ -1626,7 +1626,7 @@ void ModuleEncounter::Update()
 	{
 		Print(nav + "Engaging hyperspace engine...", ORANGE, -1);
 		// SW force player to stop
-		playerShip->applybraking();
+		playerShip->ApplyBraking();
 		//wait for countdown
 		if (countdown.stopwatch(750))
 		{
@@ -1648,20 +1648,20 @@ void ModuleEncounter::Update()
 	double sx = playerGlobal.x-SCREEN_WIDTH/2;
 	if (sx < -5) {
 		sx = -5;
-		playerShip->applybraking();
+		playerShip->ApplyBraking();
 	}
 	else if (sx > TILESIZE * TILESACROSS) {
 		sx = TILESIZE * TILESACROSS;
-		playerShip->applybraking();
+		playerShip->ApplyBraking();
 	}
 	double sy = playerGlobal.y-effectiveScreenHeight()/2;
 	if (sy < -5) {
 		sy = -5;
-		playerShip->applybraking();
+		playerShip->ApplyBraking();
 	}
 	else if (sy > TILESIZE * TILESDOWN) {
 		sy = TILESIZE * TILESACROSS;
-		playerShip->applybraking();
+		playerShip->ApplyBraking();
 	}
 
 	//update scroll position
@@ -1714,7 +1714,7 @@ void ModuleEncounter::Draw()
 	scroller->drawScrollWindow(g_game->GetBackBuffer(), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	//draw player ship
-	playerShip->draw(g_game->GetBackBuffer());
+	playerShip->Draw(g_game->GetBackBuffer());
 
 	//let encounter/combat draw their stuff
 	(module_mode == 0)?  Encounter_Draw() : Combat_Draw();
@@ -1779,7 +1779,7 @@ void ModuleEncounter::Draw()
 void ModuleEncounter::Encounter_Update()
 {
 	//stop the ship
-	playerShip->applybraking();
+	playerShip->ApplyBraking();
 
 	//see if alien response is ready
 	if (bFlagDoResponse)
@@ -1888,8 +1888,8 @@ void ModuleEncounter::ImpactPlayer(CombatObject *player,CombatObject *other)
 	    vx = Sprite::calcAngleMoveX( (int)angle ) * mass_factor * modifier;
 	    vy = Sprite::calcAngleMoveY( (int)angle ) * mass_factor * modifier;
 
-        playerShip->setVelocityX( playerShip->getVelocityX() + vx );
-        playerShip->setVelocityY( playerShip->getVelocityY() + vy );
+        playerShip->SetVelocityX( playerShip->GetVelocityX() + vx );
+        playerShip->SetVelocityY( playerShip->GetVelocityY() + vy );
     }
     catch(std::exception e)
     {
@@ -2243,7 +2243,7 @@ void ModuleEncounter::combatDoCollision(CombatObject *first, CombatObject *secon
 				case OBJ_ALIENSHIP:
                     {
 					//player's projectile hits alien ship
-                    double d = Math::Distance(playerShip->getX(), playerShip->getY(), second->getX(), second->getY());
+                    double d = Math::Distance(playerShip->GetX(), playerShip->GetY(), second->getX(), second->getY());
                     if (d < 500)
 					    g_game->audioSystem->Play(snd_laserhit);
 
@@ -2575,20 +2575,20 @@ void ModuleEncounter::Combat_Update()
 	Rect bounds = getBoundary();
 	if ( playerGlobal.x < bounds.left ) {
 		playerGlobal.x = bounds.left;
-		playerShip->allstop();
+		playerShip->AllStop();
 	}
 	else if ( playerGlobal.x > bounds.right ) {
 		playerGlobal.x = bounds.right;
-		playerShip->allstop();
+		playerShip->AllStop();
 	}
 
 	if ( playerGlobal.y < bounds.top ) {
 		playerGlobal.y = bounds.top;
-		playerShip->allstop();
+		playerShip->AllStop();
 	}
 	else if ( playerGlobal.y > bounds.bottom ) {
 		playerGlobal.y = bounds.bottom;
-		playerShip->allstop();
+		playerShip->AllStop();
 	}
 
 
@@ -2834,7 +2834,7 @@ void ModuleEncounter::Combat_Draw()
 					case OBJ_PLAYERMISSILE:
 					case OBJ_ENEMYFIRE:
 						angle = combatObjects[i]->getFaceAngle();
-						combatObjects[i]->drawframe_rotate(g_game->GetBackBuffer(), (int)angle);
+						combatObjects[i]->DrawFrameRotated(g_game->GetBackBuffer(), (int)angle);
 						break;
 
 					//draw objects that do not require rotation
@@ -2843,12 +2843,12 @@ void ModuleEncounter::Combat_Draw()
 					case OBJ_POWERUP_ARMOR:
 					case OBJ_POWERUP_MINERAL_FROM_SHIP:
 					case OBJ_POWERUP_MINERAL_FROM_ASTEROID:
-						combatObjects[i]->drawframe(g_game->GetBackBuffer(), true);
+						combatObjects[i]->DrawFrame(g_game->GetBackBuffer(), true);
 						break;
 
 					//special case explosion only animates once
 					case OBJ_EXPLOSION:
-						combatObjects[i]->drawframe(g_game->GetBackBuffer(), true);
+						combatObjects[i]->DrawFrame(g_game->GetBackBuffer(), true);
 
 						//delete explosion when it reaches last frame
 						if (combatObjects[i]->getCurrFrame() == combatObjects[i]->getTotalFrames()-1)
@@ -2869,7 +2869,7 @@ void ModuleEncounter::Combat_Draw()
 	{
 		if (g_game->gameState->getShip().getShieldCapacity() > 0.0) {
 			shield->animate();
-			shield->drawframe(g_game->GetBackBuffer(), true);
+			shield->DrawFrame(g_game->GetBackBuffer(), true);
 		}
 		else {
 			g_game->gameState->setShieldStatus( false );
@@ -2885,7 +2885,7 @@ void ModuleEncounter::Combat_Draw()
 void ModuleEncounter::adjustVerticalCoords(int delta)
 {
 	//adjust the player ship & shield sprites
-	playerShip->setY( playerShip->getY()+delta );
+	playerShip->SetY( playerShip->GetY()+delta );
 	shield->setY( shield->getY()+delta );
 
 	//adjust everything else
@@ -2993,8 +2993,8 @@ void ModuleEncounter::enemyFireLaser(CombatObject *ship)
 
 	double x = ship->getX() + ship->getFrameWidth()/2 - 8;
 	double y = ship->getY() + ship->getFrameHeight()/2 - 8;
-	float velx = playerShip->getVelocityX();
-	float vely = playerShip->getVelocityY();
+	float velx = playerShip->GetVelocityX();
+	float vely = playerShip->GetVelocityY();
 	int angle = (int)ship->getFaceAngle();
 	createLaser(laser, x, y, velx, vely, angle, laserDamage);
 }
@@ -3064,9 +3064,9 @@ void ModuleEncounter::fireLaser()
 
 	double x = g_game->gameState->player->posCombat.x + SCREEN_WIDTH/2 - 8;
 	double y = g_game->gameState->player->posCombat.y + effectiveScreenHeight()/2 - 8;
-	float velx = playerShip->getVelocityX();
-	float vely = playerShip->getVelocityY();
-	int angle = (int)playerShip->getSprite()->getFaceAngle();
+	float velx = playerShip->GetVelocityX();
+	float vely = playerShip->GetVelocityY();
+	int angle = (int)playerShip->GetSprite()->getFaceAngle();
 	createLaser(laser, x, y, velx, vely, angle, laserDamage);
 }
 
@@ -3103,9 +3103,9 @@ void ModuleEncounter::fireMissile()
 
 	double x = (int)g_game->gameState->player->posCombat.x + SCREEN_WIDTH/2 - 8;
 	double y = (int)g_game->gameState->player->posCombat.y + effectiveScreenHeight()/2 - 8;
-	float velx = playerShip->getVelocityX();
-	float vely = playerShip->getVelocityY();
-	int angle = (int)playerShip->getSprite()->getFaceAngle();
+	float velx = playerShip->GetVelocityX();
+	float vely = playerShip->GetVelocityY();
+	int angle = (int)playerShip->GetSprite()->getFaceAngle();
 	createMissile(missile, x, y, velx, vely, angle, missileDamage);
 }
 
