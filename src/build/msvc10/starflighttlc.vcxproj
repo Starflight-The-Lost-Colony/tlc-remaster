@@ -131,7 +131,6 @@
     <ClCompile Include="..\..\Module.cpp" />
     <ClCompile Include="..\..\noiseutils.cpp" />
     <ClCompile Include="..\..\PauseMenu.cpp" />
-    <ClCompile Include="..\..\Perlin.cpp" />
     <ClCompile Include="..\..\PlanetaryBody.cpp" />
     <ClCompile Include="..\..\PlanetSurfaceObject.cpp" />
     <ClCompile Include="..\..\PlanetSurfacePlayerVessel.cpp" />
@@ -198,7 +197,6 @@
     <ClInclude Include="..\..\Module.h" />
     <ClInclude Include="..\..\noiseutils.h" />
     <ClInclude Include="..\..\PauseMenu.h" />
-    <ClInclude Include="..\..\Perlin.h" />
     <ClInclude Include="..\..\PlanetaryBody.h" />
     <ClInclude Include="..\..\PlanetSurfaceObject.h" />
     <ClInclude Include="..\..\PlanetSurfacePlayerVessel.h" />

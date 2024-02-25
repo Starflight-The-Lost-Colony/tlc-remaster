@@ -315,19 +315,19 @@ bool ModuleEncounter::Init()
 	g_game->pauseMenu->setEnabled(true);
 
 	scroller = new TileScroller();
-	scroller->setTileSize(TILESIZE,TILESIZE);
-	scroller->setTileImageColumns(5);
-	scroller->setRegionSize(TILESACROSS,TILESDOWN);
-	scroller->setScrollPosition((TILESACROSS/2) * TILESIZE, (TILESDOWN/2) * TILESIZE);
+	scroller->SetTileSize(TILESIZE,TILESIZE);
+	scroller->SetTileImageColumns(5);
+	scroller->SetRegionSize(TILESACROSS,TILESDOWN);
+	scroller->SetScrollPosition((TILESACROSS/2) * TILESIZE, (TILESDOWN/2) * TILESIZE);
 	g_game->gameState->player->posCombat.SetPosition((TILESACROSS/2) * TILESIZE, (TILESDOWN/2) * TILESIZE);
 
-	if (!scroller->createScrollBuffer(SCREEN_WIDTH, SCREEN_HEIGHT)) {
+	if (!scroller->CreateScrollBuffer(SCREEN_WIDTH, SCREEN_HEIGHT)) {
 		g_game->message("ModuleCombat: Error creating scroll buffer");
 		return false;
 	}
 
 	//re-load images used in scroller
-	scroller->loadTileImage("data/spacetravel/ip_tiles.bmp");
+	scroller->LoadTileImage("data/spacetravel/ip_tiles.tga");
     
     //load the message gui
 	img_messages = (BITMAP*)load_bitmap("data/messagegui/gui_messagewindow.bmp",NULL);
@@ -1665,8 +1665,8 @@ void ModuleEncounter::Update()
 	}
 
 	//update scroll position
-	scroller->setScrollPosition(sx,sy);
-	scroller->updateScrollBuffer();
+	scroller->SetScrollPosition(sx,sy);
+	scroller->UpdateScrollBuffer();
 
 	//calculate player's screen position
 	playerScreen.x = playerGlobal.x / (TILESIZE * TILESACROSS) + SCREEN_WIDTH/2 - 32;
@@ -1711,7 +1711,7 @@ void ModuleEncounter::Draw()
 	std::ostringstream os;
 
 	//draw space background
-	scroller->drawScrollWindow(g_game->GetBackBuffer(), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	scroller->DrawScrollWindow( g_game->GetBackBuffer(), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
 
 	//draw player ship
 	playerShip->Draw(g_game->GetBackBuffer());
@@ -2526,8 +2526,8 @@ int ModuleEncounter::getShipCount()
 Rect ModuleEncounter::getBoundary()
 {
 	Rect boundary(0,0,0,0);
-	boundary.right = scroller->getTilesAcross() * scroller->getTileWidth();
-	boundary.bottom = scroller->getTilesDown() * scroller->getTileHeight();
+	boundary.right = scroller->GetTilesAcross() * scroller->GetTileWidth();
+	boundary.bottom = scroller->GetTilesDown() * scroller->GetTileHeight();
 	return boundary;
 }
 

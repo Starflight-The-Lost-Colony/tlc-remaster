@@ -206,18 +206,18 @@ void ModuleAuxiliaryDisplay::updateCargoFillPercent()
 void ModuleAuxiliaryDisplay::init_nav()
 {
 	scroller = new TileScroller();
-	scroller->setTileSize(16,16);
-	scroller->setTileImageColumns(5);
-	scroller->setTileImageRows(2);
-	scroller->setRegionSize(2500,2200);
+	scroller->SetTileSize(16,16);
+	scroller->SetTileImageColumns(5);
+	scroller->SetTileImageRows(2);
+	scroller->SetRegionSize(2500,2200);
 
-	if (!scroller->createScrollBuffer(asw + scroller->getTileWidth(), ash + scroller->getTileHeight())) {
+	if (!scroller->CreateScrollBuffer(asw + scroller->GetTileWidth(), ash + scroller->GetTileHeight())) {
 		g_game->message("ModuleAuxiliaryDisplay::Init: Error creating scroll buffer");
 		return;
 	}
 	//initialize mini tile scroller for nav
-	scroller->setTileImage( (BITMAP*)auxdata[IS_TILES_SMALL_BMP].dat );
-	scroller->setScrollPosition(g_game->gameState->player->posHyperspace);
+	scroller->SetTileImage( (BITMAP*)auxdata[IS_TILES_SMALL_BMP].dat );
+	scroller->SetScrollPosition(g_game->gameState->player->posHyperspace);
 
 	Star *star;
 	int spectral = -1;
@@ -239,7 +239,7 @@ void ModuleAuxiliaryDisplay::init_nav()
 			default: ASSERT(0); break;
 		}
 		//set tile number in tile scroller to star sprite number
-		scroller->setTile(star->x, star->y, spectral);
+		scroller->SetTile(star->x, star->y, spectral);
 	}
 }
 
@@ -419,9 +419,9 @@ void ModuleAuxiliaryDisplay::updateNav()
 	}
 
 
-	scroller->setScrollPosition(galacticx/8 + 24, galacticy/8 - 8);
-	scroller->updateScrollBuffer();
-	scroller->drawScrollWindow(g_game->GetBackBuffer(), asx+145, asy+150, 80, 75);
+	scroller->SetScrollPosition(galacticx/8 + 24, galacticy/8 - 8);
+	scroller->UpdateScrollBuffer();
+	scroller->DrawScrollWindow(g_game->GetBackBuffer(), asx+145, asy+150, 80, 75);
 }
 
 void ModuleAuxiliaryDisplay::PrintSystemStatus(int x,int y,int value)

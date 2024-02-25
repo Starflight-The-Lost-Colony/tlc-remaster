@@ -126,9 +126,6 @@
     <ClCompile Include="..\..\noiseutils.cpp">
       <Filter>engine\Perlin</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Perlin.cpp">
-      <Filter>engine\Perlin</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\tinyxml\tinystr.cpp">
       <Filter>engine\tinyxml</Filter>
     </ClCompile>
@@ -321,9 +318,6 @@
       <Filter>gameplay\core gameplay\planet surface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\noiseutils.h">
-      <Filter>engine\Perlin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Perlin.h">
       <Filter>engine\Perlin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\tinyxml\tinystr.h">

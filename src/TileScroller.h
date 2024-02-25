@@ -26,53 +26,49 @@ private:
 
 
 public:
-   ~TileScroller();
-   TileScroller();
-   void destroy();
-   int createScrollBuffer(int width,int height);
-   int loadTileImage(char *filename);
-   void resetTiles();
+    ~TileScroller();
+    TileScroller();
+    void Destroy();
+    bool CreateScrollBuffer(int width,int height);
+    bool LoadTileImage(char *filename);
+    void ResetTiles();
 
-   void setTile(int col, int row, short value);
-   short getTile(int col, int row);
-   short getTilebyCoords(int x, int y);
+    void SetTile(int col, int row, short value);
+    short GetTile(int col, int row);
+    short GetTilebyCoords(int x, int y);
 
-   int getTileImageColumns() { return this->columns; }
-   void setTileImageColumns(int c) { this->columns = c; }
+    int GetTileImageColumns() { return this->columns; }
+    void SetTileImageColumns(int c) { this->columns = c; }
 
-   int getTileImageRows() { return this->rows; }
-   void setTileImageRows(int r) { this->rows = r; }
+    int GetTileImageRows() { return this->rows; }
+    void SetTileImageRows(int r) { this->rows = r; }
 
-   void setTileSize(int w,int h) { this->tilewidth = w; this->tileheight = h; }
-   int getTileWidth() { 
-		return tilewidth; 
-	}
-   void setTileWidth(int width) { this->tilewidth = width; }
-	int getTileHeight() { 
-		return this->tileheight; 
-	}
-   void setTileHeight(int height) { this->tileheight = height; }
+    void SetTileSize(int w,int h) { this->tilewidth = w; this->tileheight = h; }
+    int GetTileWidth() { return tilewidth;  }
+    void SetTileWidth(int width) { this->tilewidth = width; }
+    int GetTileHeight() {  return this->tileheight;   }
+    void SetTileHeight(int height) { this->tileheight = height; }
 
-   void setRegionSize(int w,int h);
-   int getTilesAcross() { return this->tilesacross; }
-   int getTilesDown() { return this->tilesdown; }
+    void SetRegionSize(int w,int h);
+    int GetTilesAcross() { return this->tilesacross; }
+    int GetTilesDown() { return this->tilesdown; }
 
-   void setWindowSize(int w,int h) { this->windowwidth = w; this->windowheight = h; }
-   int getWindowWidth() { return this->windowwidth; }
-   int getWindowHeight() { return this->windowheight; }
+    void SetWindowSize(int w,int h) { this->windowwidth = w; this->windowheight = h; }
+    int GetWindowWidth() { return this->windowwidth; }
+    int GetWindowHeight() { return this->windowheight; }
 
-   BITMAP *getTileImage() { return this->tiles; }
-   void setTileImage(BITMAP *image);
+    BITMAP *GetTileImage() { return this->tiles; }
+    void SetTileImage(BITMAP *image);
 
-   void setScrollPosition(float x,float y);
-   void setScrollPosition(Point2D p);
-   float getScrollX() { return this->scrollx; }
-   void setScrollX(int x) { this->scrollx = x; }
-   float getScrollY() { return this->scrolly; }
-   void setScrollY(int y) { this->scrolly = y; }
+    void SetScrollPosition(float x,float y);
+    void SetScrollPosition(Point2D p);
+    float GetScrollX() { return this->scrollx; }
+    void SetScrollX(int x) { this->scrollx = x; }
+    float GetScrollY() { return this->scrolly; }
+    void SetScrollY(int y) { this->scrolly = y; }
 
-   void updateScrollBuffer();
-   void drawScrollWindow(BITMAP *dest, int x, int y, int width, int height);
+    void UpdateScrollBuffer();
+    void DrawScrollWindow(BITMAP *dest, int x, int y, int width, int height);
 };
 
 

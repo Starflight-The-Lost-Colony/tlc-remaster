@@ -266,8 +266,11 @@ typedef enum
    PT_FROZEN,
    PT_OCEANIC,
    PT_MOLTEN,
-   PT_GASGIANT,
-   PT_ACIDIC
+   PT_ACIDIC,
+   PT_GASGIANT_RED,
+   PT_GASGIANT_BLUE,
+   PT_GASGIANT_GREEN,
+   PT_GASGIANT_PURPLE
 } PlanetType;
 
 // planet temperatures
@@ -317,7 +320,7 @@ typedef enum
    PW_VERYVIOLENT
 } PlanetWeather;
 
-// a planet within a star
+// a planet within a star system
 class Planet
 {
 public:
@@ -327,40 +330,18 @@ public:
    virtual ~Planet();
    Planet& operator=(const Planet& rhs);
 
-   // the ID of this planet
    ID id;
-
-   // the ID of the host star containing this planet
    ID hostStarID;
-
-   // planet name
    std::string name;
-
-   // planet size
    PlanetSize size;
-
-   // planet type
    PlanetType type;
-
-   // planet color
    std::string color;
-
-   // planet temperature
    PlanetTemperature temperature;
-
-   // planet gravity
    PlanetGravity gravity;
-
-   // planet atmosphere
    PlanetAtmosphere atmosphere;
-
-   // planet weather
    PlanetWeather weather;
-
-   //landable property
    bool landable;
 
-   // helper methods for working with the enumerated types
    static PlanetSize PlanetSizeFromString(std::string size);
    static std::string PlanetSizeToString(PlanetSize size);
 

@@ -1711,8 +1711,8 @@
     <hoststar>16</hoststar>
     <name>Danand III 302</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -1747,8 +1747,8 @@
     <hoststar>36</hoststar>
     <name>Boibniu III 258</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>INFERNO</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -1807,8 +1807,8 @@
     <hoststar>35</hoststar>
     <name>Credne IV 319</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -1819,8 +1819,8 @@
     <hoststar>35</hoststar>
     <name>Credne V 506</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -1855,8 +1855,8 @@
     <hoststar>87</hoststar>
     <name>Mathgen III 371</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>INFERNO</temperature>
     <gravity>OPTIMAL</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -1905,8 +1905,8 @@
     <hoststar>57</hoststar>
     <name>Ollam III 130</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -2001,8 +2001,8 @@
     <hoststar>52</hoststar>
     <name>Brigid VII 308</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -2025,7 +2025,7 @@
     <hoststar>71</hoststar>
     <name>Fodlem</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>OPTIMAL</gravity>
@@ -2289,8 +2289,8 @@
     <hoststar>98</hoststar>
     <name>Olwain</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -2340,8 +2340,8 @@
     <hoststar>99</hoststar>
     <name>Oende IV 195</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -2412,7 +2412,7 @@
     <hoststar>59</hoststar>
     <name>Llefelys</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
@@ -2436,8 +2436,8 @@
     <hoststar>59</hoststar>
     <name>Eraint</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -2496,8 +2496,8 @@
     <hoststar>69</hoststar>
     <name>Iseult</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>SUB-ARCTIC</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>TRACE GASES</atmosphere>
@@ -2544,7 +2544,7 @@
     <hoststar>17</hoststar>
     <name>Caintigern IV 489</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
@@ -2772,8 +2772,8 @@
     <hoststar>82</hoststar>
     <name>Murias V 712</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -2832,7 +2832,7 @@
     <hoststar>91</hoststar>
     <name>Falias IV 225</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
@@ -2989,8 +2989,8 @@
     <hoststar>96</hoststar>
     <name>Badb IV 293</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -3085,8 +3085,8 @@
     <hoststar>34</hoststar>
     <name>Matholwych</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -3205,7 +3205,7 @@
     <hoststar>39</hoststar>
     <name>Eochu</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
@@ -3265,8 +3265,8 @@
     <hoststar>83</hoststar>
     <name>Morfesa IV 195</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -3277,8 +3277,8 @@
     <hoststar>83</hoststar>
     <name>Morfesa V 578</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -3289,7 +3289,7 @@
     <hoststar>83</hoststar>
     <name>Morfesa VI 284</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
@@ -3434,8 +3434,8 @@
     <hoststar>70</hoststar>
     <name>Abcan</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -3626,7 +3626,7 @@
     <hoststar>79</hoststar>
     <name>Modryn</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
@@ -3686,8 +3686,8 @@
     <hoststar>44</hoststar>
     <name>Magmor IV 913</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -3926,8 +3926,8 @@
     <hoststar>77</hoststar>
     <name>Ogyryn</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -3938,8 +3938,8 @@
     <hoststar>77</hoststar>
     <name>Arianrhod</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -3998,7 +3998,7 @@
     <hoststar>76</hoststar>
     <name>Elenwyrd</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>VERY HEAVY</gravity>
@@ -4010,8 +4010,8 @@
     <hoststar>76</hoststar>
     <name>Bedwyr</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -4058,7 +4058,7 @@
     <hoststar>40</hoststar>
     <name>Medb</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
@@ -4214,8 +4214,8 @@
     <hoststar>60</hoststar>
     <name>Esus</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -4262,8 +4262,8 @@
     <hoststar>53</hoststar>
     <name>Midir IV 259</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -4383,8 +4383,8 @@
     <hoststar>54</hoststar>
     <name>Aengus VIII 214</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>INFERNO</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -4527,7 +4527,7 @@
     <hoststar>8</hoststar>
     <name>Plor na Wyn</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
@@ -4539,8 +4539,8 @@
     <hoststar>8</hoststar>
     <name>Aife</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>INFERNO</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -4587,7 +4587,7 @@
     <hoststar>64</hoststar>
     <name>Borvo</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
@@ -4695,8 +4695,8 @@
     <hoststar>24</hoststar>
     <name>Esar Brec VII 510</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -4707,8 +4707,8 @@
     <hoststar>24</hoststar>
     <name>Esar Brec VIII 243</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -4780,8 +4780,8 @@
     <hoststar>66</hoststar>
     <name>Dian Cecht V 349</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>INFERNO</temperature>
     <gravity>OPTIMAL</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -4864,7 +4864,7 @@
     <hoststar>90</hoststar>
     <name>Vupra V 450</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
@@ -4948,8 +4948,8 @@
     <hoststar>89</hoststar>
     <name>Cethan VII 241</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -4960,7 +4960,7 @@
     <hoststar>89</hoststar>
     <name>Cethan VIII 161</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
@@ -5020,8 +5020,8 @@
     <hoststar>49</hoststar>
     <name>Bec-Felmas V</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -5080,8 +5080,8 @@
     <hoststar>86</hoststar>
     <name>Abean V 149</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -5152,8 +5152,8 @@
     <hoststar>21</hoststar>
     <name>Cian IV 190</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -5164,7 +5164,7 @@
     <hoststar>21</hoststar>
     <name>Cian V 384</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
@@ -5224,8 +5224,8 @@
     <hoststar>18</hoststar>
     <name>Airmed V 167</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -5272,7 +5272,7 @@
     <hoststar>22</hoststar>
     <name>Miach III 181</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
@@ -5344,8 +5344,8 @@
     <hoststar>23</hoststar>
     <name>Deirdre</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -5404,8 +5404,8 @@
     <hoststar>38</hoststar>
     <name>Mogwyrd</name>
     <size>LARGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>SEARING</temperature>
     <gravity>OPTIMAL</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -5416,8 +5416,8 @@
     <hoststar>38</hoststar>
     <name>Scotwyn</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>VERY HEAVY</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -5644,7 +5644,7 @@
     <hoststar>62</hoststar>
     <name>Cissonius</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>VERY HEAVY</gravity>
@@ -5656,8 +5656,8 @@
     <hoststar>62</hoststar>
     <name>Cumulus</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -5716,7 +5716,7 @@
     <hoststar>63</hoststar>
     <name>Connlyn</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
@@ -5728,8 +5728,8 @@
     <hoststar>63</hoststar>
     <name>Solais</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>SEARING</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -6052,8 +6052,8 @@
     <hoststar>30</hoststar>
     <name>Fiacha VI 212</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>GREEN GIANT</type>
+    <color>GREEN</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -6124,8 +6124,8 @@
     <hoststar>29</hoststar>
     <name>Dagda VI 301</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>RED GIANT</type>
+    <color>RED</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>ACIDIC</atmosphere>
@@ -6569,7 +6569,7 @@
     <hoststar>2</hoststar>
     <name>Dearg</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>VERY HEAVY</gravity>
@@ -6581,8 +6581,8 @@
     <hoststar>2</hoststar>
     <name>Samhain</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
-    <color>VIOLET</color>
+    <type>BLUE GIANT</type>
+    <color>BLUE</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>
     <atmosphere>TOXIC</atmosphere>
@@ -6953,7 +6953,7 @@
     <hoststar>27</hoststar>
     <name>Fiacha III 136</name>
     <size>HUGE</size>
-    <type>GAS GIANT</type>
+    <type>PURPLE GIANT</type>
     <color>VIOLET</color>
     <temperature>INFERNO</temperature>
     <gravity>CRUSHING</gravity>

@@ -15,7 +15,6 @@
 #include <exception>
 #include "env.h"
 
-#include "PerlinTL.h"
 #include "ModulePlanetOrbit.h"
 #include "AudioSystem.h"
 #include "QuestMgr.h"
@@ -141,7 +140,10 @@ void ModulePlanetOrbit::OnEvent(Event *event)
 				return;
 			}
 
-			if(planet->type != PT_GASGIANT )
+			if(planet->type != PT_GASGIANT_RED &&
+                planet->type != PT_GASGIANT_BLUE &&
+                planet->type != PT_GASGIANT_GREEN &&
+                planet->type != PT_GASGIANT_PURPLE)
 			{
 				//fuel must be > 10% to land on a planet
 				if (g_game->gameState->m_ship.getFuel() >= 0.1f)
@@ -316,9 +318,9 @@ bool ModulePlanetOrbit::Init()
         {
             //default to Myrrdan (ID 2008)
             g_game->gameState->player->currentStar = 2;
-            pbody->setStarID(2);
+            pbody->starid = 2;
             g_game->gameState->player->currentPlanet = 8;
-            pbody->setPlanetID(8);
+            pbody->planetid = 8;
         }
     }
 
@@ -371,9 +373,9 @@ bool ModulePlanetOrbit::Init()
 	//get current star data
 	Star *star = g_game->dataMgr->GetStarByID(g_game->gameState->player->currentStar);
 	if (star)
-        pbody->setStarID(star->id);
+        pbody->starid = star->id;
 	else
-		pbody->setStarID(-1);
+		pbody->starid = -1;
 
 
 	//read planet data
@@ -382,12 +384,12 @@ bool ModulePlanetOrbit::Init()
 		planet = star->GetPlanetByID(g_game->gameState->player->currentPlanet);
 		if (planet) 
         {
-            pbody->setPlanetID(planet->id);
-			pbody->setPlanetType(planet->type);
+            pbody->planetid = planet->id;
+			pbody->planetType = planet->type;
 
 			switch(planet->size) {
 				case PS_HUGE:
-					pbody->setPlanetRadius(220);
+					pbody->planetRadius = 220;
                     planetRotationSpeed = 0.14;
                     pbody->lightmapOffsetX = -250;
                     pbody->lightmapOffsetY = -250;
@@ -428,7 +430,7 @@ bool ModulePlanetOrbit::Init()
 
 	if (pbody->starid != -1 && pbody->planetid != -1) 
     {
-		if (!pbody->CreatePlanetTexture()) return false;
+        if (!pbody->CreatePlanetTextures(pbody->starid, pbody->planetid)) return false;
 	}
 
     //load planet lightmap overlay
@@ -736,7 +738,7 @@ void ModulePlanetOrbit::Draw()
     int cx = SCREEN_WIDTH/2;
     int cy = 250;
     planetRotation += planetRotationSpeed;
-    pbody->texSphere->Draw(g_game->GetBackBuffer(), 0, 0, (int)planetRotation, pbody->planetRadius, cx, cy);
+    pbody->planetRenderObj->Draw(g_game->GetBackBuffer(), 0, 0, (int)planetRotation, pbody->planetRadius, cx, cy);
     rot += 0.2;
     rot = Util::WrapValue(rot, 0.0, 256.0);
 

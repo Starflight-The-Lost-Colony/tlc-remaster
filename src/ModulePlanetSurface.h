@@ -12,6 +12,7 @@
 
 #include <lua.hpp>
 
+#include <map>
 #include "env.h"
 #include <allegro.h>
 #include "Module.h"
@@ -19,7 +20,7 @@
 #include "PlayerShipSprite.h"
 #include "ScrollBox.h"
 #include "DataMgr.h"
-#include <map>
+#include "PlanetaryBody.h"
 
 class PlanetSurfaceObject;
 class PlanetSurfacePlayerVessel;
@@ -59,7 +60,8 @@ private:
 	BITMAP *img_gauges;
 	BITMAP *img_aux;
 	BITMAP *img_control;
-	BITMAP *surface;
+	//BITMAP *surface; //replaced with PlanetaryBody
+    PlanetaryBody *pbody;
 	BITMAP *minimap;
 	BITMAP *btnNormal;
 	BITMAP *btnDisabled;

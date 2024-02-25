@@ -165,8 +165,8 @@ void ModuleSolarSystem::OnMouseMove(int x, int y)
 	}
 	//check if mouse is over a star
 	if(m_bOver_Planet == false){
-		int systemCenterTileX = scroller->getTilesAcross() / 2;
-		int systemCenterTileY = scroller->getTilesDown() / 2;
+		int systemCenterTileX = scroller->GetTilesAcross() / 2;
+		int systemCenterTileY = scroller->GetTilesDown() / 2;
 		if(x > (asx + systemCenterTileX * 2.3)-6  && x < (asx + systemCenterTileX * 2.3)+6
 		&& y > (asy + systemCenterTileY * 2.3)-6 &&  y < (asy + systemCenterTileY * 2.3)+6){
 			planet_label->SetX( x + 10);
@@ -337,10 +337,10 @@ bool ModuleSolarSystem::Init()
 
 	//create tile scroller object
 	this->scroller = new TileScroller();
-	this->scroller->setTileSize(PLANETTILESIZE,PLANETTILESIZE);
-	this->scroller->setTileImageColumns(10); //used to be 9x1
-    this->scroller->setTileImageRows(1);
-	this->scroller->setRegionSize(PLANETTILESACROSS,PLANETTILESDOWN);
+	this->scroller->SetTileSize(PLANETTILESIZE,PLANETTILESIZE);
+	this->scroller->SetTileImageColumns(10); //used to be 9x1
+    this->scroller->SetTileImageRows(1);
+	this->scroller->SetRegionSize(PLANETTILESACROSS,PLANETTILESDOWN);
 
 
     //switching to rendered planets but load ip_tiles for convenience
@@ -353,11 +353,11 @@ bool ModuleSolarSystem::Init()
         g_game->fatalerror("SolarSystem: Error creating tilescroller source image");
 		return false;
 	}
-	this->scroller->setTileImage(tileImage);
+	this->scroller->SetTileImage(tileImage);
 
 
 
-	if (!this->scroller->createScrollBuffer(PLANET_SCROLL_WIDTH, PLANET_SCROLL_HEIGHT)) {
+	if (!this->scroller->CreateScrollBuffer(PLANET_SCROLL_WIDTH, PLANET_SCROLL_HEIGHT)) {
 		g_game->message("Interplanetary: Error creating scroll buffer");
 		return false;
 	}
@@ -383,7 +383,7 @@ bool ModuleSolarSystem::Init()
     }
 
 	//set player's location
-	this->scroller->setScrollPosition( g_game->gameState->player->posSystem);
+	this->scroller->SetScrollPosition( g_game->gameState->player->posSystem);
 
 
 	//notify questmgr that star system has been entered
@@ -405,9 +405,9 @@ bool ModuleSolarSystem::Init()
 bool ModuleSolarSystem::checkSystemBoundary(int x,int y)
 {
 	int leftEdge = 0;
-	int rightEdge = scroller->getTilesAcross() * scroller->getTileWidth();
+	int rightEdge = scroller->GetTilesAcross() * scroller->GetTileWidth();
 	int topEdge = 0;
-	int bottomEdge = scroller->getTilesDown() * scroller->getTileHeight();
+	int bottomEdge = scroller->GetTilesDown() * scroller->GetTileHeight();
 
 	//if ship reaches edge of system, exit to interstellar space
 	if (x < leftEdge || x > rightEdge || y < topEdge || y > bottomEdge) return false;
@@ -437,8 +437,8 @@ void ModuleSolarSystem::Update()
 	g_game->gameState->player->posSystem.y = fy;
 
 	//update scrolling and draw tiles on the scroll buffer
-	scroller->setScrollPosition(fx, fy);
-	scroller->updateScrollBuffer();
+	scroller->SetScrollPosition(fx, fy);
+	scroller->UpdateScrollBuffer();
 
 	//check if any planet is located near ship
 	checkShipPosition();
@@ -628,7 +628,7 @@ void ModuleSolarSystem::Draw()
 	static bool help1 = true;
 
 	//draw the scrolling view
-	scroller->drawScrollWindow(g_game->GetBackBuffer(), PLANET_SCROLL_X, PLANET_SCROLL_Y, PLANET_SCROLL_WIDTH, PLANET_SCROLL_HEIGHT);
+	scroller->DrawScrollWindow(g_game->GetBackBuffer(), PLANET_SCROLL_X, PLANET_SCROLL_Y, PLANET_SCROLL_WIDTH, PLANET_SCROLL_HEIGHT);
 
 	//draw the ship
 	ship->Draw(g_game->GetBackBuffer());
@@ -670,28 +670,28 @@ void ModuleSolarSystem::checkShipPosition()
 
 	//break up window into an evenly-divisible grid of tiles
 	//note the height is based on top of GUI, since that is where scroller stops
-	int windowWidth = (SCREEN_WIDTH / scroller->getTileWidth()) * scroller->getTileWidth();
-	int windowHeight = (540 / scroller->getTileHeight()) * scroller->getTileHeight();
+	int windowWidth = (SCREEN_WIDTH / scroller->GetTileWidth()) * scroller->GetTileWidth();
+	int windowHeight = (540 / scroller->GetTileHeight()) * scroller->GetTileHeight();
 
 	//adjust for ship's position at center of main window
 	int actualx = (int)(g_game->gameState->player->posSystem.x + windowWidth / 2);
 	int actualy = (int)(g_game->gameState->player->posSystem.y + windowHeight / 2);
 
 	//get tile based on ship's coordinates
-	tilex = actualx / scroller->getTileWidth();
-	tiley = actualy / scroller->getTileHeight();
-	tilenum = scroller->getTile(tilex,tiley);
+	tilex = actualx / scroller->GetTileWidth();
+	tiley = actualy / scroller->GetTileHeight();
+	tilenum = scroller->GetTile(tilex,tiley);
 
 
 	//is ship burning up in the star?
-	if (scroller->getTile(tilex,tiley) == 1)
+	if (scroller->GetTile(tilex,tiley) == 1)
 	{
 		burning++;
 	}
 	else {
 		//calculate distance from ship to star
-		int starTileX = scroller->getTilesAcross() / 2;
-		int starTileY = scroller->getTilesDown() / 2;
+		int starTileX = scroller->GetTilesAcross() / 2;
+		int starTileY = scroller->GetTilesDown() / 2;
 		distance = sqrt( (float) pow( (float)(starTileX - tilex), 2) + (float) pow( (float)(starTileY - tiley), 2) );
 		if (distance > 2.0f)
 			burning = 0;
@@ -747,15 +747,15 @@ void ModuleSolarSystem::updateMiniMap()
         {
 			cx = asx + asw / 2;
 			cy = asy + ash / 2;
-			rx = (int)( (2 + i) * 8.7 );
-			ry = (int)( (2 + i) * 8.7 );
+			rx = (int)( (2 + i) * 8.9 );
+			ry = (int)( (2 + i) * 8.9 );
 			ellipse(g_game->GetBackBuffer(), cx, cy, rx, ry, makecol(12,12,24));
 		}
 	}
 
 	//draw the star in aux window
-	int systemCenterTileX = scroller->getTilesAcross() / 2;
-	int systemCenterTileY = scroller->getTilesDown() / 2;
+	int systemCenterTileX = scroller->GetTilesAcross() / 2;
+	int systemCenterTileY = scroller->GetTilesDown() / 2;
 
 	int color;
 	switch(star->spectralClass) {
@@ -769,9 +769,10 @@ void ModuleSolarSystem::updateMiniMap()
 		default: color = ORANGE; break;
 	}
 
+    //draw the sun at the center
 	float starx = (int)(asx + systemCenterTileX * 2.3);
 	float stary = (int)(asy + systemCenterTileY * 2.3);
-	circlefill(g_game->GetBackBuffer(), starx, stary, 6, color);
+	circlefill(g_game->GetBackBuffer(), starx, stary, 8, color);
 
 	//draw planets in aux window
 	color = 0;
@@ -783,18 +784,18 @@ void ModuleSolarSystem::updateMiniMap()
             {
 				switch(planet) 
                 {
-					case 1: color = makecol(255,182,0);	planets[i].radius = 6;		break; //sun
-					case 2: color = makecol(100,0,100);	planets[i].radius = 4;		break; //gas giant
-					case 3: color = makecol(160,12,8);	planets[i].radius = 3;		break; //molten
-					case 4: color = makecol(200,200,255); planets[i].radius = 3;	break; //ice
-					case 5: color = makecol(30,100,240); planets[i].radius = 3;		break; //oceanic
+					//case 1: color = makecol(255,182,0);	planets[i].radius = 8;		break; //sun
+					case 2: color = makecol(100,0,100);	planets[i].radius = 5;		break; //gas giant
+					case 3: color = makecol(160,12,8);	planets[i].radius = 2;		break; //molten
+					case 4: color = makecol(200,200,255); planets[i].radius = 2;	break; //frozen
+					case 5: color = makecol(30,100,240); planets[i].radius = 2;		break; //oceanic
 					case 6: color = makecol(134,67,30);	planets[i].radius = 2;		break; //rocky
 					case 7: color = makecol(95,93,93);	planets[i].radius = 1;		break; //asteroid
-					case 8: color = makecol(55,147,84);	planets[i].radius = 3;		break; //acidic
+					case 8: color = makecol(55,147,84);	planets[i].radius = 2;		break; //acidic
 					default: color = makecol(90,90,90);	planets[i].radius = 1;		break; //none
 				}
-				px = (int)(asx + planets[i].tilex * 2.27);
-				py = (int)(asy + planets[i].tiley * 2.27);
+				px = (int)(asx + planets[i].tilex * 2.28);
+				py = (int)(asy + planets[i].tiley * 2.28);
 				circlefill(g_game->GetBackBuffer(), px, py, planets[i].radius, color);
 			}
 		}
@@ -834,15 +835,15 @@ bool ModuleSolarSystem::LoadStarSystem(int id)
 	}
 
 	//clear the tile map
-	this->scroller->resetTiles();
+	this->scroller->ResetTiles();
 
 	//calculate center of tile map
-	int systemCenterTileX = this->scroller->getTilesAcross() / 2;
-	int systemCenterTileY = this->scroller->getTilesDown() / 2;
+	int systemCenterTileX = this->scroller->GetTilesAcross() / 2;
+	int systemCenterTileY = this->scroller->GetTilesDown() / 2;
 
 
 	//position star tile image at center
-	this->scroller->setTile(systemCenterTileX, systemCenterTileY, 1);
+	this->scroller->SetTile(systemCenterTileX, systemCenterTileY, 1);
 
 	//read starid passed over by the interstellar module
 	this->star = g_game->dataMgr->GetStarByID(id);
@@ -884,20 +885,23 @@ bool ModuleSolarSystem::LoadStarSystem(int id)
 
 			switch(planet->type) 
             {
-			    case PT_GASGIANT:	planets[i].tilenum = 2;	break;
-			    case PT_MOLTEN:		planets[i].tilenum = 3;	break;
-			    case PT_FROZEN:		planets[i].tilenum = 4;	break;
-			    case PT_OCEANIC:	planets[i].tilenum = 5;	break;
-			    case PT_ROCKY:		planets[i].tilenum = 6;	break;
-			    case PT_ASTEROID:	planets[i].tilenum = 7;	break;
-			    case PT_ACIDIC:		planets[i].tilenum = 8;	break;
+                case PT_GASGIANT_RED:
+                case PT_GASGIANT_BLUE:
+                case PT_GASGIANT_GREEN:
+                case PT_GASGIANT_PURPLE:    planets[i].tilenum = 2;	break;
+			    case PT_MOLTEN:		        planets[i].tilenum = 3;	break;
+			    case PT_FROZEN:		        planets[i].tilenum = 4;	break;
+			    case PT_OCEANIC:	        planets[i].tilenum = 5;	break;
+			    case PT_ROCKY:		        planets[i].tilenum = 6;	break;
+			    case PT_ASTEROID:	        planets[i].tilenum = 7;	break;
+			    case PT_ACIDIC:		        planets[i].tilenum = 8;	break;
 			    default:
 				    planets[i].tilenum = 2; 
                     debug << "loadStarSystem: Unknown planet type: " << planet->type << endl;
 			}
 
             //set up the tile data for the planets rendered onto the source image...
-			this->scroller->setTile( this->planets[i].tilex, this->planets[i].tiley, this->planets[i].tilenum );
+			this->scroller->SetTile( this->planets[i].tilex, this->planets[i].tiley, this->planets[i].tilenum );
 
 
             //and then render the planets onto that source tile image
@@ -945,7 +949,7 @@ bool ModuleSolarSystem::LoadStarSystem(int id)
                 
             //create the planet TEXTURE
 
-            if (!pb->CreatePlanetTexture())
+            if (!pb->CreatePlanetTextures(pb->starid, pb->planetid))
             {
                 g_game->fatalerror("Error creating planet texture: id = " + Util::ToString(this->planet->id));
             }
@@ -970,7 +974,7 @@ bool ModuleSolarSystem::LoadStarSystem(int id)
                 int cx = 128, cy = 128;
 
                 //render the planet using TexturedSphere
-                pb->texSphere->Draw( planetImage, 0, 0, rotation, pb->planetRadius, cx, cy );
+                pb->planetRenderObj->Draw( planetImage, 0, 0, rotation, pb->planetRadius, cx, cy );
 
 
                 BITMAP* scratch = (BITMAP*)create_bitmap(256,256);
@@ -979,7 +983,7 @@ bool ModuleSolarSystem::LoadStarSystem(int id)
 
 
                 //grab the tilescroller source image for modification
-                BITMAP* tileImage = this->scroller->getTileImage();
+                BITMAP* tileImage = this->scroller->GetTileImage();
 
                 int tile = planets[i].tilenum;
 		        draw_sprite( tileImage, scratch, 256*tile, 0 );
@@ -988,7 +992,7 @@ bool ModuleSolarSystem::LoadStarSystem(int id)
 
 
                 //copy the source image back into the tilescroller
-                this->scroller->setTileImage( tileImage );
+                this->scroller->SetTileImage( tileImage );
                 
             }
         }

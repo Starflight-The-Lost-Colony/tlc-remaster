@@ -5,153 +5,151 @@
 
 TileScroller::TileScroller()
 {
-   scrollbuffer = NULL;
-   tiles = NULL;
-   tilewidth = 0;
-   tileheight = 0;
-   tilesacross = 0;
-   tilesdown = 0;
-   scrollx = 0.0f;
-   scrolly = 0.0f;
-   windowwidth = 0;
-   windowheight = 0;
-   columns = 1;
-   rows = 1;
-   this->resetTiles();
-   bLoaded = false;
+   this->scrollbuffer = NULL;
+   this->tiles = NULL;
+   this->tilewidth = 0;
+   this->tileheight = 0;
+   this->tilesacross = 0;
+   this->tilesdown = 0;
+   this->scrollx = 0.0f;
+   this->scrolly = 0.0f;
+   this->windowwidth = 0;
+   this->windowheight = 0;
+   this->columns = 1;
+   this->rows = 1;
+   this->ResetTiles();
+   this->bLoaded = false;
 }
 
 TileScroller::~TileScroller()
 {
-	this->destroy();
+	this->Destroy();
 }
 
-void TileScroller::destroy()
+void TileScroller::Destroy()
 {
-	if (scrollbuffer) 
+	if (this->scrollbuffer) 
 	{
-		destroy_bitmap(scrollbuffer);
-		scrollbuffer = NULL;
+		destroy_bitmap(this->scrollbuffer);
+		this->scrollbuffer = NULL;
 	}
 
-	if (bLoaded && tiles) 
+	if (this->bLoaded && this->tiles) 
 	{
-		destroy_bitmap(tiles);
-		tiles = NULL;
+		destroy_bitmap(this->tiles);
+		this->tiles = NULL;
 	}
 }
 
-void TileScroller::resetTiles() 
+void TileScroller::ResetTiles() 
 {
    for (int one=0; one<MAX_SCROLL_SIZE; one++)
 	  for (int two=0; two<MAX_SCROLL_SIZE; two++)
-		 tiledata[one][two] = 0;
+		 this->tiledata[one][two] = 0;
 }
 
-
-void TileScroller::setTile(int col, int row, short value)
+void TileScroller::SetTile(int col, int row, short value)
 {
-   tiledata[col][row] = value;
+   this->tiledata[col][row] = value;
 }
 
-short TileScroller::getTile(int col, int row)
+short TileScroller::GetTile(int col, int row)
 {
-   return tiledata[col][row];
+   return this->tiledata[col][row];
 }
 
-short TileScroller::getTilebyCoords(int x, int y)
+short TileScroller::GetTilebyCoords(int x, int y)
 {
-   return tiledata[x/tilewidth][y/tileheight];
+   return this->tiledata[ x / this->tilewidth ][ y / this->tileheight ];
 }
 
-void TileScroller::setTileImage(BITMAP *image) 
+void TileScroller::SetTileImage(BITMAP *image) 
 { 
 	if (!image) return;
 	
 	//if tile image was previously loaded, free it's memory
-	if (bLoaded && tiles) {
-		destroy_bitmap(tiles);
-	}
+	if (this->bLoaded && this->tiles) { destroy_bitmap(tiles); }
 	
-	if (image) {
+	if (image) 
+    {
 		this->tiles = image; 
 		//image is now a pointer, not loaded
 		bLoaded = false;
 	}
 }
 
-int TileScroller::loadTileImage(char *filename)
+bool TileScroller::LoadTileImage(char *filename)
 {
-	tiles = load_bitmap(filename, NULL);
-	if (tiles) 
-		bLoaded = true;
+	this->tiles = (BITMAP*)load_bitmap(filename, NULL);
+	if (this->tiles) 
+		this->bLoaded = true;
 	else 
-		bLoaded = false;
+		this->bLoaded = false;
 
-	return bLoaded;
+	return this->bLoaded;
 }
 
-int TileScroller::createScrollBuffer(int width,int height)
+bool TileScroller::CreateScrollBuffer(int width,int height)
 {
-   this->windowwidth = width;
-   this->windowheight = height;
-	scrollbuffer = create_bitmap(width + tilewidth * 2, height + tileheight * 2);
-   return (scrollbuffer != NULL);
+    this->windowwidth = width;
+    this->windowheight = height;
+    this->scrollbuffer = (BITMAP*)create_bitmap(width + this->tilewidth * 2, height + this->tileheight * 2);
+    return (this->scrollbuffer != NULL);
 }
 
-void TileScroller::setScrollPosition(float x,float y)
+void TileScroller::SetScrollPosition(float x,float y)
 {
-   scrollx = x;
-   scrolly = y;
+   this->scrollx = x;
+   this->scrolly = y;
 }
 
-void TileScroller::setScrollPosition(Point2D p) 
+void TileScroller::SetScrollPosition(Point2D p) 
 {
    this->scrollx = p.x; 
    this->scrolly = p.y;
 }
 
-void TileScroller::setRegionSize(int w,int h)
+void TileScroller::SetRegionSize(int w,int h)
 {
-   if (w >= 0 && w <= MAX_SCROLL_SIZE) tilesacross = w; 
-   if (h >= 0 && h <= MAX_SCROLL_SIZE) tilesdown = h;
+   if (w >= 0 && w <= MAX_SCROLL_SIZE) this->tilesacross = w; 
+   if (h >= 0 && h <= MAX_SCROLL_SIZE) this->tilesdown = h;
 }
 
 /**
  * Fills the scroll buffer with tiles based on current scrollx,scrolly
 **/
-void TileScroller::updateScrollBuffer()
+void TileScroller::UpdateScrollBuffer()
 {
-   short tilenum,left,top;
+    short tilenum=0,left=0,top=0;
 
-   //prevent a crash
-   if ( (!scrollbuffer) || (!tiles) ) return;
-	if (tilewidth < 1 || tileheight < 1) return;
+    //prevent a crash
+    if ( (!this->scrollbuffer) || (!this->tiles) ) return;
+    if (this->tilewidth < 1 || this->tileheight < 1) return;
 
-   //calculate starting tile position
-   int tilex = (int)scrollx / tilewidth;
-   int tiley = (int)scrolly / tileheight;
+    //calculate starting tile position
+    int tilex = (int)this->scrollx / this->tilewidth;
+    int tiley = (int)this->scrolly / this->tileheight;
 
-   //calculate the number of columns and rows
-   int cols = windowwidth / tilewidth;
-   int rows = windowheight / tileheight;
+    //calculate the number of columns and rows
+    int cols = this->windowwidth / this->tilewidth;
+    int rows = this->windowheight / this->tileheight;
 
-   //draw tiles onto the scroll buffer surface
-   int tx,ty;
-   for (int y=0; y<=rows; y++) {
-	  for (int x=0; x<=cols; x++)	{
+    //draw tiles onto the scroll buffer surface
+    int tx,ty;
+    for (int y=0; y<=rows; y++) 
+    {
+	    for (int x=0; x<=cols; x++)	
+        {
+            tx = tilex + x;
+            if (tx < 0) tx = 0;
+            ty = tiley + y;
+            if (ty < 0) ty = 0;
+            tilenum = tiledata[tx][ty];
 
-		  tx = tilex + x;
-		  if (tx < 0) tx = 0;
-		  ty = tiley + y;
-		  if (ty < 0) ty = 0;
-		 tilenum = tiledata[tx][ty];
+            left = (tilenum % this->columns) * this->tilewidth;
+            top = (tilenum / this->columns) * this->tileheight;
 
-		 left = (tilenum % columns) * tilewidth;
-		 top = (tilenum / columns) * tileheight;
-
-		 blit(tiles, scrollbuffer, left, top, x*tilewidth, y*tileheight, tilewidth, tileheight);
-
+            blit( this->tiles, this->scrollbuffer, left, top, x * this->tilewidth, y * this->tileheight, this->tilewidth, this->tileheight);
 		}
 	}
 }
@@ -159,16 +157,16 @@ void TileScroller::updateScrollBuffer()
 /**
  * Draws the portion of the scroll buffer based on the current partial tile scroll position.
 **/ 
-void TileScroller::drawScrollWindow(BITMAP *dest, int x, int y, int width, int height)
+void TileScroller::DrawScrollWindow(BITMAP *dest, int x, int y, int width, int height)
 {
 	//prevent a crash
-	if (tilewidth < 1 || tileheight < 1) return;
+	if (this->tilewidth < 1 || this->tileheight < 1) return;
 	
 	//calculate the partial sub-tile lines to draw using modulus
-	int partialx = (int)scrollx % tilewidth;
-	int partialy = (int)scrolly % tileheight;
+	int partialx = (int)this->scrollx % this->tilewidth;
+	int partialy = (int)this->scrolly % this->tileheight;
 	
 	//draw the scroll buffer to the destination bitmap
-	if (scrollbuffer)
-		blit(scrollbuffer, dest, partialx, partialy, x, y, width, height);
+	if (this->scrollbuffer)
+		blit( this->scrollbuffer, dest, partialx, partialy, x, y, width, height );
 }

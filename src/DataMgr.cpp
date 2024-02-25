@@ -262,70 +262,30 @@ SpectralClass Star::SpectralClassFromString(string s)
 {
    SpectralClass result = SC_INVALID;
 
-   if (s == "M")
-   {
-      result = SC_M;
-   }
-   else if (s == "K")
-   {
-      result = SC_K;
-   }
-   else if (s == "G")
-   {
-      result = SC_G;
-   }
-   else if (s == "F")
-   {
-      result = SC_F;
-   }
-   else if (s == "A")
-   {
-      result = SC_A;
-   }
-   else if (s == "B")
-   {
-      result = SC_B;
-   }
-   else if (s == "O")
-   {
-      result = SC_O;
-   }
-
+   if (s == "M")        {      result = SC_M;   }
+   else if (s == "K")   {      result = SC_K;   }
+   else if (s == "G")   {      result = SC_G;   }
+   else if (s == "F")   {      result = SC_F;   }
+   else if (s == "A")   {      result = SC_A;   }
+   else if (s == "B")   {      result = SC_B;   }
+   else if (s == "O")   {      result = SC_O;   }
    return result;
 }
 
 string Star::SpectralClassToString(SpectralClass spectralClass)
 {
    string result;
-
    switch (spectralClass)
    {
-   case SC_M:
-      result = "M";
-      break;
-   case SC_K:
-      result = "K";
-      break;
-   case SC_G:
-      result = "G";
-      break;
-   case SC_F:
-      result = "F";
-      break;
-   case SC_A:
-      result = "A";
-      break;
-   case SC_B:
-      result = "B";
-      break;
-   case SC_O:
-      result = "O";
-      break;
-   default:
-      result = "INVALID";
-      break;
+       case SC_M:      result = "M";      break;
+       case SC_K:      result = "K";      break;
+       case SC_G:      result = "G";      break;
+       case SC_F:      result = "F";      break;
+       case SC_A:      result = "A";      break;
+       case SC_B:      result = "B";      break;
+       case SC_O:      result = "O";      break;
+       default:        result = "INVALID";      break;
    }
-
    return result;
 }
 
@@ -372,410 +332,177 @@ Planet & Planet::operator=(const Planet &rhs)
 PlanetSize Planet::PlanetSizeFromString(std::string size)
 {
    PlanetSize result = PS_INVALID;
-
-   if (size == "SMALL")
-   {
-      result = PS_SMALL;
-   }
-   else if (size == "MEDIUM")
-   {
-      result = PS_MEDIUM;
-   }
-   else if (size == "LARGE")
-   {
-      result = PS_LARGE;
-   }
-   else if (size == "HUGE")
-   {
-      result = PS_HUGE;
-   }
-
+   if (size == "SMALL")         {      result = PS_SMALL;   }
+   else if (size == "MEDIUM")   {      result = PS_MEDIUM;  }
+   else if (size == "LARGE")    {      result = PS_LARGE;   }
+   else if (size == "HUGE")     {      result = PS_HUGE;    }
    return result;
 }
 
 string Planet::PlanetSizeToString(PlanetSize size)
 {
    string result;
-
    switch (size)
    {
-   case PS_SMALL:
-      result = "SMALL";
-      break;
-
-   case PS_MEDIUM:
-      result = "MEDIUM";
-      break;
-
-   case PS_LARGE:
-      result = "LARGE";
-      break;
-
-   case PS_HUGE:
-      result = "HUGE";
-      break;
-
-   default:
-      result = "INVALID";
+       case PS_SMALL:   result = "SMALL";          break;
+       case PS_MEDIUM:  result = "MEDIUM";          break;
+       case PS_LARGE:   result = "LARGE";          break;
+       case PS_HUGE:    result = "HUGE";          break;
+       default:         result = "INVALID";
    }
-
    return result;
 }
 
 PlanetType Planet::PlanetTypeFromString(std::string type)
 {
    PlanetType result = PT_INVALID;
-
-   if (type == "ASTEROID")
-   {
-      result = PT_ASTEROID;
-   }
-   else if (type == "ROCKY")
-   {
-      result = PT_ROCKY;
-   }
-   else if (type == "FROZEN")
-   {
-      result = PT_FROZEN;
-   }
-   else if (type == "OCEANIC")
-   {
-      result = PT_OCEANIC;
-   }
-   else if (type == "MOLTEN")
-   {
-      result = PT_MOLTEN;
-   }
-   else if (type == "GAS GIANT")
-   {
-      result = PT_GASGIANT;
-   }
-   else if (type == "ACIDIC")
-   {
-      result = PT_ACIDIC;
-   }
-
+   if (type == "ASTEROID")          {      result = PT_ASTEROID;        }
+   else if (type == "ROCKY")        {      result = PT_ROCKY;           }
+   else if (type == "FROZEN")       {      result = PT_FROZEN;          }
+   else if (type == "OCEANIC")      {      result = PT_OCEANIC;         }
+   else if (type == "MOLTEN")       {      result = PT_MOLTEN;          }
+   else if (type == "ACIDIC")       {      result = PT_ACIDIC;          }
+   else if (type == "RED GIANT")    {      result = PT_GASGIANT_RED;    }
+   else if (type == "BLUE GIANT")   {      result = PT_GASGIANT_BLUE;   }
+   else if (type == "GREEN GIANT")  {      result = PT_GASGIANT_GREEN;  }
+   else if (type == "PURPLE GIANT") {      result = PT_GASGIANT_PURPLE; }
    return result;
 }
 
 string Planet::PlanetTypeToString(PlanetType type)
 {
    string result;
-
    switch (type)
    {
-   case PT_ASTEROID:
-      result = "ASTEROID";
-      break;
-
-   case PT_ROCKY:
-      result = "ROCKY";
-      break;
-
-   case PT_FROZEN:
-      result = "FROZEN";
-      break;
-
-   case PT_OCEANIC:
-      result = "OCEANIC";
-      break;
-
-   case PT_MOLTEN:
-      result = "MOLTEN";
-      break;
-
-   case PT_GASGIANT:
-      result = "GAS GIANT";
-      break;
-
-   case PT_ACIDIC:
-      result = "ACIDIC";
-      break;
-
-   default:
-      result = "INVALID";
-      break;
+       case PT_ASTEROID:        result = "ASTEROID";        break;
+       case PT_ROCKY:           result = "ROCKY";           break;
+       case PT_FROZEN:          result = "FROZEN";          break;
+       case PT_OCEANIC:         result = "OCEANIC";         break;
+       case PT_MOLTEN:          result = "MOLTEN";          break;
+       case PT_ACIDIC:          result = "ACIDIC";          break;
+       case PT_GASGIANT_RED:    result = "RED GIANT";       break;
+       case PT_GASGIANT_BLUE:   result = "BLUE GIANT";      break;
+       case PT_GASGIANT_GREEN:  result = "GREEN GIANT";     break;
+       case PT_GASGIANT_PURPLE: result = "PURPLE GIANT";    break;
+       default: result = "INVALID"; break;
    }
-
    return result;
 }
 
 PlanetTemperature Planet::PlanetTemperatureFromString(std::string temperature)
 {
    PlanetTemperature result = PTMP_INVALID;
-
-   if (temperature == "SUBARCTIC" || temperature == "SUB-ARCTIC")
-   {
-      result = PTMP_SUBARCTIC;
-   }
-   else if (temperature == "ARCTIC")
-   {
-      result = PTMP_ARCTIC;
-   }
-   else if (temperature == "TEMPERATE")
-   {
-      result = PTMP_TEMPERATE;
-   }
-   else if (temperature == "TROPICAL")
-   {
-      result = PTMP_TROPICAL;
-   }
-   else if (temperature == "SEARING")
-   {
-      result = PTMP_SEARING;
-   }
-   else if (temperature == "INFERNO")
-   {
-      result = PTMP_INFERNO;
-   }
-
+   if (temperature == "SUBARCTIC" || 
+       temperature == "SUB-ARCTIC")     {      result = PTMP_SUBARCTIC; }
+   else if (temperature == "ARCTIC")    {      result = PTMP_ARCTIC;    }
+   else if (temperature == "TEMPERATE") {      result = PTMP_TEMPERATE; }
+   else if (temperature == "TROPICAL")  {      result = PTMP_TROPICAL;  }
+   else if (temperature == "SEARING")   {      result = PTMP_SEARING;   }
+   else if (temperature == "INFERNO")   {      result = PTMP_INFERNO;   }
    return result;
 }
 
 string Planet::PlanetTemperatureToString(PlanetTemperature temperature)
 {
    string result;
-
    switch (temperature)
    {
-   case PTMP_SUBARCTIC:
-      result = "SUBARCTIC";
-      break;
-
-   case PTMP_ARCTIC:
-      result = "ARCTIC";
-      break;
-
-   case PTMP_TEMPERATE:
-      result = "TEMPERATE";
-      break;
-
-   case PTMP_TROPICAL:
-      result = "TROPICAL";
-      break;
-
-   case PTMP_SEARING:
-      result = "SEARING";
-      break;
-
-   case PTMP_INFERNO:
-      result = "INFERNO";
-      break;
-
-   default:
-      result = "INVALID";
-      break;
+       case PTMP_SUBARCTIC:     result = "SUBARCTIC";   break;
+       case PTMP_ARCTIC:        result = "ARCTIC";      break;
+       case PTMP_TEMPERATE:     result = "TEMPERATE";   break;
+       case PTMP_TROPICAL:      result = "TROPICAL";    break;
+       case PTMP_SEARING:       result = "SEARING";     break;
+       case PTMP_INFERNO:       result = "INFERNO";     break;
+       default:                 result = "INVALID";     break;
    }
-
    return result;
 }
 
 PlanetGravity Planet::PlanetGravityFromString(std::string gravity)
 {
    PlanetGravity result = PG_INVALID;
-
-   if (gravity == "NEGLIGIBLE")
-   {
-      result = PG_NEGLIGIBLE;
-   }
-   else if (gravity == "VERY LOW")
-   {
-      result = PG_VERYLOW;
-   }
-   else if (gravity == "LOW")
-   {
-      result = PG_LOW;
-   }
-   else if (gravity == "OPTIMAL")
-   {
-      result = PG_OPTIMAL;
-   }
-   else if (gravity == "VERY HEAVY")
-   {
-      result = PG_VERYHEAVY;
-   }
-   else if (gravity == "CRUSHING")
-   {
-      result = PG_CRUSHING;
-   }
-
+   if (gravity == "NEGLIGIBLE")      {      result = PG_NEGLIGIBLE; }
+   else if (gravity == "VERY LOW")   {      result = PG_VERYLOW;    }
+   else if (gravity == "LOW")        {      result = PG_LOW;        }
+   else if (gravity == "OPTIMAL")    {      result = PG_OPTIMAL;    }
+   else if (gravity == "VERY HEAVY") {      result = PG_VERYHEAVY;  }
+   else if (gravity == "CRUSHING")   {      result = PG_CRUSHING;   }
    return result;
 }
 
 string Planet::PlanetGravityToString(PlanetGravity gravity)
 {
    string result;
-
    switch (gravity)
    {
-   case PG_NEGLIGIBLE:
-      result = "NEGLIGIBLE";
-      break;
-
-   case PG_VERYLOW:
-      result = "VERY LOW";
-      break;
-
-   case PG_LOW:
-      result = "LOW";
-      break;
-
-   case PG_OPTIMAL:
-      result = "OPTIMAL";
-      break;
-
-   case PG_VERYHEAVY:
-      result = "VERY HEAVY";
-      break;
-
-   case PG_CRUSHING:
-      result = "CRUSHING";
-      break;
-
-   default:
-      result = "INVALID";
-      break;
+       case PG_NEGLIGIBLE:  result = "NEGLIGIBLE";  break;
+       case PG_VERYLOW:     result = "VERY LOW";    break;
+       case PG_LOW:         result = "LOW";         break;
+       case PG_OPTIMAL:     result = "OPTIMAL";     break;
+       case PG_VERYHEAVY:   result = "VERY HEAVY";  break;
+       case PG_CRUSHING:    result = "CRUSHING";    break;
+       default:             result = "INVALID";     break;
    }
-
    return result;
 }
 
 PlanetAtmosphere Planet::PlanetAtmosphereFromString(std::string atmosphere)
 {
    PlanetAtmosphere result = PA_INVALID;
-
-   if (atmosphere == "NONE")
-   {
-      result = PA_NONE;
-   }
-   else if (atmosphere == "TRACEGASES" || atmosphere == "TRACE GASES")
-   {
-      result = PA_TRACEGASES;
-   }
-   else if (atmosphere == "BREATHABLE")
-   {
-      result = PA_BREATHABLE;
-   }
-   else if (atmosphere == "ACIDIC")
-   {
-      result = PA_ACIDIC;
-   }
-   else if (atmosphere == "TOXIC")
-   {
-      result = PA_TOXIC;
-   }
-   else if (atmosphere == "FIRESTORM")
-   {
-      result = PA_FIRESTORM;
-   }
-
+   if (atmosphere == "NONE")   {      result = PA_NONE;   }
+   else if (atmosphere == "TRACEGASES" || 
+       atmosphere == "TRACE GASES")         {      result = PA_TRACEGASES;  }
+   else if (atmosphere == "BREATHABLE")     {      result = PA_BREATHABLE;  }
+   else if (atmosphere == "ACIDIC")         {      result = PA_ACIDIC;      }
+   else if (atmosphere == "TOXIC")          {      result = PA_TOXIC;       }
+   else if (atmosphere == "FIRESTORM")      {      result = PA_FIRESTORM;   }
    return result;
 }
 
 string Planet::PlanetAtmosphereToString(PlanetAtmosphere atmosphere)
 {
    string result;
-
    switch (atmosphere)
    {
-   case PA_NONE:
-      result = "NONE";
-      break;
-
-   case PA_TRACEGASES:
-      result = "TRACEGASES";
-      break;
-
-   case PA_BREATHABLE:
-      result = "BREATHABLE";
-      break;
-
-   case PA_ACIDIC:
-      result = "ACIDIC";
-      break;
-
-   case PA_TOXIC:
-      result = "TOXIC";
-      break;
-
-   case PA_FIRESTORM:
-      result = "FIRESTORM";
-      break;
-
-   default:
-      result = "INVALID";
-      break;
+       case PA_NONE:        result = "NONE";       break;
+       case PA_TRACEGASES:  result = "TRACEGASES"; break;
+       case PA_BREATHABLE:  result = "BREATHABLE"; break;
+       case PA_ACIDIC:      result = "ACIDIC";     break;
+       case PA_TOXIC:       result = "TOXIC";      break;
+       case PA_FIRESTORM:   result = "FIRESTORM";  break;
+       default:             result = "INVALID";    break;
    }
-
    return result;
 }
 
 PlanetWeather Planet::PlanetWeatherFromString(std::string weather)
 {
    PlanetWeather result = PW_INVALID;
-
-   if (weather == "NONE")
-   {
-      result = PW_NONE;
-   }
-   else if (weather == "CALM")
-   {
-      result = PW_CALM;
-   }
-   else if (weather == "MODERATE")
-   {
-      result = PW_MODERATE;
-   }
-   else if (weather == "VIOLENT")
-   {
-      result = PW_VIOLENT;
-   }
-   else if (weather == "VERYVIOLENT")
-   {
-      result = PW_VERYVIOLENT;
-   }
-
+   if (weather == "NONE")               {      result = PW_NONE;        }
+   else if (weather == "CALM")          {      result = PW_CALM;        }
+   else if (weather == "MODERATE")      {      result = PW_MODERATE;    }
+   else if (weather == "VIOLENT")       {      result = PW_VIOLENT;     }
+   else if (weather == "VERYVIOLENT")   {      result = PW_VERYVIOLENT; }
    return result;
 }
 
 string Planet::PlanetWeatherToString(PlanetWeather weather)
 {
    string result;
-
    switch (weather)
    {
-   case PW_NONE:
-      result = "NONE";
-      break;
-
-   case PW_CALM:
-      result = "CALM";
-      break;
-
-   case PW_MODERATE:
-      result = "MODERATE";
-      break;
-
-   case PW_VIOLENT:
-      result = "VIOLENT";
-      break;
-
-   case PW_VERYVIOLENT:
-      result = "VERYVIOLENT";
-      break;
-
-   default:
-      result = "INVALID";
-      break;
+       case PW_NONE:        result = "NONE";        break;
+       case PW_CALM:        result = "CALM";        break;
+       case PW_MODERATE:    result = "MODERATE";    break;
+       case PW_VIOLENT:     result = "VIOLENT";     break;
+       case PW_VERYVIOLENT: result = "VERYVIOLENT"; break;
+       default:             result = "INVALID";     break;
    }
-
    return result;
 }
 
 DataMgr::DataMgr()
-: m_initialized(false)
-{
-}
+: m_initialized(false){}
 
 DataMgr::~DataMgr()
 {
@@ -783,7 +510,6 @@ DataMgr::~DataMgr()
    {
       delete (*i);
    }
-
    for (vector<std::pair<std::string*,std::string*>*>::iterator i = humanNames.begin(); i != humanNames.end(); ++i)
    {
       delete (*i);
@@ -802,25 +528,21 @@ int DataMgr::GetNumItems()
 Item* DataMgr::GetItem(int idx)
 {
    Item* result = NULL;
-
    if ((idx >= 0) && (idx < (int)items.size()))
    {
       result = items[idx];
    }
-
    return result;
 }
 
 Item* DataMgr::GetItemByID(ID id)
 {
    Item* result = NULL;
-
    map<ID,Item*>::iterator i = itemsByID.find(id);
    if (i != itemsByID.end())
    {
       result = i->second;
    }
-
    return result;
 }
 
@@ -840,51 +562,43 @@ int DataMgr::GetNumStars()
 Star * DataMgr::GetStar(int idx)
 {
    Star * result = NULL;
-
    if ((idx >= 0) && (idx < (int)stars.size()))
    {
       result = stars[idx];
    }
-
    return result;
 }
 
 Star * DataMgr::GetStarByID(ID id)
 {
    Star * result = NULL;
-
    map<ID,Star*>::iterator i = starsByID.find(id);
    if (i != starsByID.end())
    {
       result = i->second;
    }
-
    return result;
 }
 
 Star* DataMgr::GetStarByLocation(CoordValue x, CoordValue y)
 {
    Star * result = NULL;
-
    map<pair<CoordValue,CoordValue>,Star*>::iterator i = starsByLocation.find(make_pair(x,y));
    if (i != starsByLocation.end())
    {
       result = i->second;
    }
-
    return result;
 }
 
 Planet* DataMgr::GetPlanetByID(ID id)
 {
    Planet * result = NULL;
-
    map<ID,Planet*>::iterator i = allPlanetsByID.find(id);
    if (i != allPlanetsByID.end())
    {
       result = i->second;
    }
-
    return result;
 }
 
@@ -926,18 +640,21 @@ string DataMgr::GetRandWholeName()
 
 string DataMgr::GetRandMixedName()
 {
-	try {
-		if (humanNames.size() == 0) {
+	try 
+    {
+		if (humanNames.size() == 0) 
+        {
 			g_game->message("ERROR: The human names data has not been loaded.");
 			return "<Error>";
 		}
 
-		int randomID = Util::Random(0, (int)humanNames.size()-1);
+        int randomID = Util::Random(0, (int)humanNames.size()-1);
 		int randomID2 = Util::Random(0, (int)humanNames.size()-1);
 
-		return *humanNames[randomID]->first + " " + *humanNames[randomID2]->second;
+        return *humanNames[randomID]->first + " " + *humanNames[randomID2]->second;
 	}
-	catch(...) {
+	catch(...) 
+    {
 		g_game->message("ERROR: The human names data has not been loaded.");
 		return "<error>";
 	}
@@ -948,21 +665,11 @@ string DataMgr::GetRandMixedName()
 
 bool DataMgr::Initialize()
 {
-   if (m_initialized)
-      return true;
-
+   if (m_initialized) return true;
    m_initialized = true;
-
-   if (!LoadItems())
-      return false;
-
-   if (!LoadGalaxy())
-      return false;
-
-   if (!LoadHumanNames())
-	   return false;
-
-
+   if (!LoadItems()) return false;
+   if (!LoadGalaxy()) return false;
+   if (!LoadHumanNames()) return false;
    return true;
 }
 
@@ -970,15 +677,12 @@ bool DataMgr::LoadItems()
 {
 
    //open the strfltitems.xml file
-
    TiXmlDocument doc(ITEMS_FILE);
-   if (!doc.LoadFile())
-      return false;
+   if (!doc.LoadFile()) return false;
 
    //load root of xml hierarchy
    TiXmlElement * itemSet = doc.FirstChildElement("items");
-   if (itemSet == NULL)
-      return false;
+   if (itemSet == NULL) return false;
 
    // load all items
    TiXmlElement * item = itemSet->FirstChildElement("item");
@@ -994,76 +698,65 @@ bool DataMgr::LoadItems()
       {
          newItem.id = atoi(text->Value());
       }
-
       text = itemHandle.FirstChild("Type").FirstChild().Text();
       if (text != NULL)
       {
          newItem.itemType = Item::ItemTypeFromString(text->Value());
       }
-
       text = itemHandle.FirstChild("Name").FirstChild().Text();
       if (text != NULL)
       {
          newItem.name = text->Value();
       }
-
       text = itemHandle.FirstChild("Value").FirstChild().Text();
       if (text != NULL)
       {
          newItem.value = atof(text->Value());
       }
-
       text = itemHandle.FirstChild("Size").FirstChild().Text();
       if (text != NULL)
       {
          newItem.size = atof(text->Value());
       }
-
       text = itemHandle.FirstChild("Speed").FirstChild().Text();
       if (text != NULL)
       {
          newItem.speed = atof(text->Value());
       }
-
       text = itemHandle.FirstChild("Danger").FirstChild().Text();
       if (text != NULL)
       {
          newItem.danger = atof(text->Value());
       }
-
       text = itemHandle.FirstChild("Damage").FirstChild().Text();
       if (text != NULL)
       {
          newItem.damage = atof(text->Value());
       }
-
       text = itemHandle.FirstChild("Age").FirstChild().Text();
       if (text != NULL)
       {
          newItem.itemAge = Item::ItemAgeFromString(text->Value());
       }
-
       text = itemHandle.FirstChild("ShipRepairMetal").FirstChild().Text();
       if (text != NULL)
       {
          string v(text->Value());
          newItem.shipRepairMetal = v == "true";
       }
-
       text = itemHandle.FirstChild("BlackMarket").FirstChild().Text();
       if (text != NULL)
       {
          string v(text->Value());
          newItem.blackMarketItem = v == "true";
       }
-
 	  text = itemHandle.FirstChild("Portrait").FirstChild().Text();
       if (text != NULL)
       {
 		 newItem.portrait = text->Value();
       }
 
-	  //new property for Artifacts
+      //new property for Artifacts
 	  text = itemHandle.FirstChild("planetid").FirstChild().Text();
 	  if (text != NULL)
 	  {

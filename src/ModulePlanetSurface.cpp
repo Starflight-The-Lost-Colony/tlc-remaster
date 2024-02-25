@@ -53,61 +53,9 @@
 #include "PlanetTileScroller.h"
 #include "PauseMenu.h"
 #include "ModuleControlPanel.h"
+#include "PlanetaryBody.h"
 
 using namespace std;
-
-//#define ARMOR_BAR_BMP                    0        /* BMP  */
-//#define CARGO_BAR_BMP                    1        /* BMP  */
-//#define CARGO_BAR_MO_BMP                 2        /* BMP  */
-//#define COMMAND_BIGBUTTON_BG_BMP         3        /* BMP  */
-//#define COMMAND_BIGBUTTON_BG_DISABLED_BMP 4        /* BMP  */
-//#define COMMAND_BIGBUTTON_BG_MO_BMP      5        /* BMP  */
-//#define COMMAND_BIGBUTTON_BG_SELECT_BMP  6        /* BMP  */
-//#define COMMAND_BUTTON_BG_BMP            7        /* BMP  */
-//#define COMMAND_BUTTON_BG_DISABLED_BMP   8        /* BMP  */
-//#define COMMAND_BUTTON_BG_MO_BMP         9        /* BMP  */
-//#define COMMAND_BUTTON_BG_SELECT_BMP     10       /* BMP  */
-//#define ELEMENT_BIGGAUGE_EMPTY_BMP       11       /* BMP  */
-//#define ELEMENT_BIGGAUGE_YELLOW_BMP      12       /* BMP  */
-//#define ELEMENT_GAUGE_GREEN_BMP          13       /* BMP  */
-//#define ELEMENT_GAUGE_ORANGE_BMP         14       /* BMP  */
-//#define ELEMENT_GAUGE_PURPLE_BMP         15       /* BMP  */
-//#define ELEMENT_GAUGE_RED_BMP            16       /* BMP  */
-//#define ELEMENT_SMALLGAUGE_GREEN_BMP     17       /* BMP  */
-//#define FUEL_BAR_BMP                     18       /* BMP  */
-//#define GUI_AUX_BMP                      19       /* BMP  */
-//#define GUI_CONTROLPANEL_BMP             20       /* BMP  */
-//#define GUI_GAUGES_BMP                   21       /* BMP  */
-//#define GUI_MESSAGEWINDOW_BMP            22       /* BMP  */
-//#define GUI_SOCKET_BMP                   23       /* BMP  */
-//#define HULL_BAR_BMP                     24       /* BMP  */
-//#define STATIC_TGA                       25       /* BMP  */
-//#define TILESET_ASH_TGA                  26       /* BMP  */
-//#define TILESET_DESERT_TGA               27       /* BMP  */
-//#define TILESET_DIRT_TGA                 28       /* BMP  */
-//#define TILESET_GAS_ACID_1_TGA           29       /* BMP  */
-//#define TILESET_GAS_ACID_2_TGA           30       /* BMP  */
-//#define TILESET_GAS_GRASS_TGA            31       /* BMP  */
-//#define TILESET_GAS_ROCK_1_TGA           32       /* BMP  */
-//#define TILESET_GAS_ROCK_2_TGA           33       /* BMP  */
-//#define TILESET_GLASS_TGA                34       /* BMP  */
-//#define TILESET_GRASS_DARK_TGA           35       /* BMP  */
-//#define TILESET_GRASS_DEAD_TGA           36       /* BMP  */
-//#define TILESET_GRASS_LIGHT_TGA          37       /* BMP  */
-//#define TILESET_ICE_TGA                  38       /* BMP  */
-//#define TILESET_LAVA_TGA                 39       /* BMP  */
-//#define TILESET_MAGMA_TGA                40       /* BMP  */
-//#define TILESET_MUD_TGA                  41       /* BMP  */
-//#define TILESET_ROCK_DARK_TGA            42       /* BMP  */
-//#define TILESET_ROCK_LIGHT_TGA           43       /* BMP  */
-//#define TILESET_SNOW_TGA                 44       /* BMP  */
-//#define TILESET_STARS_TGA                45       /* BMP  */
-//#define TILESET_WATER_DARK_TGA           46       /* BMP  */
-//#define TILESET_WATER_LIGHT_TGA          47       /* BMP  */
-//#define TILESET_WATER_MID_TGA            48       /* BMP  */
-
-
-//DATAFILE *psdata;
 
 
 #define SCROLLEROFFSETX (SCREEN_WIDTH/2 - activeVessel->getFrameWidth()/2)
@@ -177,7 +125,7 @@ ModulePlanetSurface::ModulePlanetSurface(void) :
 	btnDisabled(NULL),
 	btnNormal(NULL),
 	minimap(NULL),
-	surface(NULL),
+	//surface(NULL),
 	img_control(NULL),
 	img_aux(NULL),
 	img_gauges(NULL),
@@ -1292,7 +1240,8 @@ bool ModulePlanetSurface::fabTilemap()
 	if (star) {
 		starid = star->id;
 	}
-	if (starid==-1) {
+	if (starid==-1) 
+    {
 		g_game->fatalerror("ModulePlanetSurface::fabTilemap: starid is invalid");
 	}
 
@@ -1305,7 +1254,8 @@ bool ModulePlanetSurface::fabTilemap()
 			planetid = planet->id;
 		}
 	}
-	if (planetid==-1) {
+	if (planetid==-1) 
+    {
 		g_game->fatalerror("ModulePlanetSurface::fabTilemap: planetid is invalid");
 	}
 
@@ -1314,20 +1264,15 @@ bool ModulePlanetSurface::fabTilemap()
 	//so, over in PlanetOrbit, both textures are generated
 
 	//use starid and planetid for random seed
-	int randomness = starid * 1000 + planetid;
+	//int randomness = starid * 1000 + planetid;
 
-	ostringstream os;
-	os << "data/planetorbit/planet_" << randomness << "_500.bmp";
-    std::string planetTextureFilename = os.str();
 
 	//fill tilemap based on planet surface image
-	surface = load_bitmap(planetTextureFilename.c_str(), NULL);
-	if (!surface) {
-		g_game->message("PlanetSurface: Error loading planet texture");
-		return false;
-	}
 
-	if (surface->w != 500 && surface->h != 500) {
+    this->pbody = new PlanetaryBody();
+    this->pbody->CreatePlanetTextures(starid, planetid);
+    
+	if ( this->pbody->planetTexture500->w != 500 && this->pbody->planetTexture500->h != 500 ) {
 		g_game->message("PlanetSurface: Planet texture is invalid");
 		return false;
 	}
@@ -1357,7 +1302,10 @@ bool ModulePlanetSurface::fabTilemap()
 		case PT_ASTEROID:	fabAsteroid();	break;
 		case PT_ROCKY:		fabRocky();		break;
 		case PT_ACIDIC:		fabAcidic();	break;
-		case PT_GASGIANT:
+		case PT_GASGIANT_RED:
+        case PT_GASGIANT_BLUE:
+        case PT_GASGIANT_GREEN:
+        case PT_GASGIANT_PURPLE:
 			g_game->message("PlanetSurface: Error, cannot land on a gas giant planet.");
 			g_game->modeMgr->LoadModule(MODULE_ORBIT);
 			break;
@@ -1416,7 +1364,8 @@ bool ModulePlanetSurface::fabAsteroid()
 
 			//test colors found on planet texture to determine which planet tiles to draw
 
-			color = getpixel(surface, x, y);
+			//color = getpixel(surface, x, y);
+            color = getpixel( this->pbody->planetTexture500, x, y );
 			r = getr(color); g = getg(color); b = getb(color);
 
 			tile = 0;
@@ -1481,7 +1430,8 @@ bool ModulePlanetSurface::fabRocky()
 
 			//test colors found on planet texture to determine which planet tiles to draw
 
-			color = getpixel(surface, x, y);
+			//color = getpixel(surface, x, y);
+            color = getpixel( this->pbody->planetTexture500, x, y );
 			r = getr(color);
 			g = getg(color);
 			b = getb(color);
@@ -1558,7 +1508,8 @@ bool ModulePlanetSurface::fabFrozen()
 
 			//test colors found on planet texture to determine which planet tiles to draw
 
-			color = getpixel(surface, x, y);
+			//color = getpixel(surface, x, y);
+            color = getpixel( this->pbody->planetTexture500, x, y );
 			r = getr(color); g = getg(color); b = getb(color);
 
 			tile = 17;
@@ -1595,7 +1546,6 @@ bool ModulePlanetSurface::fabFrozen()
 
 bool ModulePlanetSurface::fabOceanic()
 {
-	//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_WATER_DARK_TGA].dat, 16, false);//0
     if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_water_dark.tga",NULL), 16, false))
     {
         debug << "Planet: error loading tileset_water_dark " << endl;
@@ -1605,49 +1555,42 @@ bool ModulePlanetSurface::fabOceanic()
 
 	if(planet->temperature == PTMP_TEMPERATE)
     {
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_MUD_TGA].dat, 16);//1
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_mud.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_mud" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_GRASS_LIGHT_TGA].dat, 16);//2
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_grass_light.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_grass_light" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_GRASS_DARK_TGA].dat, 16);//3
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_grass_dark.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_grass_dark" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_WATER_MID_TGA].dat, 16, false);//4
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_water_mid.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_water_mid" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_ROCK_DARK_TGA].dat, 16, false);//5
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_rock_dark.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_rock_dark" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_SNOW_TGA].dat, 16, false);//6}
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_snow.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_snow" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_ROCK_LIGHT_TGA].dat, 16, false);//7
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_rock_light.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_rock_light" << endl;
@@ -1656,49 +1599,42 @@ bool ModulePlanetSurface::fabOceanic()
         
 	}
 	else if(planet->temperature == PTMP_SEARING){
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_DESERT_TGA].dat, 16);//1
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_desert.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_desert" << endl;
             return false;
         }
-        
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_GRASS_DEAD_TGA].dat, 16);//2
+
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_grass_dead.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_grass_dead" << endl;
             return false;
         }
-        
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_GRASS_LIGHT_TGA].dat, 16);//3
+       
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_grass_light.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_grass_light" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_WATER_MID_TGA].dat, 16, false);//4
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_water_mid.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_water_mid" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_DIRT_TGA].dat, 16);//5
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_dirt.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_dirt" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_ROCK_LIGHT_TGA].dat, 16, false);//6}
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_rock_light.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_rock_light" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_ROCK_DARK_TGA].dat, 16, false);//7
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_rock_dark.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_rock_dark" << endl;
@@ -1707,49 +1643,42 @@ bool ModulePlanetSurface::fabOceanic()
         
 	}
 	else{ //if(planet->temperature == PTMP_TROPICAL){
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_DESERT_TGA].dat, 16);//1
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_desert.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_desert" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_GRASS_LIGHT_TGA].dat, 16);//2
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_grass_light.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_grass_light" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_GRASS_DARK_TGA].dat, 16);//3
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_grass_dark.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_grass_dark" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_WATER_MID_TGA].dat, 16, false);//4
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_water_mid.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_water_mid" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_DIRT_TGA].dat, 16);//5
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_dirt.tga",NULL), 16))
         {
             debug << "Planet: error loading tileset_dirt" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_ROCK_LIGHT_TGA].dat, 16, false);//6}
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_rock_light.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_rock_light" << endl;
             return false;
         }
         
-		//scroller->LoadTileSet( (BITMAP*)psdata[TILESET_ROCK_DARK_TGA].dat, 16, false);//7
         if (!scroller->LoadTileSet( (BITMAP*)load_bitmap("data/planetsurface/tileset_rock_dark.tga",NULL), 16, false))
         {
             debug << "Planet: error loading tileset_rock_dark" << endl;
@@ -1769,7 +1698,8 @@ bool ModulePlanetSurface::fabOceanic()
 	for (int y=0; y < 500; y++) {
 		for (int x=0; x < 500; x++) {
 
-			color = getpixel(surface, x, y);
+			//color = getpixel(surface, x, y);
+            color = getpixel( this->pbody->planetTexture500, x, y );
 			r = getr(color); g = getg(color); b = getb(color);
 
 			tile = 0;
@@ -1848,7 +1778,8 @@ bool ModulePlanetSurface::fabMolten()
 
 			//test colors found on planet texture to determine which planet tiles to draw
 
-			color = getpixel(surface, x, y);
+			//color = getpixel(surface, x, y);
+            color = getpixel( this->pbody->planetTexture500, x, y );
 			r = getr(color);
 			g = getg(color);
 			b = getb(color);
@@ -1923,7 +1854,8 @@ bool ModulePlanetSurface::fabAcidic()
 	for (int y=0; y < 500; y++) {
 		for (int x=0; x < 500; x++) {
 			//test colors found on planet texture to determine which planet tiles to draw
-			color = getpixel(surface, x, y);
+			//color = getpixel(surface, x, y);
+            color = getpixel( this->pbody->planetTexture500, x, y );
 			r = getr(color);
 			g = getg(color);
 			b = getb(color);
@@ -2327,7 +2259,11 @@ void ModulePlanetSurface::drawMinimap()
 	clear_bitmap(minimap);
 
 	//draw the planet scanner image
-	stretch_blit(surface, minimap, 0, 0, surface->w, surface->h, 0, 0, minimap->w, minimap->h);
+	//stretch_blit(surface, minimap, 0, 0, surface->w, surface->h, 0, 0, minimap->w, minimap->h);
+    stretch_blit( this->pbody->planetTexture500, 
+                    minimap, 0, 0, 
+                    this->pbody->planetTexture500->w, this->pbody->planetTexture500->h,
+                    0, 0, minimap->w, minimap->h );
 
 	//draw the player's position on the minimap
 	float x =  playerShip->getX() / ( scroller->getTilesAcross() * scroller->getTileWidth() ) * minimap->w ;
