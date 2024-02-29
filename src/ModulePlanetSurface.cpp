@@ -129,7 +129,7 @@ ModulePlanetSurface::ModulePlanetSurface(void) :
 	img_control(NULL),
 	img_aux(NULL),
 	img_gauges(NULL),
-	img_socket(NULL),
+	//img_socket(NULL),
 	img_messages(NULL),
 	cargoBtn(NULL),
 	LuaVM(NULL),
@@ -567,7 +567,7 @@ void ModulePlanetSurface::Close()
 	try 
     {
         if (img_messages!=NULL) { delete img_messages; img_messages=NULL; }
-	    if (img_socket!=NULL)   { delete img_socket; img_socket=NULL; }
+	    //if (img_socket!=NULL)   { delete img_socket; img_socket=NULL; }
 	    if (img_gauges!=NULL)   { delete img_gauges; img_gauges=NULL; }
 	    if (img_aux!=NULL)      { delete img_aux; img_aux=NULL; }
 	    if (img_control!=NULL)  { delete img_control; img_control=NULL; }
@@ -799,20 +799,20 @@ bool ModulePlanetSurface::Init()
 	rectfill(g_game->GetBackBuffer(), 0, 0, SCREEN_W-1, SCREEN_H-1, BLACK);
 
     //load the message gui
-    //img_messages = (BITMAP*)psdata[GUI_MESSAGEWINDOW_BMP].dat;
     img_messages = (BITMAP*)load_bitmap("data/messagegui/gui_messagewindow.bmp",NULL);
-    if (!img_messages) {
+    if (!img_messages) 
+    {
 		g_game->message("Planet: Error loading messagewindow");
 		return false;
 	}
 
 	//load the socket gui
 	//img_socket = (BITMAP*)psdata[GUI_SOCKET_BMP].dat;
-    img_socket = (BITMAP*)load_bitmap("data/messagegui/gui_socket.bmp",NULL);
-	if (!img_socket) {
-		g_game->message("Planet: Error loading gui_socket");
-		return false;
-	}
+ //   img_socket = (BITMAP*)load_bitmap("data/messagegui/gui_socket.bmp",NULL);
+	//if (!img_socket) {
+	//	g_game->message("Planet: Error loading gui_socket");
+	//	return false;
+	//}
 
 	//load the gauges gui
 	//img_gauges = (BITMAP*)psdata[GUI_GAUGES_BMP].dat;
@@ -2186,9 +2186,9 @@ void ModulePlanetSurface::Draw()
 	messages->Draw(g_game->GetBackBuffer());
 
 	//draw socket gui (mainly used for the loading bar)
-	static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
-	static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
-	masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
+	//static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
+	//static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
+	//masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
 
 
 	static int gcpx = (int)g_game->getGlobalNumber("GUI_CONTROLPANEL_POS_X");

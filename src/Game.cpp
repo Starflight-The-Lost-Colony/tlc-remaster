@@ -1610,8 +1610,8 @@ void Game::Print32(BITMAP *dest, int x,int y,std::string text, int color, bool s
 /**
 This function tracks all printed messages, each containing a timestamp to prevent messages from 
 printing out repeatedly, which occurs frequently in state-based timed sections of code that is 
-called repeatedly, where we don't want messages printing repeatedly. Delay of -1 causes
-message to print only once (until ScrollBox is cleared). Default delay of 0 forces printout.
+called repeatedly, where we don't want messages printing repeatedly. Default delay of -1 causes
+message to print only once (until ScrollBox is cleared). delay of 0 forces printout.
  **/
 void Game::printout(ScrollBox::ScrollBox *scroll, string str, int color, long delay)
 {
@@ -1635,12 +1635,14 @@ void Game::printout(ScrollBox::ScrollBox *scroll, string str, int color, long de
 				found = true;
 
 				//print-once code
-				if (delay == -1) {
-					mess->delay = -1;
-				}
+				if (delay == -1) 
+                {
+                    mess->delay = -1;
+                }
 
 				//ready to print again?
-				else if (globalTimer.getTimer() > mess->delay) {
+				else if (globalTimer.getTimer() > mess->delay) 
+                {
 					//print text
 					scroll->Write(message.text, message.color);
 					//reset delay timer
@@ -1652,7 +1654,8 @@ void Game::printout(ScrollBox::ScrollBox *scroll, string str, int color, long de
 	}
 
 	//text not found, add to vector and print
-	if (!found) {
+	if (!found) 
+    {
 		if (delay == -1) message.delay = -1;
 		messages.push_back(message);
 		scroll->Write(message.text, message.color);

@@ -15,7 +15,7 @@ class ModuleMessageGUI : public Module
 {
 private:
 	BITMAP *img_message;
-	BITMAP *img_socket;
+	//BITMAP *img_socket;
 
 	//DATAFILE *data;
 

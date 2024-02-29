@@ -9,8 +9,6 @@
 	Date: April, 07
 */
 
-#ifndef MODULECONTROLPANEL_H
-#define MODULECONTROLPANEL_H
 #pragma once
 
 #include "env.h"
@@ -27,7 +25,7 @@
 #define EVENT_CAPTAIN_DESCEND 1002
 //#define EVENT_CAPTAIN_DISEMBARK 1003
 #define EVENT_CAPTAIN_CARGO 1004
-//#define EVENT_CAPTAIN_LOG 1005
+#define EVENT_CAPTAIN_LOG 1005
 #define EVENT_CAPTAIN_QUESTLOG 1007
 #define EVENT_SCIENCE_SCAN 2000
 #define EVENT_SCIENCE_ANALYSIS 2001
@@ -86,10 +84,8 @@ private:
 	class CommandButton
 	{
 	public:
-		CommandButton(ModuleControlPanel& outer, int datFileCmdIcon, std::string cmdName, int posX, int posY);
+		CommandButton(ModuleControlPanel& outer, std::string imgFileCmdIcon, std::string cmdName, int posX, int posY);
 		virtual ~CommandButton();
-		
-		
 
 		static bool InitCommon();
 		bool InitButton();
@@ -114,8 +110,7 @@ private:
 	private:
 		ModuleControlPanel	&outer;
 		
-		//std::string			imgFileCmdIcon; //replaced with datafile
-		int					datFileCmdIcon;
+		std::string			imgFileCmdIcon;
 		
 		std::string			cmdName;
 		int					posX;
@@ -135,8 +130,7 @@ private:
 	class OfficerButton
 	{
 	public:
-		//OfficerButton(ModuleControlPanel& outer, OfficerType officerType, std::string imgFileMouseOver, std::string imgFileSelected, int posX, int posY);
-		OfficerButton(ModuleControlPanel& outer, OfficerType officerType, int datFileMouseOver, int datFileSelected, int posX, int posY);
+		OfficerButton(ModuleControlPanel& outer, OfficerType officerType, std::string imgFileMouseOver, std::string imgFileSelected, int posX, int posY);
 		virtual ~OfficerButton();
 
 		static bool InitCommon();
@@ -161,15 +155,11 @@ private:
 		ModuleControlPanel	&outer;
 		OfficerType			officerType;
 		
-		//std::string			imgFileMouseOver;
-		//std::string			imgFileSelected;
-		int					datFileMouseOver;
-		int					datFileSelected;
+		std::string			imgFileMouseOver;
+		std::string			imgFileSelected;
 		
 		BITMAP				*imgSelected;
 		bool				isSelected;
-		static BITMAP		*imgTipWindowBackground;
-
 	};
 
 	std::vector<OfficerButton*>		officerButtons;
@@ -180,6 +170,4 @@ private:
 	CommandButton					*mouseOverCommand;
 	CommandButton					*selectedCommand;
 };
-
-#endif
 

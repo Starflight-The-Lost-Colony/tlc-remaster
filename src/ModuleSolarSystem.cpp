@@ -328,7 +328,7 @@ bool ModuleSolarSystem::Init()
 	static int gmh = (int)g_game->getGlobalNumber("GUI_MESSAGE_HEIGHT");
 
 	text = new ScrollBox::ScrollBox(g_game->font20, ScrollBox::SB_TEXT,
-		gmx + 38, gmy + 18, gmw - 38, gmh - 32, 999);
+		gmx + 5, gmy + 5, gmw + 6, gmh - 10, 999);
 	text->DrawScrollBar(false);
 
 	//point global scrollbox to local one in this module for sub-module access
@@ -452,7 +452,8 @@ void ModuleSolarSystem::Update()
 	g_game->setVibration(0);
 
 	//display any planet under ship
-	if (planetFound) {
+	if (planetFound) 
+    {
 		if (planet->name.length() > 0)
 		{
 			s << nav << "Captain, we are in orbital range of " << planet->name << ".";
@@ -464,12 +465,15 @@ void ModuleSolarSystem::Update()
 		g_game->printout(text, s.str() + " Awaiting order to establish orbit.", ORANGE, 15000);
 	}
 	//getting too close to the star?
-	else if (burning) {
-		if (burning > 240) {
+	else if (burning) 
+    {
+		if (burning > 240) 
+        {
 			g_game->setVibration(20);
 			g_game->printout(text, "AAARRRRRGGGGHHHHH!!!", YELLOW,500);
 			ship->AllStop();
-			if ( Util::ReentrantDelay(2000)) {
+			if ( Util::ReentrantDelay(2000)) 
+            {
 				g_game->setVibration(0);
 				g_game->modeMgr->LoadModule(MODULE_GAMEOVER);
 				return;
@@ -503,15 +507,19 @@ void ModuleSolarSystem::Update()
 	//launching the planet orbit module. this displays the message and pauses for 2 seconds.
 	if (flag_DoOrbit) {
       checkShipPosition();
-      if (!planetFound) {
+      if (!planetFound) 
+      {
 		   g_game->printout(text, nav + "Unable to comply. Nothing to orbit here.", ORANGE,8000);
-		   if ( Util::ReentrantDelay(2000)) {
+		   if ( Util::ReentrantDelay(2000)) 
+           {
 			   flag_DoOrbit = false;
 		   }
-      } else {
+      } else 
+      {
 		   g_game->printout(text, nav + "Aye, captain.", ORANGE,8000);
 		   text->ScrollToBottom();
-		   if ( Util::ReentrantDelay(2000)) {
+		   if ( Util::ReentrantDelay(2000)) 
+           {
 			   g_game->printout(text, nav + "Entering orbital trajectory.", ORANGE,2000);
 			   g_game->modeMgr->LoadModule(MODULE_ORBIT);
 				return;
@@ -533,15 +541,19 @@ void ModuleSolarSystem::Update()
 			if (Util::ReentrantDelay(2000)) {
 				flag_DoHyperspace = false;
 			}
-		}else if (planetFound) {
+		}else if (planetFound) 
+        {
 			g_game->printout(text, nav + "Captain, we can't enter hyperspace due to the nearby planet's gravity well.", ORANGE,8000);
-			if (Util::ReentrantDelay(2000)) {
+			if (Util::ReentrantDelay(2000)) 
+            {
 				flag_DoHyperspace = false;
 			}
-		} else if (ship.getFuel() <= 0.0f)
+		} 
+        else if (ship.getFuel() <= 0.0f)
 		{
 			g_game->printout(text, nav + "Sir, we do not have enough fuel to enter hyperspace!", ORANGE, 10000);
-			if (Util::ReentrantDelay(2000)) {
+			if (Util::ReentrantDelay(2000)) 
+            {
 				flag_DoHyperspace = false;
 			}
 		}else {
@@ -566,9 +578,11 @@ void ModuleSolarSystem::Update()
 	if (flag_DoDock)
 	{
 		//display any planet under ship
-		if (planetFound) {
+		if (planetFound) 
+        {
 			//planet id #8 = Myrrdan in the database
-			if (g_game->gameState->player->currentPlanet == 8){
+			if (g_game->gameState->player->currentPlanet == 8)
+            {
 				//okay we're near myredan - however it's spelled
 				g_game->printout(text, nav + "Yes, sir! Docking with Starport.", ORANGE,8000);
 				text->ScrollToBottom();
@@ -688,7 +702,8 @@ void ModuleSolarSystem::checkShipPosition()
 	{
 		burning++;
 	}
-	else {
+	else 
+    {
 		//calculate distance from ship to star
 		int starTileX = scroller->GetTilesAcross() / 2;
 		int starTileY = scroller->GetTilesDown() / 2;
@@ -704,8 +719,8 @@ void ModuleSolarSystem::checkShipPosition()
 
 	//see if ship is over planet tile
 	planetFound = 0;
-	for (int i=0; i<10; i++) {
-
+	for (int i=0; i<10; i++) 
+    {
 		if (planetFound) break;
 
 		//check tilex,tiley,and tilenum for a planet match
@@ -714,6 +729,9 @@ void ModuleSolarSystem::checkShipPosition()
 			planet = star->GetPlanetByID(planets[i].planetid);
 			if (planet) 
             {
+                //add additional check for distance since a planetary body might be small compared to the 256x256 tile
+                // ***** REVISIT THIS!!
+
 				planetFound = 1;
 
 				//store current planet in global player object

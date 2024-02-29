@@ -337,11 +337,11 @@ bool ModuleEncounter::Init()
 	}
 
 	//load the socket gui
-	img_socket = (BITMAP*)load_bitmap("data/messagegui/gui_socket.bmp",NULL);
-	if (!img_socket) {
-		g_game->message("Encounter: error loading img_socket");
-		return false;
-	}
+	//img_socket = (BITMAP*)load_bitmap("data/messagegui/gui_socket.bmp",NULL);
+	//if (!img_socket) {
+	//	g_game->message("Encounter: error loading img_socket");
+	//	return false;
+	//}
 
 	//load the aux gui
 	img_aux = (BITMAP*)load_bitmap("data/messagegui/gui_aux.bmp",NULL);
@@ -1735,9 +1735,9 @@ void ModuleEncounter::Draw()
 		(bFlagDialogue) ? dialogue->Draw(g_game->GetBackBuffer()) : text->Draw(g_game->GetBackBuffer());
 
 		//draw socket gui
-		static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
-		static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
-		masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
+		//static int gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
+		//static int gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
+		//masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
 
 		// draw the aux gui
 		static int gax = (int)g_game->getGlobalNumber("GUI_AUX_POS_X");

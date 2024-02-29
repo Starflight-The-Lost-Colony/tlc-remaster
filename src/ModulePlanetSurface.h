@@ -56,7 +56,7 @@ private:
 	Button *cargoBtn;
 
 	BITMAP *img_messages;
-	BITMAP *img_socket;
+	//BITMAP *img_socket;
 	BITMAP *img_gauges;
 	BITMAP *img_aux;
 	BITMAP *img_control;

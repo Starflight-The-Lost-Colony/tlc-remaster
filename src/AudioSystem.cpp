@@ -7,13 +7,15 @@ Sample::Sample():
 	name(""),
 	sample(NULL),
 	channel(NULL),
-	loop(false), paused(false)
+	loop(false), 
+    paused(false)
 {
 }
 
 Sample::~Sample()
 {
-	if (sample != NULL) {
+	if (sample != NULL) 
+    {
 		FMOD_Sound_Release(sample);
 		sample = NULL;
 	}
@@ -126,7 +128,8 @@ bool AudioSystem::Init()
 
 
 	result = FMOD_System_Init(system,100,FMOD_INIT_NORMAL,NULL);
-	if (result != FMOD_OK) {
+	if (result != FMOD_OK) 
+    {
 		debug << "AudioSystem::Init\tFMOD_System_Init issue. (" << result << ") " << FMOD_ErrorString(result) << endl;
 
 		//Trying again with sound disabled, unless we already tried that as a result of global settings
@@ -355,7 +358,8 @@ bool AudioSystem::PlayMusic(Sample *sample, bool doLoop)
 void AudioSystem::PauseMusic(std::string name)
 {
 	Sample *sample = FindSample(name);
-	if (sample == NULL || sample->sample == NULL || sample->channel == NULL){
+	if (sample == NULL || sample->sample == NULL || sample->channel == NULL)
+    {
 		debug << "AudioSystem::PauseMusic: Could not pause " << name << endl;
 		return;
 	}
@@ -366,7 +370,8 @@ void AudioSystem::PauseMusic(std::string name)
 void AudioSystem::UnpauseMusic(std::string name)
 {
 	Sample *sample = FindSample(name);
-	if (sample == NULL || sample->sample == NULL || sample->channel == NULL){
+	if (sample == NULL || sample->sample == NULL || sample->channel == NULL)
+    {
 		debug << "AudioSystem::UnpauseMusic: Could not unpause " << name << endl;
 		return;
 	}

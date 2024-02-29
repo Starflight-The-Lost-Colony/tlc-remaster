@@ -68,7 +68,7 @@ private:
 
 
 	BITMAP *img_messages;
-	BITMAP *img_socket;
+	//BITMAP *img_socket;
 	BITMAP *img_aux;
 	BITMAP *img_viewer;
 	BITMAP *img_rightviewer;

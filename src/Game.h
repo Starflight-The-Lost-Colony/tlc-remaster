@@ -160,7 +160,7 @@ public:
 	};
 	std::vector<TimedText> messages;
     ScrollBox::ScrollBox *g_scrollbox;
-	void printout(ScrollBox::ScrollBox *scroll, std::string text, int color=WHITE, long delay=0);
+	void printout(ScrollBox::ScrollBox *scroll, std::string text, int color=WHITE, long delay=-1);
 	int MsgColors[NUM_MSGTYPES];
 	void PrintMsg(MsgType msgtype, OfficerType officertype, std::string msg, int delay);
 

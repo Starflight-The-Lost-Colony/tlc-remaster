@@ -18,10 +18,7 @@
 
 using namespace std;
 
-int gmx,gmy,gmw,gmh,gsx,gsy;
-
-//#define GUI_MESSAGEWINDOW_BMP            0        /* BMP  */
-//#define GUI_SOCKET_BMP                   1        /* BMP  */
+int gmx,gmy,gmw,gmh;
 
 
 
@@ -41,8 +38,8 @@ bool ModuleMessageGUI::Init()
 	//img_message = (BITMAP*)data[GUI_MESSAGEWINDOW_BMP].dat;
 	//img_socket = (BITMAP*)data[GUI_SOCKET_BMP].dat;
     img_message = (BITMAP*)load_bitmap("data/messagegui/gui_messagewindow.bmp",NULL);
-    img_socket = (BITMAP*)load_bitmap("data/messagegui/gui_socket.bmp",NULL);
-    if (!img_message || !img_socket)
+    //img_socket = (BITMAP*)load_bitmap("data/messagegui/gui_socket.bmp",NULL);
+    if (!img_message)
     {
         debug << "messagegui: error loading bitmaps" << endl;
         return false;
@@ -53,8 +50,8 @@ bool ModuleMessageGUI::Init()
 	gmy = (int)g_game->getGlobalNumber("GUI_MESSAGE_POS_Y");
 	gmw = (int)g_game->getGlobalNumber("GUI_MESSAGE_WIDTH");
 	gmh = (int)g_game->getGlobalNumber("GUI_MESSAGE_HEIGHT");
-	gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
-	gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
+	//gsx = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_X");
+	//gsy = (int)g_game->getGlobalNumber("GUI_SOCKET_POS_Y");
 
 	return true;
 }
@@ -71,11 +68,11 @@ void ModuleMessageGUI::Close()
             delete img_message;
             img_message=NULL;
         }
-        if (img_socket!=NULL)
-        {
-            delete img_socket;
-            img_socket=NULL;
-        }
+        //if (img_socket!=NULL)
+        //{
+        //    delete img_socket;
+        //    img_socket=NULL;
+        //}
 	}
 	catch(std::exception e) {
 		debug << e.what() << endl;
@@ -93,9 +90,12 @@ void ModuleMessageGUI::Draw()
 	masked_blit(img_message, g_game->GetBackBuffer(), 0, 0, gmx, gmy, img_message->w, img_message->h);
 
 	//draw socket gui
-	masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
+	//masked_blit(img_socket, g_game->GetBackBuffer(), 0, 0, gsx, gsy, img_socket->w, img_socket->h);
 
-	//print stardate
+
+    // <<<<<<< THIS SHOULD BE MOVED INTO THE AUX DRAW >>>>>>>>>
+
+    //print stardate
 	Stardate date = g_game->gameState->stardate;
 	int hour = date.GetHour();
 	int day = date.GetDay();
@@ -104,7 +104,11 @@ void ModuleMessageGUI::Draw()
 	string datestr = Util::ToString(year) + "-" + Util::ToString(month,2) + "-" + Util::ToString(day,2)
 		+ " " + Util::ToString(hour%12);
 	if (hour < 12) datestr += " AM"; else datestr += " PM";
-	g_game->Print22(g_game->GetBackBuffer(), gsx+140, gsy+24, datestr, STEEL);
+
+    int gax = g_game->getGlobalNumber("GUI_AUX_POS_X");
+    int gay = g_game->getGlobalNumber("GUI_AUX_POS_Y");
+	
+    g_game->Print22(g_game->GetBackBuffer(), gax+10, gay+10, datestr, STEEL);
 
 }
 
