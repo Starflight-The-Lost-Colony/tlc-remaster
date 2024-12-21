@@ -930,6 +930,13 @@ bool Game::InitGame()
 	//hide the default mouse cursor
 	show_mouse(NULL);
 
+    if (g_game->getGlobalBoolean("DEBUG_MOUSE"))
+    {
+        //display system cursor at actual location (not scaled to resolution)
+        show_os_cursor(2);
+    }
+
+
 	debug << "Initialization succeeded" << endl;
 	return true;
 }
@@ -1041,7 +1048,7 @@ void Game::RunGame()
 	static std::ostringstream os;
 	static int timeStart = globalTimer.getTimer();
 	static int v;
-	static float fps_delay = 1000.0f / 60.0f;
+	float fps_delay = 1000.0f / 60.0f;
 	static int coreStartTime = 0;
 	static int coreCounter = 0;
 	//static double update_interval = 2.0;	//now in structure (private).
@@ -1049,8 +1056,15 @@ void Game::RunGame()
 	if (globalTimer.getTimer() < timeStart + (int)fps_delay)
 	{
 		//slow down core loop
-		rest(1);
-		return;
+		//rest(1);
+        fps_delay = 1000.0f / frameRate;
+
+        if (g_game->getGlobalBoolean("UNLIMITED_FRAMERATE") == false)
+        {
+		    return;
+        }
+        else {
+        }
 	}
 	else
 		timeStart = globalTimer.getTimer();
@@ -1069,7 +1083,7 @@ void Game::RunGame()
 	//calculate core framerate
 	coreCounter++;
     int gt = globalTimer.getTimer();
-	if (gt > coreStartTime + 999)
+	if (gt > coreStartTime + 1000)
 	{
 		coreStartTime = gt;
 		frameRate = coreCounter;
@@ -1133,22 +1147,14 @@ void Game::RunGame()
             int cw = cursor->getWidth(); 
             int ch = cursor->getHeight(); 
             int mx = mouse_x; 
-            if (mx < 0) mx = 0; 
-            if (mx > SCREEN_WIDTH - cw) mx = SCREEN_WIDTH - cw; 
+            //if (mx < 0) mx = 0; 
+            //if (mx > SCREEN_WIDTH - cw) mx = SCREEN_WIDTH - cw; 
             int my = mouse_y; 
-            if (my < 0) my = 0; 
-            if (my > SCREEN_HEIGHT - ch) my = SCREEN_HEIGHT - ch; 
+            //if (my < 0) my = 0; 
+            //if (my > SCREEN_HEIGHT - ch) my = SCREEN_HEIGHT - ch; 
 			cursor->setX(mx); 
 			cursor->setY(my); 
 			cursor->Draw(m_backbuffer); 
-            
-            //show mouse position
-            if (g_game->getGlobalBoolean("DEBUG_MODE") && g_game->getGlobalBoolean("DEBUG_MOUSE")) 
-            {
-                ostringstream oss(""); 
-                oss << mx << "," << my; 
-                g_game->Print12(m_backbuffer, mx,my+ch, oss.str().c_str()); 
-            }
 		}
 		else {
 			//load the custom mouse cursor
@@ -1163,14 +1169,32 @@ void Game::RunGame()
 	}
 
 
+    //
+    //prepare resolution scaling so values are available to debug output
+    //
+    screen_scaling = (double)screen->h / (double)SCREEN_HEIGHT;
+    scale_height = (int)( (double)m_backbuffer->h * screen_scaling );
+    scale_width = (int)( (double)m_backbuffer->w * screen_scaling );
+
     //display debug info on the upper-left corner of screen
     if (g_game->getGlobalBoolean("DEBUG_MODE") && g_game->getGlobalBoolean("DEBUG_CORE"))
     {
         int GRAY = makecol(160,160,160);
+        ostringstream oss(""); 
 		int y = 3;  int x = 3;
 	    // x == 0 doesn't quite work on the Trade Depot Screen - made it a 3 - jjh
-        g_game->Print12(m_backbuffer,  x,y,"Core:  " + Util::ToString(frameRate), GRAY);
-        y+=10; g_game->Print12(m_backbuffer,x,y,"Scrn:  " + Util::ToString((int)scale_width) + "," + Util::ToString((int)scale_height) + " (" + Util::ToString(screen_scaling) + "x)" , GRAY);
+
+        oss.str(""); oss << std::fixed << std::setprecision(2);
+        oss << "FPS:  " << frameRate << " (" << fps_delay << " ms)";
+        g_game->Print12(m_backbuffer,x,y, oss.str().c_str(), GRAY);
+
+        y+=10; g_game->Print12(m_backbuffer,x,y,"Screen:  " + Util::ToString((int)scale_width) + "," + Util::ToString((int)scale_height) + " (" + Util::ToString(screen_scaling) + "x)" , GRAY);
+
+        int scalemx = (int)((double)mouse_x / screen_scaling);
+        int scalemy = (int)((double)mouse_y / screen_scaling);
+        oss.str(""); oss << "Mouse: " << mouse_x << "," << mouse_y << " (unscaled: " << scalemx << "," << scalemy << ")";
+        y+=10; g_game->Print12(m_backbuffer,x,y, oss.str().c_str(), GRAY); 
+
 		y+=10; g_game->Print12(m_backbuffer,x,y,"Quest: " + Util::ToString( g_game->gameState->getActiveQuest() ) + " (" + Util::ToString( g_game->gameState->getQuestCompleted()) + ")" , GRAY);
 		y+=10; g_game->Print12(m_backbuffer,x,y,"Stage: " + Util::ToString(g_game->gameState->getPlotStage()), GRAY);
 		y+=10; g_game->Print12(m_backbuffer,x,y,"Date:  " + Util::ToString( gameState->stardate.GetFullDateString() ) , GRAY);
@@ -1196,18 +1220,13 @@ void Game::RunGame()
 	if (vibration) v = Util::Random(0, vibration); else v = 0;
 
     //
-	//Copy back buffer to the screen 
-    //Takes into account screen scaling.
+	//Copy back buffer to the screen (with resolution scaling)
     //
-    screen_scaling = (double)screen->h / (double)SCREEN_HEIGHT;
-    scale_height = (int)( (double)m_backbuffer->h * screen_scaling );
-    scale_width = (int)( (double)m_backbuffer->w * screen_scaling );
-    int cx=0;
-    cx = (actual_width-scale_width)/2;
+    int cx = (actual_width-scale_width)/2;
     stretch_blit( m_backbuffer, screen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cx, 0, scale_width, scale_height );
 
 	//slow down!
-	rest(1);
+//	rest(1);
 }
 
 
@@ -1280,7 +1299,6 @@ void Game::UpdateMouse()
 	if ((mouse_x != m_prevMouseX) || (mouse_y != m_prevMouseY))
 	{
 		OnMouseMove(mouse_x,mouse_y);
-
 		m_prevMouseX = mouse_x;
 		m_prevMouseY = mouse_y;
 	}

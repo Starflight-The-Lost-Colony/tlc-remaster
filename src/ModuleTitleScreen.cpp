@@ -166,13 +166,9 @@ void ModuleTitleScreen::Draw()
 	}
 }
 
-void ModuleTitleScreen::OnKeyPress(int keyCode)
-{
-}
+void ModuleTitleScreen::OnKeyPress(int keyCode){}
 
-void ModuleTitleScreen::OnKeyPressed(int keyCode)
-{
-}
+void ModuleTitleScreen::OnKeyPressed(int keyCode){}
 
 void ModuleTitleScreen::OnKeyReleased(int keyCode)
 {
@@ -190,13 +186,9 @@ void ModuleTitleScreen::OnMouseMove(int x, int y)
 	btnQuit->OnMouseMove(x,y);
 }
 
-void ModuleTitleScreen::OnMouseClick(int button, int x, int y)
-{
-}
+void ModuleTitleScreen::OnMouseClick(int button, int x, int y){}
 
-void ModuleTitleScreen::OnMousePressed(int button, int x, int y)
-{
-}
+void ModuleTitleScreen::OnMousePressed(int button, int x, int y){}
 
 void ModuleTitleScreen::OnMouseReleased(int button, int x, int y)
 {

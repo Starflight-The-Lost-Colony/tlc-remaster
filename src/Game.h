@@ -227,7 +227,6 @@ private:
 	BITMAP *m_backbuffer;
 
 	//the same as the primary surface, except it doesn't have a mouse on it
-    //not to be rude but who is the idiot who came up with this solution?
 	//BITMAP *m_backbufferWithoutMouse;
 
 	//vars used for framerate calculation

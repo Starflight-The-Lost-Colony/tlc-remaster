@@ -12,9 +12,18 @@ GAME_VERSION = "2.0"
 STARTUPMODULE = "TITLESCREEN"
 ESCAPEMODULE = "TITLESCREEN"
 
+--to run without the 60 fps limiter
+UNLIMITED_FRAMERATE = false
+
+--to enable testing mode for modules in development
 DEBUG_MODE = true
+
+--to display debugging info on the screen
 DEBUG_CORE = true
-DEBUG_MOUSE = false
+
+--to see the system cursor in unscaled position
+DEBUG_MOUSE = true
+
 
 --SHIP SCALE VALUE (1.00 = 128x128)
 --MUST BE 4 CHARACTERS

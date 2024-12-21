@@ -5,4 +5,3 @@ RESOLUTION = "1600 x 1200"
 FULLSCREEN = false
 AUDIO_GLOBAL = true
 AUDIO_MUSIC = false
-
