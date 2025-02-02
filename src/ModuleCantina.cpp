@@ -40,25 +40,30 @@ DATAFILE *candata;
 #define TURNINBTN_X EXITBTN_X + 176 + 40
 #define TURNINBTN_Y EXITBTN_Y
 
-#define WINDOW_X 198
-#define WINDOW_Y 148
-#define WINDOW_W 628
-#define WINDOW_H 474
+#define WINDOW_X 570 //198
+#define WINDOW_Y 70 //148
+#define WINDOW_W 440 //628
+#define WINDOW_H 590 //474
 
 #define TITLE_X WINDOW_X
 #define TITLE_Y WINDOW_Y
-#define TITLE_H 60
 #define TITLE_W WINDOW_W
+#define TITLE_H 60
 
 #define REWARD_X WINDOW_X
-#define REWARD_Y TITLE_Y + TITLE_H  //DETAIL_Y + DETAIL_H
+#define REWARD_Y TITLE_Y + TITLE_H 
 #define REWARD_W WINDOW_W
-#define REWARD_H 75
+#define REWARD_H 50
+
+#define SHORT_X WINDOW_X
+#define SHORT_Y REWARD_Y + REWARD_H
+#define SHORT_W WINDOW_W
+#define SHORT_H 50
 
 #define LONG_X WINDOW_X
-#define LONG_Y REWARD_Y + REWARD_H
-#define LONG_H 300
+#define LONG_Y SHORT_Y + SHORT_H
 #define LONG_W WINDOW_W
+#define LONG_H WINDOW_H - TITLE_H - REWARD_H - SHORT_H
 
 
 #define EVENT_NONE 0
@@ -85,8 +90,8 @@ void ModuleCantina::OnKeyReleased(int keyCode)
 			break;
 
 		case KEY_ESC: 
-			//g_game->modeMgr->LoadModule(MODULE_STARPORT);
-			//return;
+			g_game->modeMgr->LoadModule(MODULE_STARPORT);
+			return;
 			break;
 	}
 }
@@ -110,7 +115,8 @@ void ModuleCantina::OnEvent(Event *event)
 	switch (event->getEventType())
 	{
 		case EVENT_EXIT_CLICK:
-			g_game->modeMgr->LoadModule(MODULE_STARPORT); return;
+			g_game->modeMgr->LoadModule(MODULE_STARPORT); 
+            return;
 			break;
 
 		case EVENT_TURNIN_CLICK:
@@ -202,9 +208,9 @@ bool ModuleCantina::Init()
 			m_turninBtn->SetButtonText("Breakthrough!");
 			m_exitBtn->SetButtonText("Terminate");
 			label1 = "PROJECT TITLE";
-			label2 = "DESCRIPTION";
+			//label2 = "DESCRIPTION";
 			//label3 = "REQUIREMENTS";
-			label4 = "REWARD";
+			label4 = "BENEFIT";
 			labelcolor = LTBLUE;
 			textcolor = DODGERBLUE;
 			break;
@@ -214,9 +220,9 @@ bool ModuleCantina::Init()
 			m_turninBtn->SetButtonText("Accomplished!");
 			m_exitBtn->SetButtonText("Dismissed");
 			label1 = "MISSION CODENAME";
-			label2 = "DESCRIPTION";
+			//label2 = "DESCRIPTION";
 			//label3 = "REQUIREMENTS";
-			label4 = "REWARD";
+			label4 = "ALLOCATION";
 			labelcolor = ORANGE;
 			textcolor = DKORANGE;
 			break;
@@ -226,7 +232,7 @@ bool ModuleCantina::Init()
 			m_turninBtn->SetButtonText("Pay Up!");
 			m_exitBtn->SetButtonText("Scram");
 			label1 = "JOB NAME";
-			label2 = "DESCRIPTION";
+			//label2 = "DESCRIPTION";
 			//label3 = "REQUIREMENTS";
 			label4 = "REWARD";
 			labelcolor = LTYELLOW;
@@ -243,14 +249,17 @@ bool ModuleCantina::Init()
 	questTitle = new Label("" , TITLE_X, TITLE_Y+23, TITLE_W, TITLE_H, textcolor, g_game->font22);
 	questTitle->Refresh();
 
+	questReward = new Label("", REWARD_X, REWARD_Y+23, REWARD_W, REWARD_H, textcolor, g_game->font22);
+	questReward->Refresh();
+
+    questShort = new Label("", SHORT_X, SHORT_Y+23, SHORT_W, SHORT_H, textcolor, g_game->font22);
+    questShort->Refresh();
+
 	questLong = new Label("", LONG_X, LONG_Y+23, LONG_W, LONG_H, textcolor, g_game->font22);
 	questLong->Refresh();
 
 	//questDetails = new Label("", DETAIL_X, DETAIL_Y+23, DETAIL_W, DETAIL_H, textcolor, g_game->font22);
 	//questDetails->Refresh();
-
-	questReward = new Label("", REWARD_X, REWARD_Y+23, REWARD_W, REWARD_H, textcolor, g_game->font22);
-	questReward->Refresh();
 
 
 	return true;
@@ -283,28 +292,34 @@ void ModuleCantina::Update()
 		}
     }
 
+    //get quest information
 	g_game->questMgr->getActiveQuest();
+
+    //set the title
 	questTitle->SetText( g_game->questMgr->getName() );
 	questTitle->Refresh();
+
+    //set the short description
+    questShort->SetText(g_game->questMgr->getShort());
+    questShort->Refresh();
+
+    //set the long description
 	string desc = g_game->questMgr->getLong();
 	int len = (int)desc.length();
 
 	//dynamically change font size for long descriptions
-
 	//1175 chars is absolute limit for this font
 	if (len > 1175) {
 		desc = desc.substr(0, 1172) + "...";
 	}
-
 	if (len > 1000) {
 		questLong->SetFont( g_game->font18 );
 	}
 	else if (len > 800) {
-			questLong->SetFont( g_game->font20 );
-		}
+		questLong->SetFont( g_game->font20 );
+	}
 	else
 		questLong->SetFont( g_game->font22 );
-	
 	questLong->SetText( desc );
 	questLong->Refresh();
 
@@ -368,13 +383,11 @@ void ModuleCantina::Draw()
 	//title
 	g_game->Print24(g_game->GetBackBuffer(), TITLE_X, TITLE_Y, label1, labelcolor);
 	questTitle->Draw(g_game->GetBackBuffer());
-	g_game->Print24(g_game->GetBackBuffer(), TITLE_X + 470, TITLE_Y, requirementLabel, requirementColor);
 
-	//description
-	g_game->Print24(g_game->GetBackBuffer(), LONG_X, LONG_Y, label2, labelcolor);
-	questLong->Draw(g_game->GetBackBuffer());
+    //requirement
+	g_game->Print24(g_game->GetBackBuffer(), TITLE_X, WINDOW_Y + WINDOW_H - 30, requirementLabel, requirementColor);
 
-	//rewards
+	//reward
 	g_game->Print24(g_game->GetBackBuffer(), REWARD_X, REWARD_Y, label4, labelcolor);
 	questReward->Draw(g_game->GetBackBuffer());
 
@@ -400,8 +413,16 @@ void ModuleCantina::Draw()
 		else reward = "";
 		break;
 	}
-	
 	questReward->SetText(reward);
 	questReward->Refresh();
+
+	//description
+	//g_game->Print24(g_game->GetBackBuffer(), LONG_X, LONG_Y, label2, labelcolor);
+
+    questShort->Draw(g_game->GetBackBuffer());
+	questLong->Draw(g_game->GetBackBuffer());
+
+
+	
 }
 

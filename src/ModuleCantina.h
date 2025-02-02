@@ -44,6 +44,7 @@ private:
 
 	Label *questTitle;
 	Label *questLong;
+    Label *questShort;
 	Label *questDetails;
 	Label *questReward;
 
